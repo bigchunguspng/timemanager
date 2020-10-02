@@ -8,34 +8,43 @@ namespace TimeManager.Data
         private bool _finished;
         
         public string Description { get; set; }
-        public DateTime Creation { get; }
-        public DateTime Deadline { get; set; }
-        public DateTime Start { get; private set; }
-        public DateTime End { get; private set; }
-        public bool Started
+        
+        public Period Schedule { get; } = new Period(); //from task creation to deadline (or to the end of performance)
+        public Period Performance { get; } = new Period();
+        
+        public bool HasDeadline { get; }
+        public bool Started //point
         {
             get => _started;
             set
             {
                 _started = value;
-                Start = DateTime.Now;
+                Performance.Start = DateTime.Now;
             }
         }
-        public bool Finished
+        public bool Finished //tick
         {
             get => _finished;
             set
             {
-                _finished = value;
-                End = DateTime.Now;
-                Succeeded = !Succeeded;
+                _finished = true;
+                Performance.End = DateTime.Now;
+                if (!HasDeadline) Schedule.End = DateTime.Now; //if deadline is declared
+                Succeeded = value;
             }
         }
-        public bool Succeeded { get; set; }
+        public bool Succeeded { get; set; } //cross if not
         
         public Task()
         {
-            Creation = DateTime.Now;
+            Schedule.Start = DateTime.Now;
+        }
+
+        public Task(DateTime deadline)
+        {
+            Schedule.End = deadline;
+            Schedule.Finished = true;
+            HasDeadline = true;
         }
     }
 }

@@ -9,40 +9,48 @@
         Title="TimeManager"
         Height="350"
         Width="525">
-     
+
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListBox 
-            ItemsSource="{Binding Path=Categories}" 
+        
+        <ListBox
+            ItemsSource="{Binding Path=Categories}"
             SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Name}" FontSize="28"></Button>
+                    <TextBlock Text="{Binding Name}" FontSize="28" Margin="0, 5,0,5"></TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="{Binding Path=SelectedCategory.Name}"></TextBlock>
-            <ListBox Grid.Row="1" ItemsSource="{Binding SelectedCategory.TaskLists}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
+        
+        <ItemsControl Grid.Column="1" ItemsSource="{Binding SelectedCategory.TaskLists}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
                         <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+                        <ListBox ItemsSource="{Binding Tasks}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Description}"></TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
         
     </Grid>
 </Window>

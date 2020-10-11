@@ -22,8 +22,12 @@ namespace TimeManager.Model.Data
 
         public void TestTaskLists() //todo ability to create lists from UI
         {
-            TaskLists.Add(new List{Name = "Project #1"});
-            TaskLists.Add(new List{Name = "Project #2"});
+            var l1 = new List {Name = "Project #1"};
+            l1.TestTasks();
+            TaskLists.Add(l1);
+            var l2 = new List {Name = "Project #2"};
+            l2.TestTasks();
+            TaskLists.Add(l2);
             TaskLists.Add(new List{Name = "Project #??"});
         }
 

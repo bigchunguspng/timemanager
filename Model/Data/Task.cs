@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TimeManager.Data
+namespace TimeManager.Model.Data
 {
     public class Task
     {

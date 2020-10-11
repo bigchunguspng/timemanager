@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TimeManager.Data
+namespace TimeManager.Model.Data
 {
     public static class General
     {

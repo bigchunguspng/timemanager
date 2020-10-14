@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TimeManager.Model
+namespace TimeManager.Utilities
 {
     public class Period
     {

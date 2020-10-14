@@ -16,7 +16,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         
@@ -25,9 +25,33 @@
             SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" FontSize="28" Margin="0, 5,0,5"></TextBlock>
+                    <Grid>
+                        <!--<TextBlock 
+                            Text="{Binding Name}" 
+                            FontSize="18" 
+                            Margin="0, 5,0,5" >
+                        </TextBlock>-->
+                        <TextBox 
+                            Text="{Binding Name}" 
+                            FontSize="18" 
+                            Margin="0, 5,0,5"
+                            BorderThickness="0" >
+                        </TextBox>
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <!--<MenuItem Header="Rename" />-->
+                                <MenuItem Header="Remove" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="New category" Command="{Binding NewCategory}"/>
+                    <MenuItem Header="Remove" Command="{Binding RemoveCategory}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListBox>
         
         <ItemsControl Grid.Column="1" ItemsSource="{Binding SelectedCategory.TaskLists}">

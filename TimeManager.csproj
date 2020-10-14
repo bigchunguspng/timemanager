@@ -57,8 +57,9 @@
     <Compile Include="Model\Data\Category.cs" />
     <Compile Include="Model\Data\List.cs" />
     <Compile Include="Model\Data\Task.cs" />
-    <Compile Include="Model\Period.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Utilities\Period.cs" />
+    <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

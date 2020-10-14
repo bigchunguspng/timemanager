@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TimeManager.Annotations;
+using TimeManager.Properties;
+using TimeManager.Utilities;
 
 namespace TimeManager.Model.Data
 {
     public class Category : INotifyPropertyChanged
     {
         private string _name;
+
+        public Category(string name)
+        {
+            Name = name;
+        }
 
         public string Name
         {
@@ -30,7 +37,7 @@ namespace TimeManager.Model.Data
             TaskLists.Add(l2);
             TaskLists.Add(new List{Name = "Project #??"});
         }
-
+        
         #region stuff
         public override string ToString() => Name;
 

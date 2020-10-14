@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TimeManager.Model.Data
 {
     public class List
     {
         public string Name { get; set; }
-        public List<Task> Tasks { get; set; } = new List<Task>();
+        public ObservableCollection<Task> Tasks { get; set; } = new ObservableCollection<Task>();
 
         public void TestTasks() //todo normal creation...
         {

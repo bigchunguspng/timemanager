@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace TimeManager.Utilities
 {
@@ -27,6 +28,11 @@ namespace TimeManager.Utilities
         {
             get => End > Start;
             set => _finished = value;
+        }
+
+        public override string ToString()
+        {
+            return $"{Start.ToString(CultureInfo.CurrentCulture)} - {End.ToString(CultureInfo.CurrentCulture)}";
         }
     }
 }

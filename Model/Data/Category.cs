@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TimeManager.Properties;
@@ -11,10 +12,7 @@ namespace TimeManager.Model.Data
     {
         private string _name;
 
-        public Category(string name)
-        {
-            Name = name;
-        }
+        public Category(string name) => Name = name;
 
         public string Name
         {
@@ -25,7 +23,7 @@ namespace TimeManager.Model.Data
                 OnPropertyChanged(nameof(Name));
             }
         }
-        public List<List> TaskLists { get; set; } = new List<List>();
+        public ObservableCollection<List> TaskLists { get; set; } = new ObservableCollection<List>();
 
         public void TestTaskLists() //todo ability to create lists from UI
         {

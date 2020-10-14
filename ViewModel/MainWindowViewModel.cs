@@ -14,6 +14,7 @@ namespace TimeManager.ViewModel
         private Category _selectedCategory;
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
+        private RelayCommand _newList;
 
         public MainWindowViewModel()
         {
@@ -48,6 +49,8 @@ namespace TimeManager.ViewModel
 
         public RelayCommand RemoveCategory =>
             _removeCategory ?? (_removeCategory = new RelayCommand(o => Categories.Remove(SelectedCategory)));
+
+        public RelayCommand NewList => _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List())));
 
         private void LoadCategoriesReplacement() //todo: replace with LoadCategories() from json
         {

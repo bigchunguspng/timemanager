@@ -54,18 +54,39 @@
             </ListBox.ContextMenu>
         </ListBox>
         
-        <ItemsControl Grid.Column="1" ItemsSource="{Binding SelectedCategory.TaskLists}">
+        <ItemsControl 
+            Grid.Column="1" 
+            ItemsSource="{Binding SelectedCategory.TaskLists}"
+            MinWidth="200"
+            MinHeight="200">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                        <ListBox ItemsSource="{Binding Tasks}">
+                    <StackPanel Margin="5">
+                        <TextBox 
+                            Text="{Binding 
+                            Path=Name}" 
+                            MinWidth="100"
+                            BorderThickness="0" />
+                        <DataGrid ItemsSource="{Binding Tasks}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Binding="{Binding Finished}"></DataGridCheckBoxColumn>
+                                <DataGridTextColumn Binding="{Binding Description}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <!--<ListView ItemsSource="{Binding Tasks}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Description}"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>-->
+                        <!--<ListBox ItemsSource="{Binding Tasks}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Description}"></TextBlock>
+                                    <TextBox Text="{Binding Path=Description}"></TextBox>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                        </ListBox>
+                        </ListBox>-->
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -74,6 +95,12 @@
                     <WrapPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            <ItemsControl.ContextMenu>
+                <ContextMenu >
+                    <MenuItem Header="New list" Command="{Binding NewList }"/>
+                    <MenuItem Header="Remove" />
+                </ContextMenu>
+            </ItemsControl.ContextMenu>
         </ItemsControl>
         
     </Grid>

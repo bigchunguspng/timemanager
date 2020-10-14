@@ -1,19 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TimeManager.Properties;
-using TimeManager.Utilities;
 
 namespace TimeManager.Model.Data
 {
     public class Category : INotifyPropertyChanged
     {
         private string _name;
+        private List _selectedTaskList;
 
         public Category(string name) => Name = name;
 
+        #region stuff
+
+        public override string ToString() => Name;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+        
         public string Name
         {
             get => _name;
@@ -24,6 +36,15 @@ namespace TimeManager.Model.Data
             }
         }
         public ObservableCollection<List> TaskLists { get; set; } = new ObservableCollection<List>();
+        public List SelectedTaskList
+        {
+            get => _selectedTaskList;
+            set
+            {
+                _selectedTaskList = value;
+                OnPropertyChanged(nameof(SelectedTaskList));
+            }
+        }
 
         public void TestTaskLists() //todo ability to create lists from UI
         {
@@ -35,18 +56,5 @@ namespace TimeManager.Model.Data
             TaskLists.Add(l2);
             TaskLists.Add(new List{Name = "Project #??"});
         }
-        
-        #region stuff
-        public override string ToString() => Name;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-        
     }
 }

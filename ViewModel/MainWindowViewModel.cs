@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.ObjectModel;
 using TimeManager.Model.Data;
-using TimeManager.Properties;
 using TimeManager.Utilities;
-using TimeManager.View;
 
 namespace TimeManager.ViewModel
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : NotifyPropertyChanged
     {
         private Category _selectedCategory;
         private RelayCommand _newCategory;
@@ -21,18 +16,6 @@ namespace TimeManager.ViewModel
         {
             LoadCategoriesReplacement();
         }
-
-        #region stuff
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
 
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public Category SelectedCategory
@@ -51,13 +34,20 @@ namespace TimeManager.ViewModel
             _newCategory ?? (_newCategory = new RelayCommand(o => Categories.Add(new Category("New Category"))));
 
         public RelayCommand RemoveCategory =>
-            _removeCategory ?? (_removeCategory = new RelayCommand(o => Categories.Remove(SelectedCategory)));
+            _removeCategory ?? (_removeCategory = new RelayCommand(o => Categories.Remove(SelectedCategory),
+                o => CategoryNotSelected()));
 
         public RelayCommand NewList =>
-            _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List())));
+            _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List()),
+                o => CategoryNotSelected()));
 
         public RelayCommand RemoveList => _removeList ?? (_removeList =
-            new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList)));
+            new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
+                o => CategoryNotSelected() && TaskNotSelected()));
+
+        
+        private bool CategoryNotSelected() => SelectedCategory != null;
+        private bool TaskNotSelected() => SelectedCategory?.SelectedTaskList != null;
 
         #endregion
 

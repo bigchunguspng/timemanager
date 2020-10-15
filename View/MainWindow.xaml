@@ -105,8 +105,10 @@
                             Background="Transparent"/>
                         <DataGrid ItemsSource="{Binding Tasks}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Binding="{Binding Finished}"></DataGridCheckBoxColumn>
-                                <DataGridTextColumn Binding="{Binding Description}"></DataGridTextColumn>
+                                <DataGridCheckBoxColumn Binding="{Binding Started}" />
+                                <DataGridCheckBoxColumn Binding="{Binding Finished}" />
+                                <DataGridCheckBoxColumn Binding="{Binding Succeeded}" />
+                                <DataGridTextColumn Binding="{Binding Description}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

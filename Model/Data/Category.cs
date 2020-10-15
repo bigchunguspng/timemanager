@@ -1,31 +1,15 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using TimeManager.Properties;
+using TimeManager.Utilities;
 
 namespace TimeManager.Model.Data
 {
-    public class Category : INotifyPropertyChanged
+    public class Category : NotifyPropertyChanged
     {
         private string _name;
         private List _selectedTaskList;
 
         public Category(string name) => Name = name;
 
-        #region stuff
-
-        public override string ToString() => Name;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-        
         public string Name
         {
             get => _name;
@@ -46,7 +30,7 @@ namespace TimeManager.Model.Data
             }
         }
 
-        public void TestTaskLists() //todo ability to create lists from UI
+        public void TestTaskLists() //todo replace with json loader
         {
             var l1 = new List {Name = "Project #1"};
             l1.TestTasks();
@@ -56,5 +40,7 @@ namespace TimeManager.Model.Data
             TaskLists.Add(l2);
             TaskLists.Add(new List{Name = "Project #??"});
         }
+        
+        public override string ToString() => Name;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace TimeManager.Model.Data
@@ -9,7 +8,7 @@ namespace TimeManager.Model.Data
         public string Name { get; set; }
         public ObservableCollection<Task> Tasks { get; set; } = new ObservableCollection<Task>();
 
-        public void TestTasks() //todo normal creation...
+        public void TestTasks() //todo load json
         {
             Tasks.Add(new Task(){Description = "make some stuff83578"});
             Tasks.Add(new Task(){Description = "make some stuft4t4"});

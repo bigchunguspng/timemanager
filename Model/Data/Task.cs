@@ -34,24 +34,22 @@ namespace TimeManager.Model.Data
             set
             {
                 _started = value;
-                Performance.Start = DateTime.Now;
+                if (value) Performance.Start = DateTime.Now;
                 OnPropertyChanged(nameof(Started));
             }
         }
-
         public bool Finished //tick
         {
             get => _finished;
             set
             {
-                _finished = true;
+                _finished = value;
                 Performance.End = DateTime.Now;
                 if (!HasDeadline) Schedule.End = DateTime.Now; //if deadline is declared
                 Succeeded = value;
                 OnPropertyChanged(nameof(Finished));
             }
         }
-
         public bool Succeeded //cross if not
         {
             get => _succeeded;

@@ -20,41 +20,6 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         
-        <!--<TreeView 
-            ItemsSource="{Binding Categories}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate>
-                    <TreeViewItem 
-                        Header="{Binding Name}" 
-                        ItemsSource="{Binding TaskLists}">
-                        <TreeViewItem.ItemTemplate>
-                            <HierarchicalDataTemplate>
-                                <TextBox Text="{Binding Name}"></TextBox>
-                            </HierarchicalDataTemplate>
-                        </TreeViewItem.ItemTemplate>
-                    </TreeViewItem>
-                    ~1~<TextBox 
-                            Text="{Binding Name}" 
-                            FontSize="18" 
-                            Margin="0, 5,0,5"
-                            BorderThickness="0" >
-                        </TextBox>@1@
-                    ~1~<TreeView.ContextMenu>
-                        <ContextMenu>
-                            ~2~<MenuItem Header="Rename" />@2@
-                            <MenuItem Header="Remove" />
-                        </ContextMenu>
-                    </TreeView.ContextMenu>@1@
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-            <TreeView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="New category" Command="{Binding NewCategory}"/>
-                    <MenuItem Header="Remove" Command="{Binding RemoveCategory}"/>
-                </ContextMenu>
-            </TreeView.ContextMenu>
-        </TreeView>-->
-        
         <ListBox
             ItemsSource="{Binding Path=Categories}"
             SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}">
@@ -127,5 +92,9 @@
             </ListView.ContextMenu>
         </ListView>
         
+        <Button Grid.Column="0" 
+                Width="50" Height="25" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5"
+                Command="{Binding SaveAll}">Save All</Button>
     </Grid>
 </Window>

@@ -13,7 +13,11 @@ namespace TimeManager.Model.Data
         private string _name;
         private List _selectedTaskList;
 
-        public Category(string name) => Name = name;
+        public Category(string name)
+        {
+            Name = name;
+            TaskLists = new ObservableCollection<List>();
+        }
 
         public string Name
         {
@@ -23,13 +27,12 @@ namespace TimeManager.Model.Data
                 _name = value;
                 Directory.CreateDirectory(FolderPath);
                 _path = $@"{FolderPath}\{Name}.json";
-                //if (_name != null) File.Move(_path, $@"{FolderPath}\{Name}.json");
                 OnPropertyChanged(nameof(Name));
                 
             }
         }
         [JsonIgnore]
-        public ObservableCollection<List> TaskLists { get; set; } = new ObservableCollection<List>();
+        public ObservableCollection<List> TaskLists { get; set; }
         [JsonIgnore]
         public List SelectedTaskList
         {

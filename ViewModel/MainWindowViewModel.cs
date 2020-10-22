@@ -8,8 +8,8 @@ namespace TimeManager.ViewModel
     public class MainWindowViewModel : NotifyPropertyChanged
     {
         internal static readonly string _path = @"D:\Documents\TimeManager";
-        private readonly FileIO _categoriesIO = new FileIO($@"{_path}\{nameof(Categories)}.json");
-        private ObservableCollection<Category> _categories = new ObservableCollection<Category>();
+        private readonly FileIO _categoriesIO;
+        private ObservableCollection<Category> _categories;
         private Category _selectedCategory;
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
@@ -20,6 +20,8 @@ namespace TimeManager.ViewModel
 
         public MainWindowViewModel()
         {
+            _categoriesIO = new FileIO($@"{_path}\{nameof(Categories)}.json");
+            _categories = new ObservableCollection<Category>();
             Directory.CreateDirectory(_path);
             LoadCategories();
         }
@@ -51,7 +53,7 @@ namespace TimeManager.ViewModel
 
         public RelayCommand RemoveCategory =>
             _removeCategory ?? (_removeCategory = new RelayCommand(RemoveCategoryExecute,
-                o => CategoryNotSelected()));
+                o => CategorySelected()));
         private void RemoveCategoryExecute(object o)
         {
             SelectedCategory.Clear();
@@ -60,11 +62,11 @@ namespace TimeManager.ViewModel
 
         public RelayCommand NewList =>
             _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List()),
-                o => CategoryNotSelected()));
+                o => CategorySelected()));
 
         public RelayCommand RemoveList => _removeList ?? (_removeList =
             new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
-                o => CategoryNotSelected() && TaskNotSelected()));
+                o => TaskSelected()));
 
         public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => SaveAllExecute()));
         private void SaveAllExecute()
@@ -80,8 +82,8 @@ namespace TimeManager.ViewModel
             }*/
         }
         
-        private bool CategoryNotSelected() => SelectedCategory != null;
-        private bool TaskNotSelected() => SelectedCategory?.SelectedTaskList != null;
+        private bool CategorySelected() => SelectedCategory != null;
+        private bool TaskSelected() => SelectedCategory?.SelectedTaskList != null;
 
         #endregion
 

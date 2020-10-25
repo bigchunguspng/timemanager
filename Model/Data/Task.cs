@@ -13,6 +13,11 @@ namespace TimeManager.Model.Data
         {
             Schedule.Start = DateTime.Now;
         }
+        public Task(string description)
+        {
+            Schedule.Start = DateTime.Now;
+            Description = description;
+        }
 
         public Task(DateTime deadline)
         {

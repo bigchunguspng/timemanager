@@ -68,14 +68,36 @@
                             MinWidth="100"
                             BorderThickness="0"
                             Background="Transparent"/>
-                        <DataGrid ItemsSource="{Binding Tasks}" AutoGenerateColumns="False">
+                        <!--<DataGrid ItemsSource="{Binding Tasks}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn Binding="{Binding Started}" />
                                 <DataGridCheckBoxColumn Binding="{Binding Finished}" />
                                 <DataGridCheckBoxColumn Binding="{Binding Succeeded}" />
                                 <DataGridTextColumn Binding="{Binding Description}" />
                             </DataGrid.Columns>
-                        </DataGrid>
+                        </DataGrid>-->
+                        <ListView ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding Started}"></CheckBox>
+                                        <CheckBox IsChecked="{Binding Finished}"></CheckBox>
+                                        <CheckBox IsChecked="{Binding Succeeded}"></CheckBox>
+                                        <TextBox Text="{Binding Description}"></TextBox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.InputBindings>
+                                <KeyBinding Key="Delete" Command="{Binding RemoveTask}"></KeyBinding>
+                            </ListView.InputBindings>
+                        </ListView>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter" Command="{Binding AddTask}"></KeyBinding>
+                                </TextBox.InputBindings>
+                            </TextBox>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

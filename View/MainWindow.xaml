@@ -68,22 +68,18 @@
                             MinWidth="100"
                             BorderThickness="0"
                             Background="Transparent"/>
-                        <!--<DataGrid ItemsSource="{Binding Tasks}" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Binding="{Binding Started}" />
-                                <DataGridCheckBoxColumn Binding="{Binding Finished}" />
-                                <DataGridCheckBoxColumn Binding="{Binding Succeeded}" />
-                                <DataGridTextColumn Binding="{Binding Description}" />
-                            </DataGrid.Columns>
-                        </DataGrid>-->
                         <ListView ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding Started}"></CheckBox>
-                                        <CheckBox IsChecked="{Binding Finished}"></CheckBox>
-                                        <CheckBox IsChecked="{Binding Succeeded}"></CheckBox>
+                                        <Button 
+                                            Content="{Binding ButtonContent}" Width="20" Command="{Binding ChangeTaskStatus}"></Button>
                                         <TextBox Text="{Binding Description}"></TextBox>
+                                        <StackPanel.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Clear" Command="{Binding ClearTask}"></MenuItem>
+                                            </ContextMenu>
+                                        </StackPanel.ContextMenu>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

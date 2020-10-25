@@ -31,10 +31,8 @@ namespace TimeManager.Model.Data
                 
             }
         }
-        [JsonIgnore]
-        public ObservableCollection<List> TaskLists { get; set; }
-        [JsonIgnore]
-        public List SelectedTaskList
+        [JsonIgnore] public ObservableCollection<List> TaskLists { get; set; }
+        [JsonIgnore] public List SelectedTaskList
         {
             get => _selectedTaskList;
             set

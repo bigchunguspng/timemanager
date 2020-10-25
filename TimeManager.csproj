@@ -61,6 +61,7 @@
     <Compile Include="Model\Data\Category.cs" />
     <Compile Include="Model\Data\List.cs" />
     <Compile Include="Model\Data\Task.cs" />
+    <Compile Include="Model\Data\TaskStatus.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Utilities\FileIO.cs" />

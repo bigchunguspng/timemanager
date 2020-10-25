@@ -20,8 +20,8 @@ namespace TimeManager.Model.Data
 
         public string Name { get; set; }
         public ObservableCollection<Task> Tasks { get; set; }
-        [JsonIgnore]
-        public Task SelectedTask
+        
+        [JsonIgnore] public Task SelectedTask
         {
             get => _selectedTask;
             set
@@ -30,9 +30,7 @@ namespace TimeManager.Model.Data
                 OnPropertyChanged(nameof(SelectedTask));
             }
         }
-
-        [JsonIgnore]
-        public string NewTaskDescription
+        [JsonIgnore] public string NewTaskDescription
         {
             get => _newTaskDescription;
             set
@@ -43,15 +41,15 @@ namespace TimeManager.Model.Data
         }
 
         #region commands
-        [JsonIgnore]
-        public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(NewTask_Execute));
+        
+        [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(NewTask_Execute));
         private void NewTask_Execute(object o)
         {
             Tasks.Add(new Task(NewTaskDescription));
             NewTaskDescription = String.Empty;
         }
-        [JsonIgnore]
-        public RelayCommand RemoveTask =>
+        
+        [JsonIgnore] public RelayCommand RemoveTask =>
             _removeTask ?? (_removeTask = new RelayCommand(o => Tasks.Remove(SelectedTask)));
 
         #endregion

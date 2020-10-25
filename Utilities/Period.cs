@@ -7,6 +7,8 @@ namespace TimeManager.Utilities
     {
         private bool _finished;
 
+        #region constructors
+
         public Period()
         {
             Start = DateTime.Now;
@@ -21,6 +23,8 @@ namespace TimeManager.Utilities
             End = end;
         }
 
+        #endregion
+
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
@@ -30,6 +34,11 @@ namespace TimeManager.Utilities
             set => _finished = value;
         }
 
+        public void Finish()
+        {
+            End = DateTime.Now;
+            Finished = true;
+        }
         public override string ToString()
         {
             return $"{Start.ToString(CultureInfo.CurrentCulture)} - {End.ToString(CultureInfo.CurrentCulture)}";

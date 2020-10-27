@@ -41,10 +41,36 @@ namespace TimeManager.Utilities
         }
 
         public TimeSpan Duration() => End - Start;
+        public TimeSpan TimeLeft() => End - DateTime.Now;
+        public TimeSpan TimePassed() => DateTime.Now - Start;
 
         public override string ToString()
         {
             return $"{Start.ToString(CultureInfo.CurrentCulture)} - {End.ToString(CultureInfo.CurrentCulture)}";
+        }
+
+        public static string TimeSpanToString(TimeSpan time, string a = "")
+        {
+            /*if (time.Days > 365)
+            {
+                
+            }*/
+            if (time.Days > 1)
+            {
+                return $"{time.Days} days {a}";
+            }
+            /*if (time.Days == 1)
+            {
+                //return $"Day and {time.Hours} hours ago";
+            }*/
+            if (time.Hours > 1)
+            {
+                return time.ToString(@"%h\:mm\:ss") + $" {a}";
+            }
+            else
+            {
+                return time.ToString(@"%m\:ss") + $" {a}";
+            }
         }
     }
 }

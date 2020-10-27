@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
+using static TimeManager.Utilities.Period;
 
 namespace TimeManager.Model.Data
 {
@@ -142,21 +143,22 @@ namespace TimeManager.Model.Data
         }
 
         #endregion
+        
 
-        public string TimeInfo
+        [JsonIgnore] public string TimeInfo
         {
             get //=> _timeInfo;
             {
                 switch (Status)
                 {
                     case TaskStatus.Unstarted:
-                        return HasDeadline ? (Schedule.End - DateTime.Now).ToString(@"dd\.hh\:mm\:ss") : (DateTime.Now - Schedule.Start).ToString(@"dd\.hh\:mm\:ss");
+                        return TimeSpanToString(HasDeadline ? Schedule.TimeLeft() : Schedule.TimePassed(), HasDeadline ? "left" : "ago");
                     case TaskStatus.Performed:
-                        return (DateTime.Now - Performance.Start).ToString(@"dd\.hh\:mm\:ss");
+                        return TimeSpanToString(Performance.TimePassed());
                     case TaskStatus.Completed:
-                        return Performance.Duration().ToString(@"dd\.hh\:mm\:ss");
+                        return TimeSpanToString(Performance.Duration());
                     case TaskStatus.Failed:
-                        return Schedule.Duration().ToString(@"dd\.hh\:mm\:ss");
+                        return TimeSpanToString(Schedule.Duration());
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

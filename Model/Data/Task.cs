@@ -68,45 +68,28 @@ namespace TimeManager.Model.Data
             => _changeTaskStatus ?? (_changeTaskStatus = new RelayCommand(o => ChangeTaskStatus_Execute()));
         private void ChangeTaskStatus_Execute()
         {
-            if (Status == TaskStatus.Unstarted)
+            switch (Status)
             {
-                if (Keyboard.IsKeyDown(Key.LeftAlt))
-                {
+                case TaskStatus.Unstarted when Keyboard.IsKeyDown(Key.LeftAlt):
                     Fail();
-                }
-                else
-                {
+                    break;
+                case TaskStatus.Unstarted:
                     Start();
-                }
-            }
-            else if (Status == TaskStatus.Performed)
-            {
-                if (Keyboard.IsKeyDown(Key.LeftAlt))
-                {
+                    break;
+                case TaskStatus.Performed when Keyboard.IsKeyDown(Key.LeftAlt):
                     Fail();
-                }
-                else
-                {
+                    break;
+                case TaskStatus.Performed:
                     Complete();
-                }
-            }
-            else
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    Start();
-                }
-                else
-                {
-                    if (Status == TaskStatus.Completed)
-                    {
+                    break;
+                default:
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                        Start();
+                    else if (Status == TaskStatus.Completed)
                         Fail();
-                    }
                     else
-                    {
                         Complete();
-                    }
-                }
+                    break;
             }
         }
         private void Start()

@@ -39,6 +39,9 @@ namespace TimeManager.Utilities
             End = DateTime.Now;
             Finished = true;
         }
+
+        public TimeSpan Duration() => End - Start;
+
         public override string ToString()
         {
             return $"{Start.ToString(CultureInfo.CurrentCulture)} - {End.ToString(CultureInfo.CurrentCulture)}";

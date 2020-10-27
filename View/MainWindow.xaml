@@ -76,12 +76,13 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="20" />
                                             <ColumnDefinition Width="150" />
-                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <Button 
                                             Content="{Binding ButtonContent}" Width="20" 
                                             Command="{Binding ChangeTaskStatus}" />
                                         <TextBox Grid.Column="1" Text="{Binding Description}" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TimeInfo, Delay=1000}"/>
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Clear" Command="{Binding ClearTask}" />

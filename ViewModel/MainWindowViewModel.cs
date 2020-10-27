@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Threading;
 using TimeManager.Model.Data;
 using TimeManager.Utilities;
 
@@ -16,6 +18,8 @@ namespace TimeManager.ViewModel
         private RelayCommand _newList;
         private RelayCommand _removeList;
         private RelayCommand _saveAll;
+
+        private DispatcherTimer _timer;
 
 
         public MainWindowViewModel()
@@ -42,6 +46,7 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
+                InitializeTimer();
                 OnPropertyChanged(nameof(SelectedCategory));
             }
         }
@@ -91,6 +96,23 @@ namespace TimeManager.ViewModel
         {
             Categories = _categoriesIO.LoadData<Category>();
             foreach (var category in Categories) category.LoadTaskLists();
+        }
+
+        private void InitializeTimer()
+        {
+            if (_timer != null) return;
+            
+            _timer = new DispatcherTimer();
+            _timer.Tick += TimerOnTick;
+            _timer.Interval = new TimeSpan(0,0,1);
+            _timer.Start();
+        }
+
+        private void TimerOnTick(object sender, EventArgs e)
+        {
+            foreach (var list in SelectedCategory.TaskLists)
+            foreach (var task in list.Tasks)
+                task.TimeInfo = string.Empty;
         }
     }
 }

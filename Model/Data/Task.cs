@@ -12,6 +12,7 @@ namespace TimeManager.Model.Data
         private string _buttonContent;
         private RelayCommand _changeTaskStatus;
         private RelayCommand _clearTask;
+        private string _timeInfo;
 
         #region constructors
 
@@ -50,8 +51,7 @@ namespace TimeManager.Model.Data
                 OnPropertyChanged(nameof(Status));
             }
         }
-        
-        
+
         #region status change logic
 
         [JsonIgnore] public string ButtonContent
@@ -142,5 +142,48 @@ namespace TimeManager.Model.Data
         }
 
         #endregion
+
+        public string TimeInfo
+        {
+            get //=> _timeInfo;
+            {
+                switch (Status)
+                {
+                    case TaskStatus.Unstarted:
+                        return HasDeadline ? (Schedule.End - DateTime.Now).ToString(@"dd\.hh\:mm\:ss") : (DateTime.Now - Schedule.Start).ToString(@"dd\.hh\:mm\:ss");
+                    case TaskStatus.Performed:
+                        return (DateTime.Now - Performance.Start).ToString(@"dd\.hh\:mm\:ss");
+                    case TaskStatus.Completed:
+                        return Performance.Duration().ToString(@"dd\.hh\:mm\:ss");
+                    case TaskStatus.Failed:
+                        return Schedule.Duration().ToString(@"dd\.hh\:mm\:ss");
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            set
+            {
+                /*switch (Status)
+                {
+                    case TaskStatus.Unstarted:
+                        _timeInfo = HasDeadline ? (Schedule.End - DateTime.Now).ToString() : (DateTime.Now - Schedule.Start).ToString();
+                        break;
+                    case TaskStatus.Performed:
+                        _timeInfo = (DateTime.Now - Performance.Start).ToString();
+                        break;
+                    case TaskStatus.Completed:
+                        _timeInfo = Performance.Duration().ToString();
+                        break;
+                    case TaskStatus.Failed:
+                        _timeInfo = Schedule.Duration().ToString();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                if (value == _timeInfo) return;*/
+                _timeInfo = value;
+                OnPropertyChanged(nameof(TimeInfo));
+            }
+        }
     }
 }

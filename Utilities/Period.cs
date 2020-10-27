@@ -51,26 +51,13 @@ namespace TimeManager.Utilities
 
         public static string TimeSpanToString(TimeSpan time, string a = "")
         {
-            /*if (time.Days > 365)
-            {
-                
-            }*/
             if (time.Days > 1)
-            {
                 return $"{time.Days} days {a}";
-            }
-            /*if (time.Days == 1)
-            {
-                //return $"Day and {time.Hours} hours ago";
-            }*/
             if (time.Hours > 1)
-            {
-                return time.ToString(@"%h\:mm\:ss") + $" {a}";
-            }
-            else
-            {
-                return time.ToString(@"%m\:ss") + $" {a}";
-            }
+                return time.ToString(@"%h\:mm") + $" hours {a}";
+            /*if (time.Hours > 1)
+                return time.ToString(@"%h\:mm\:ss") + $" {a}";*/
+            return time.ToString(@"%m\:ss") + $" {a}";
         }
     }
 }

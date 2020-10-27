@@ -21,7 +21,6 @@ namespace TimeManager.Model.Data
         {
             Schedule.Start = DateTime.Now;
             Status = TaskStatus.Unstarted;
-            ButtonContent = "";
         }
 
         public Task(string description) : this()
@@ -46,13 +45,14 @@ namespace TimeManager.Model.Data
         public TaskStatus Status
         {
             get => _status;
-            private set
+            set
             {
                 _status = value;
+                UpdateButtonContent();
                 OnPropertyChanged(nameof(Status));
             }
         }
-
+        
         #region status change logic
 
         [JsonIgnore] public string ButtonContent
@@ -62,6 +62,26 @@ namespace TimeManager.Model.Data
             {
                 _buttonContent = value;
                 OnPropertyChanged(nameof(ButtonContent));
+            }
+        }
+        private void UpdateButtonContent()
+        {
+            switch (Status)
+            {
+                case TaskStatus.Unstarted:
+                    ButtonContent = "";
+                    break;
+                case TaskStatus.Performed:
+                    ButtonContent = "•";
+                    break;
+                case TaskStatus.Completed:
+                    ButtonContent = "✔";
+                    break;
+                case TaskStatus.Failed:
+                    ButtonContent = "✘";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -105,14 +125,12 @@ namespace TimeManager.Model.Data
             }
             
             Status = TaskStatus.Performed;
-            ButtonContent = "•";
         }
         private void Complete()
         {
             FinishTask();
 
             Status = TaskStatus.Completed;
-            ButtonContent = "✔";
         }
         private void Fail()
         {
@@ -120,7 +138,6 @@ namespace TimeManager.Model.Data
             FinishTask();
             
             Status = TaskStatus.Failed;
-            ButtonContent = "✘";
         }
         private void FinishTask()
         {
@@ -132,22 +149,20 @@ namespace TimeManager.Model.Data
         [JsonIgnore] public RelayCommand ClearTask => _clearTask ?? (_clearTask = new RelayCommand(o => Clear()));
         private void Clear()
         {
-            Status = TaskStatus.Unstarted;
-            
             //todo: user verification dialog
-            
+
             if (!HasDeadline) Schedule.End = DateTime.MinValue;
             Performance = null;
             Breaks = null;
-            ButtonContent = "";
+            
+            Status = TaskStatus.Unstarted;
         }
 
         #endregion
-        
 
         [JsonIgnore] public string TimeInfo
         {
-            get //=> _timeInfo;
+            get
             {
                 switch (Status)
                 {
@@ -165,27 +180,30 @@ namespace TimeManager.Model.Data
             }
             set
             {
-                /*switch (Status)
-                {
-                    case TaskStatus.Unstarted:
-                        _timeInfo = HasDeadline ? (Schedule.End - DateTime.Now).ToString() : (DateTime.Now - Schedule.Start).ToString();
-                        break;
-                    case TaskStatus.Performed:
-                        _timeInfo = (DateTime.Now - Performance.Start).ToString();
-                        break;
-                    case TaskStatus.Completed:
-                        _timeInfo = Performance.Duration().ToString();
-                        break;
-                    case TaskStatus.Failed:
-                        _timeInfo = Schedule.Duration().ToString();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                if (value == _timeInfo) return;*/
                 _timeInfo = value;
                 OnPropertyChanged(nameof(TimeInfo));
             }
+        }
+        public void UpdateTimeInfo()
+        {
+            /*switch (Status)
+            {
+                case TaskStatus.Unstarted:
+                    _timeInfo = TimeSpanToString(HasDeadline ? Schedule.TimeLeft() : Schedule.TimePassed(), HasDeadline ? "left" : "ago");
+                    break;
+                case TaskStatus.Performed:
+                    _timeInfo = TimeSpanToString(Performance.TimePassed());
+                    break;
+                case TaskStatus.Completed:
+                    _timeInfo = TimeSpanToString(Performance.Duration());
+                    break;
+                case TaskStatus.Failed:
+                    _timeInfo = TimeSpanToString(Schedule.Duration());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }*/
+            TimeInfo = String.Empty;
         }
     }
 }

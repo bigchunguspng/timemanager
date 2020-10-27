@@ -11,34 +11,24 @@ namespace TimeManager.ViewModel
     {
         internal static readonly string _path = @"D:\Documents\TimeManager";
         private readonly FileIO _categoriesIO;
-        private ObservableCollection<Category> _categories;
         private Category _selectedCategory;
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
         private RelayCommand _newList;
         private RelayCommand _removeList;
         private RelayCommand _saveAll;
-
         private DispatcherTimer _timer;
 
 
         public MainWindowViewModel()
         {
             _categoriesIO = new FileIO($@"{_path}\{nameof(Categories)}.json");
-            _categories = new ObservableCollection<Category>();
+            Categories = new ObservableCollection<Category>();
             Directory.CreateDirectory(_path);
             LoadCategories();
         }
 
-        public ObservableCollection<Category> Categories
-        {
-            get => _categories;
-            set
-            {
-                _categories = value;
-                //_categotiesIO.SaveData(Categories);
-            }
-        }
+        public ObservableCollection<Category> Categories { get; set; }
 
         public Category SelectedCategory
         {
@@ -59,6 +49,7 @@ namespace TimeManager.ViewModel
         public RelayCommand RemoveCategory =>
             _removeCategory ?? (_removeCategory = new RelayCommand(RemoveCategoryExecute,
                 o => CategorySelected()));
+
         private void RemoveCategoryExecute(object o)
         {
             SelectedCategory.Clear();
@@ -74,11 +65,12 @@ namespace TimeManager.ViewModel
                 o => TaskSelected()));
 
         public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => SaveAllExecute()));
+
         private void SaveAllExecute()
         {
             _categoriesIO.SaveData(Categories);
             foreach (var category in Categories) category.SaveTaskLists();
-            
+
             /*DirectoryInfo directoryInfo = new DirectoryInfo(_path + $@"\{nameof(Categories)}");
             FileInfo[] files = directoryInfo.GetFiles();
             foreach (var file in files)
@@ -86,25 +78,21 @@ namespace TimeManager.ViewModel
                 //todo: delete files which don't matches any of categories name
             }*/
         }
-        
+
         private bool CategorySelected() => SelectedCategory != null;
         private bool TaskSelected() => SelectedCategory?.SelectedTaskList != null;
 
         #endregion
-
-        private void LoadCategories()
-        {
-            Categories = _categoriesIO.LoadData<Category>();
-            foreach (var category in Categories) category.LoadTaskLists();
-        }
+        
+        #region timer
 
         private void InitializeTimer()
         {
             if (_timer != null) return;
-            
+
             _timer = new DispatcherTimer();
             _timer.Tick += TimerOnTick;
-            _timer.Interval = new TimeSpan(0,0,1);
+            _timer.Interval = new TimeSpan(0, 0, 1);
             _timer.Start();
         }
 
@@ -112,7 +100,15 @@ namespace TimeManager.ViewModel
         {
             foreach (var list in SelectedCategory.TaskLists)
             foreach (var task in list.Tasks)
-                task.TimeInfo = string.Empty;
+                task.UpdateTimeInfo();
+        }
+
+        #endregion
+
+        private void LoadCategories()
+        {
+            Categories = _categoriesIO.LoadData<Category>();
+            foreach (var category in Categories) category.LoadTaskLists();
         }
     }
 }

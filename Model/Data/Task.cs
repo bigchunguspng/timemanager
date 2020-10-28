@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
-using static TimeManager.Utilities.Period;
+using static TimeManager.Utilities.DateExtensions;
 
 namespace TimeManager.Model.Data
 {
@@ -14,6 +15,7 @@ namespace TimeManager.Model.Data
         private RelayCommand _changeTaskStatus;
         private RelayCommand _clearTask;
         private string _timeInfo;
+        private string _toolTipText;
 
         #region constructors
 
@@ -49,6 +51,7 @@ namespace TimeManager.Model.Data
             {
                 _status = value;
                 UpdateButtonContent();
+                UpdateToolTip();
                 OnPropertyChanged(nameof(Status));
             }
         }
@@ -160,6 +163,8 @@ namespace TimeManager.Model.Data
 
         #endregion
 
+        #region time info
+
         [JsonIgnore] public string TimeInfo
         {
             get
@@ -169,9 +174,9 @@ namespace TimeManager.Model.Data
                     case TaskStatus.Unstarted:
                         return TimeSpanToString(HasDeadline ? Schedule.TimeLeft() : Schedule.TimePassed(), HasDeadline ? "left" : "ago");
                     case TaskStatus.Performed:
-                        return TimeSpanToString(Performance.TimePassed());
+                        return TimeSpanToString(Performance.TimePassed() - SumOf(Breaks));
                     case TaskStatus.Completed:
-                        return TimeSpanToString(Performance.Duration());
+                        return TimeSpanToString(Performance.Duration() - SumOf(Breaks));
                     case TaskStatus.Failed:
                         return TimeSpanToString(Schedule.Duration());
                     default:
@@ -202,8 +207,22 @@ namespace TimeManager.Model.Data
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }*/
+            }*/ //if i do it this way ^ it appears not immediately but wait for a second
             TimeInfo = String.Empty;
         }
+
+        [JsonIgnore] public string ToolTipText
+        {
+            get => _toolTipText;
+            set
+            {
+                _toolTipText = value;
+                OnPropertyChanged(nameof(ToolTipText));
+            }
+        }
+        private void UpdateToolTip() => ToolTipText =
+            $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance.ToString()}")}";
+
+        #endregion
     }
 }

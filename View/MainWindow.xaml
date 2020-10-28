@@ -7,8 +7,8 @@
         xmlns:vm="clr-namespace:TimeManager.ViewModel"
         mc:Ignorable="d"
         Title="TimeManager"
-        Height="350"
-        Width="525">
+        Height="600"
+        Width="800">
 
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -58,7 +58,8 @@
             Grid.Column="1" 
             ItemsSource="{Binding SelectedCategory.TaskLists}"
             SelectedItem="{Binding SelectedCategory.SelectedTaskList, Mode=TwoWay}"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            BorderThickness="0"
+            ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
@@ -69,20 +70,27 @@
                             Background="Transparent"/>
                         <ListView 
                             ItemsSource="{Binding Tasks}" 
-                            SelectedItem="{Binding SelectedTask}">
+                            SelectedItem="{Binding SelectedTask}"
+                            BorderThickness="0"
+                            Background="Transparent">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="20" />
-                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="250" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <Button 
                                             Content="{Binding ButtonContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="20" 
                                             Command="{Binding ChangeTaskStatus}" />
-                                        <TextBox Grid.Column="1" Text="{Binding Description}" TextWrapping="Wrap"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding TimeInfo}"/>
+                                        <TextBox Grid.Column="1" 
+                                                 Text="{Binding Description}" 
+                                                 TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Column="2" 
+                                                 Text="{Binding TimeInfo}" 
+                                                 Margin="1,1,0,0"
+                                                 ToolTip="{Binding ToolTipText}"/>
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Clear" Command="{Binding ClearTask}" />
@@ -98,9 +106,10 @@
                         </ListView>
                         <TextBox 
                             Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TextWrapping="Wrap"
                             HorizontalAlignment="Left"
-                            Margin="27,0,0,0"
-                            Width="150">
+                            Margin="26,1,0,0"
+                            Width="250">
                             <TextBox.InputBindings>
                                 <KeyBinding 
                                     Key="Enter" Command="{Binding AddTask}" />
@@ -111,7 +120,7 @@
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <WrapPanel Orientation="Vertical"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ContextMenu>

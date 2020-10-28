@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using static TimeManager.Utilities.DateExtensions;
 
 namespace TimeManager.Utilities
 {
@@ -46,18 +49,9 @@ namespace TimeManager.Utilities
 
         public override string ToString()
         {
-            return $"{Start.ToString(CultureInfo.CurrentCulture)} - {End.ToString(CultureInfo.CurrentCulture)}";
-        }
-
-        public static string TimeSpanToString(TimeSpan time, string a = "")
-        {
-            if (time.Days > 1)
-                return $"{time.Days} days {a}";
-            if (time.Hours > 1)
-                return time.ToString(@"%h\:mm") + $" hours {a}";
-            /*if (time.Hours > 1)
-                return time.ToString(@"%h\:mm\:ss") + $" {a}";*/
-            return time.ToString(@"%m\:ss") + $" {a}";
+            return Start.Date == End.Date
+                ? $"{DateOnly(Start)} {Start.TimeOfDay:%h\\:mm} - {End.TimeOfDay:%h\\:mm}"
+                : $"{DateAndTime(Start)} - {(Start > End ? "now" : DateAndTime(End))}";
         }
     }
 }

@@ -16,9 +16,9 @@ namespace TimeManager.Model.Data
 
         #region constructors
 
-        public Task()
+        private Task()
         {
-            Schedule.Start = DateTime.Now;
+            Schedule = new Period();
             Status = TaskStatus.Unstarted;
         }
 
@@ -30,17 +30,16 @@ namespace TimeManager.Model.Data
         public Task(DateTime deadline) : this()
         {
             Schedule.End = deadline;
-            Schedule.Finished = true;
             HasDeadline = true;
         }
 
         #endregion
 
         public string Description { get; set; }
-        public Period Schedule { get; } = new Period(); //from task creation to deadline (or to the end of performance)
-        public Period Performance { get; set; }
-        public List<Period> Breaks { get; set; }
-        public bool HasDeadline { get; }
+        [JsonProperty] private Period Schedule { get; } //from task creation to deadline (or to the end of performance)
+        [JsonProperty] private Period Performance { get; set; }
+        [JsonProperty] private List<Period> Breaks { get; set; }
+        [JsonProperty] private bool HasDeadline { get; }
         public TaskStatus Status
         {
             get => _status;

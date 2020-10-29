@@ -11,11 +11,13 @@ namespace TimeManager.Model.Data
         private string _newTaskDescription;
         private RelayCommand _addTask;
         private RelayCommand _removeTask;
+        private DateTime _deadline;
 
         public List()
         {
             Name = "New List";
             Tasks = new ObservableCollection<Task>();
+            Deadline = DateTime.Today;
         }
 
         public string Name { get; set; }
@@ -39,16 +41,32 @@ namespace TimeManager.Model.Data
                 OnPropertyChanged(nameof(NewTaskDescription));
             }
         }
+        [JsonIgnore] public DateTime Deadline
+        {
+            get => _deadline;
+            set
+            {
+                _deadline = value;
+                OnPropertyChanged(nameof(Deadline));
+            }
+        }
 
         #region commands
-        
+
         [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(NewTask_Execute));
+
         private void NewTask_Execute(object o)
         {
-            Tasks.Add(new Task(NewTaskDescription));
-            NewTaskDescription = String.Empty;
+            if (Deadline > DateTime.Now)
+            {
+                Tasks.Add(new Task(NewTaskDescription, Deadline));
+                Deadline = DateTime.Today;
+            }
+            else
+                Tasks.Add(new Task(NewTaskDescription));
+            NewTaskDescription = string.Empty;
         }
-        
+
         [JsonIgnore] public RelayCommand RemoveTask =>
             _removeTask ?? (_removeTask = new RelayCommand(o => Tasks.Remove(SelectedTask)));
 

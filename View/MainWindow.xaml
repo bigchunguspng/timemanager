@@ -94,6 +94,7 @@
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Clear" Command="{Binding ClearTask}" />
+                                                <MenuItem Header="Clear deadline" Command="{Binding ClearDeadline}"/>
                                             </ContextMenu>
                                         </Grid.ContextMenu>
                                     </Grid>
@@ -104,17 +105,24 @@
                                     Key="Delete" Command="{Binding RemoveTask}"></KeyBinding>
                             </ListView.InputBindings>
                         </ListView>
-                        <TextBox 
-                            Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            TextWrapping="Wrap"
-                            HorizontalAlignment="Left"
-                            Margin="26,1,0,0"
-                            Width="250">
-                            <TextBox.InputBindings>
-                                <KeyBinding 
-                                    Key="Enter" Command="{Binding AddTask}" />
-                            </TextBox.InputBindings>
-                        </TextBox>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox 
+                                Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                TextWrapping="Wrap"
+                                HorizontalAlignment="Left"
+                                Margin="26,1,0,0"
+                                Width="250">
+                                <TextBox.InputBindings>
+                                    <KeyBinding 
+                                        Key="Enter" Command="{Binding AddTask}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <DatePicker 
+                                SelectedDate="{Binding Deadline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Width="95"
+                                Margin="3,1,0,0"
+                                BorderThickness="0"/>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

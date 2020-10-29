@@ -13,6 +13,7 @@ namespace TimeManager.Model.Data
         private string _buttonContent;
         private RelayCommand _changeTaskStatus;
         private RelayCommand _clearTask;
+        private RelayCommand _setDeadline;
 
         #region constructors
 
@@ -27,7 +28,7 @@ namespace TimeManager.Model.Data
             Description = description;
         }
 
-        public Task(DateTime deadline) : this()
+        public Task(string description, DateTime deadline) : this(description)
         {
             Schedule.End = deadline;
             HasDeadline = true;
@@ -39,7 +40,7 @@ namespace TimeManager.Model.Data
         [JsonProperty] private Period Schedule { get; } //from task creation to deadline (or to the end of performance)
         [JsonProperty] private Period Performance { get; set; }
         [JsonProperty] private List<Period> Breaks { get; set; }
-        [JsonProperty] private bool HasDeadline { get; }
+        [JsonProperty] private bool HasDeadline { get; set; }
         public TaskStatus Status
         {
             get => _status;
@@ -159,6 +160,19 @@ namespace TimeManager.Model.Data
 
         #endregion
 
+        #region deadline
+
+        [JsonIgnore] public RelayCommand ClearDeadline =>
+            _setDeadline ?? (_setDeadline = new RelayCommand(o => ClearDeadline_Execute(), o => HasDeadline));
+
+        private void ClearDeadline_Execute()
+        {
+            Schedule.End = DateTime.MinValue;
+            HasDeadline = false;
+        }
+
+        #endregion
+
         #region time info
 
         [JsonIgnore] public string TimeInfo
@@ -168,7 +182,8 @@ namespace TimeManager.Model.Data
                 switch (Status)
                 {
                     case TaskStatus.Unstarted:
-                        return TimeSpanToString(HasDeadline ? Schedule.TimeLeft() : Schedule.TimePassed(), HasDeadline ? "left" : "ago");
+                        return TimeSpanToString(HasDeadline ? Schedule.TimeLeft() : Schedule.TimePassed(),
+                            HasDeadline ? "left" : "ago");
                     case TaskStatus.Performed:
                         return TimeSpanToString(Performance.TimePassed() - SumOf(Breaks));
                     case TaskStatus.Completed:
@@ -180,10 +195,12 @@ namespace TimeManager.Model.Data
                 }
             }
         }
+
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
         [JsonIgnore] public string ToolTipText =>
             $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance.ToString()}")}";
+
         private void UpdateToolTip() => OnPropertyChanged(nameof(ToolTipText));
 
         #endregion

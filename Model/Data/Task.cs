@@ -9,11 +9,13 @@ namespace TimeManager.Model.Data
 {
     public class Task : NotifyPropertyChanged
     {
+        private bool _hasDeadline;
         private TaskStatus _status;
         private string _buttonContent;
         private RelayCommand _changeTaskStatus;
         private RelayCommand _clearTask;
         private RelayCommand _setDeadline;
+        private RelayCommand _clearDeadline;
 
         #region constructors
 
@@ -21,6 +23,7 @@ namespace TimeManager.Model.Data
         {
             Schedule = new Period();
             Status = TaskStatus.Unstarted;
+            HasDeadline = false;
         }
 
         public Task(string description) : this()
@@ -30,8 +33,7 @@ namespace TimeManager.Model.Data
 
         public Task(string description, DateTime deadline) : this(description)
         {
-            Schedule.End = deadline;
-            HasDeadline = true;
+            SetDeadline_Execute(deadline);
         }
 
         #endregion
@@ -40,7 +42,16 @@ namespace TimeManager.Model.Data
         [JsonProperty] private Period Schedule { get; } //from task creation to deadline (or to the end of performance)
         [JsonProperty] private Period Performance { get; set; }
         [JsonProperty] private List<Period> Breaks { get; set; }
-        [JsonProperty] private bool HasDeadline { get; set; }
+        [JsonProperty] private bool HasDeadline
+        {
+            get => _hasDeadline;
+            set
+            {
+                _hasDeadline = value;
+                NewDeadline = HasDeadline ? Schedule.End : DateTime.Today;
+            }
+        }
+
         public TaskStatus Status
         {
             get => _status;
@@ -162,13 +173,29 @@ namespace TimeManager.Model.Data
 
         #region deadline
 
+        [JsonIgnore] public DateTime NewDeadline { get; set; }
+
+        [JsonIgnore] public RelayCommand SetDeadline =>
+            _setDeadline ?? (_setDeadline = new RelayCommand(o => SetDeadline_Execute(NewDeadline)));
+
+        private void SetDeadline_Execute(DateTime deadline)
+        {
+            Schedule.End = deadline;
+            HasDeadline = true;
+            //NewDeadline = DateTime.Today;
+            UpdateTimeInfo();
+            UpdateToolTip();
+        }
+
         [JsonIgnore] public RelayCommand ClearDeadline =>
-            _setDeadline ?? (_setDeadline = new RelayCommand(o => ClearDeadline_Execute(), o => HasDeadline));
+            _clearDeadline ?? (_clearDeadline = new RelayCommand(o => ClearDeadline_Execute(), o => HasDeadline));
 
         private void ClearDeadline_Execute()
         {
             Schedule.End = DateTime.MinValue;
             HasDeadline = false;
+            UpdateTimeInfo();
+            UpdateToolTip();
         }
 
         #endregion
@@ -199,7 +226,7 @@ namespace TimeManager.Model.Data
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
         [JsonIgnore] public string ToolTipText =>
-            $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance.ToString()}")}";
+            $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance.ToString()}")}{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
 
         private void UpdateToolTip() => OnPropertyChanged(nameof(ToolTipText));
 

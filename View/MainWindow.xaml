@@ -94,6 +94,17 @@
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Clear" Command="{Binding ClearTask}" />
+                                                <MenuItem Header="Set deadline">
+                                                    <StackPanel Orientation="Horizontal" Width="Auto">
+                                                        <DatePicker 
+                                                            SelectedDate="{Binding NewDeadline}"
+                                                            BorderThickness="0"/>
+                                                        <Button 
+                                                            Content="Set" 
+                                                            Command="{Binding SetDeadline}" 
+                                                            Width="45"/>
+                                                    </StackPanel>
+                                                </MenuItem>
                                                 <MenuItem Header="Clear deadline" Command="{Binding ClearDeadline}"/>
                                             </ContextMenu>
                                         </Grid.ContextMenu>
@@ -102,7 +113,7 @@
                             </ListView.ItemTemplate>
                             <ListView.InputBindings>
                                 <KeyBinding 
-                                    Key="Delete" Command="{Binding RemoveTask}"></KeyBinding>
+                                    Key="Delete" Command="{Binding RemoveTask}" />
                             </ListView.InputBindings>
                         </ListView>
                         <StackPanel Orientation="Horizontal">

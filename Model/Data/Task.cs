@@ -11,7 +11,6 @@ namespace TimeManager.Model.Data
     {
         private bool _hasDeadline;
         private TaskStatus _status;
-        private string _buttonContent;
         private RelayCommand _changeTaskStatus;
         private RelayCommand _clearTask;
         private RelayCommand _setDeadline;
@@ -59,6 +58,7 @@ namespace TimeManager.Model.Data
             {
                 _status = value;
                 UpdateButtonContent();
+                UpdateTimeInfo();
                 UpdateToolTip();
                 OnPropertyChanged(nameof(Status));
             }
@@ -68,33 +68,24 @@ namespace TimeManager.Model.Data
 
         [JsonIgnore] public string ButtonContent
         {
-            get => _buttonContent;
-            set
+            get
             {
-                _buttonContent = value;
-                OnPropertyChanged(nameof(ButtonContent));
+                switch (Status)
+                {
+                    case TaskStatus.Unstarted:
+                        return "";
+                    case TaskStatus.Performed:
+                        return "•";
+                    case TaskStatus.Completed:
+                        return "✔";
+                    case TaskStatus.Failed:
+                        return "✘";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
-        private void UpdateButtonContent()
-        {
-            switch (Status)
-            {
-                case TaskStatus.Unstarted:
-                    ButtonContent = "";
-                    break;
-                case TaskStatus.Performed:
-                    ButtonContent = "•";
-                    break;
-                case TaskStatus.Completed:
-                    ButtonContent = "✔";
-                    break;
-                case TaskStatus.Failed:
-                    ButtonContent = "✘";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        private void UpdateButtonContent() => OnPropertyChanged(nameof(ButtonContent));
 
         [JsonIgnore] public RelayCommand ChangeTaskStatus 
             => _changeTaskStatus ?? (_changeTaskStatus = new RelayCommand(o => ChangeTaskStatus_Execute()));
@@ -216,18 +207,16 @@ namespace TimeManager.Model.Data
                     case TaskStatus.Completed:
                         return TimeSpanToString(Performance.Duration() - SumOf(Breaks));
                     case TaskStatus.Failed:
-                        return TimeSpanToString(Schedule.Duration());
+                        return TimeSpanToString(Schedule.Duration(), HasDeadline ? "were given" : "");
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
         }
-
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
         [JsonIgnore] public string ToolTipText =>
             $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance.ToString()}")}{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
-
         private void UpdateToolTip() => OnPropertyChanged(nameof(ToolTipText));
 
         #endregion

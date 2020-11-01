@@ -53,9 +53,9 @@ namespace TimeManager.Model.Data
 
         #region commands
 
-        [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(NewTask_Execute));
+        [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(AddTask_Execute));
 
-        private void NewTask_Execute(object o)
+        private void AddTask_Execute(object o)
         {
             if (Deadline > DateTime.Now)
             {

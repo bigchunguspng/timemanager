@@ -36,7 +36,10 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
-                InitializeTimer();
+                if (CategorySelected())
+                    InitializeTimer();
+                else
+                    _timer?.Stop();
                 OnPropertyChanged(nameof(SelectedCategory));
             }
         }
@@ -68,6 +71,7 @@ namespace TimeManager.ViewModel
 
         private void SaveAllExecute()
         {
+            Directory.CreateDirectory(_path);
             _categoriesIO.SaveData(Categories);
             foreach (var category in Categories) category.SaveTaskLists();
 

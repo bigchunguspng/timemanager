@@ -18,19 +18,13 @@ namespace TimeManager.Utilities
                 return new ObservableCollection<T>();
             }
             using (StreamReader reader = File.OpenText(_path))
-            {
-                string fileText = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<ObservableCollection<T>>(fileText);
-            }
+                return JsonConvert.DeserializeObject<ObservableCollection<T>>(reader.ReadToEnd());
         }
 
         public void SaveData(object list)
         {
-            using (StreamWriter writer = File.CreateText(_path))
-            {
-                string data = JsonConvert.SerializeObject(list);
-                writer.Write(data);
-            }
+            using (StreamWriter writer = File.CreateText(_path)) 
+                writer.Write(JsonConvert.SerializeObject(list));
         }
     }
 }

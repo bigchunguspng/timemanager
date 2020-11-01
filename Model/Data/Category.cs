@@ -9,7 +9,6 @@ namespace TimeManager.Model.Data
     public class Category : NotifyPropertyChanged
     {
         private static readonly string FolderPath = $@"{MainWindowViewModel._path}\{nameof(MainWindowViewModel.Categories)}";
-        private string _path;
         private string _name;
         private List _selectedTaskList;
 
@@ -17,6 +16,7 @@ namespace TimeManager.Model.Data
         {
             Name = name;
             TaskLists = new ObservableCollection<List>();
+            ID = Hash.UniqueHash(FolderPath);
         }
 
         public string Name
@@ -25,12 +25,10 @@ namespace TimeManager.Model.Data
             set
             {
                 _name = value;
-                Directory.CreateDirectory(FolderPath);
-                _path = $@"{FolderPath}\{Name}.json";
                 OnPropertyChanged(nameof(Name));
-                
             }
         }
+        [JsonProperty] private string ID { get; set; }
         [JsonIgnore] public ObservableCollection<List> TaskLists { get; set; }
         [JsonIgnore] public List SelectedTaskList
         {
@@ -42,10 +40,11 @@ namespace TimeManager.Model.Data
             }
         }
 
-        private FileIO CategoryIO => new FileIO(_path);
+        private string Path => $@"{FolderPath}\{ID}.json";
+        private FileIO CategoryIO => new FileIO(Path);
 
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();
         public void SaveTaskLists() => CategoryIO.SaveData(TaskLists);
-        public void Clear() => File.Delete(_path);
+        public void Clear() => File.Delete(Path);
     }
 }

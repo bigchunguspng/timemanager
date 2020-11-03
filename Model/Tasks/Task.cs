@@ -39,7 +39,7 @@ namespace TimeManager.Model.Tasks
 
         public string Description { get; set; }
         [JsonProperty] private Period Schedule { get; } //from task creation to deadline (or to the end of performance)
-        [JsonProperty] private Period Performance { get; set; }
+        [JsonProperty] public Period Performance { get; set; }
         [JsonProperty] private List<Period> Breaks { get; set; }
         [JsonProperty] private bool HasDeadline
         {

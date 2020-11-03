@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
 
-namespace TimeManager.Model.Data
+namespace TimeManager.Model.Tasks
 {
     public class List : NotifyPropertyChanged
     {

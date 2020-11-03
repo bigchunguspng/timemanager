@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TimeManager.Annotations;
+using TimeManager.Properties;
 
 namespace TimeManager.Utilities
 {

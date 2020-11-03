@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using TimeManager.Utilities;
 using static TimeManager.Utilities.DateExtensions;
 
-namespace TimeManager.Model.Data
+namespace TimeManager.Model.Tasks
 {
     public class Task : NotifyPropertyChanged
     {

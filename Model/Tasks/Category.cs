@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using TimeManager.Utilities;
 using TimeManager.ViewModel;
 
-namespace TimeManager.Model.Data
+namespace TimeManager.Model.Tasks
 {
     public class Category : NotifyPropertyChanged
     {

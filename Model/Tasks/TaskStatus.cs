@@ -1,4 +1,4 @@
-﻿namespace TimeManager.Model.Data
+﻿namespace TimeManager.Model.Tasks
 {
     public enum TaskStatus
     {

@@ -13,9 +13,10 @@ namespace TimeManager.Utilities
             Start = DateTime.Now;
             //End = DateTime.MinValue;
         }
-        public Period(DateTime when)
+        public Period(DateTime day)
         {
-            Start = when.Date;
+            Start = day.Date;
+            End = day.Date;
         }
         public Period(DateTime start, DateTime end)
         {
@@ -28,7 +29,7 @@ namespace TimeManager.Utilities
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
-        [JsonIgnore] private bool Finished => End > Start;
+        [JsonIgnore] public bool Finished => End > Start;
         
         public void Finish() => End = DateTime.Now;
 

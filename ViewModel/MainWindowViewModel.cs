@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Threading;
-using TimeManager.Model.Data;
+using TimeManager.Model.Tasks;
 using TimeManager.Utilities;
 
 namespace TimeManager.ViewModel

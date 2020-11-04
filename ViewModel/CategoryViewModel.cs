@@ -1,0 +1,76 @@
+﻿using System;
+using System.Windows.Threading;
+using TimeManager.Model.Tasks;
+using TimeManager.Utilities;
+
+namespace TimeManager.ViewModel
+{
+    public class CategoryViewModel : NotifyPropertyChanged
+    {
+        private Category _selectedCategory;
+
+        private RelayCommand _newList;
+        private RelayCommand _removeList;
+        private DispatcherTimer _timer;
+
+
+        public CategoryViewModel(Category selectedCategory)
+        {
+            SelectedCategory = selectedCategory;
+        }
+        
+
+        public Category SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                if (CategorySelected())
+                    InitializeTimer();
+                else
+                    _timer?.Stop();
+                OnPropertyChanged(nameof(SelectedCategory));
+            }
+        }
+
+        #region commands
+        
+
+        public RelayCommand NewList =>
+            _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List()),
+                o => CategorySelected()));
+
+        public RelayCommand RemoveList => _removeList ?? (_removeList =
+            new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
+                o => TaskSelected()));
+        
+
+        private bool CategorySelected() => SelectedCategory != null;
+        private bool TaskSelected() => SelectedCategory?.SelectedTaskList != null;
+
+        #endregion
+        
+        #region timer
+
+        private void InitializeTimer()
+        {
+            if (_timer != null) return;
+
+            _timer = new DispatcherTimer();
+            _timer.Tick += TimerOnTick;
+            _timer.Interval = new TimeSpan(0, 0, 1);
+            _timer.Start();
+        }
+
+        private void TimerOnTick(object sender, EventArgs e)
+        {
+            foreach (var list in SelectedCategory.TaskLists)
+            foreach (var task in list.Tasks)
+                task.UpdateTimeInfo();
+        }
+
+        #endregion
+
+    }
+}

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using TimeManager.Model.Tasks;
 using TimeManager.Utilities;
+using TimeManager.View;
+using Category = TimeManager.Model.Tasks.Category;
 
 namespace TimeManager.ViewModel
 {
@@ -14,10 +17,17 @@ namespace TimeManager.ViewModel
         private Category _selectedCategory;
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
-        private RelayCommand _newList;
-        private RelayCommand _removeList;
+        //private RelayCommand _newList;
+        //private RelayCommand _removeList;
         private RelayCommand _saveAll;
-        private DispatcherTimer _timer;
+        //private DispatcherTimer _timer;
+        private RelayCommand _viewEvents;
+
+        private Page _category;
+        private readonly Page _events;
+        private readonly Page _routines;
+        private RelayCommand _viewRoutines;
+        private Page _selectedPage;
 
 
         public MainWindowViewModel()
@@ -26,7 +36,27 @@ namespace TimeManager.ViewModel
             Categories = new ObservableCollection<Category>();
             Directory.CreateDirectory(_path);
             LoadCategories();
+            
+            //_category = new View.Category();
+            _events = new EventsView();
+            _routines = new RoutinesView();
+            
         }
+
+        public Page SelectedPage
+        {
+            get => _selectedPage;
+            set
+            {
+                _selectedPage = value;
+                OnPropertyChanged(nameof(SelectedPage));
+            }
+        }
+
+        public RelayCommand ViewEvents => 
+            _viewEvents ?? (_viewEvents = new RelayCommand(o => SelectedPage = _events));
+        public RelayCommand ViewRoutines =>
+            _viewRoutines ?? (_viewRoutines = new RelayCommand(o => SelectedPage = _routines));
 
         public ObservableCollection<Category> Categories { get; set; }
 
@@ -36,10 +66,21 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
-                if (CategorySelected())
+                /*if (CategorySelected())
+                {
                     InitializeTimer();
+                    _category = new CategoryView(_selectedCategory);
+                    SelectedPage = _category;
+                }
                 else
-                    _timer?.Stop();
+                    _timer?.Stop();*/
+                /*if (CategorySelected())
+                {
+                    _category = new CategoryView(_selectedCategory);
+                    SelectedPage = _category;
+                }*/
+                _category = new CategoryView(_selectedCategory);
+                SelectedPage = _category;
                 OnPropertyChanged(nameof(SelectedCategory));
             }
         }
@@ -59,13 +100,13 @@ namespace TimeManager.ViewModel
             Categories.Remove(SelectedCategory);
         }
 
-        public RelayCommand NewList =>
+        /*public RelayCommand NewList =>
             _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List()),
                 o => CategorySelected()));
 
         public RelayCommand RemoveList => _removeList ?? (_removeList =
             new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
-                o => TaskSelected()));
+                o => TaskSelected()));*/
 
         public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => SaveAllExecute()));
 
@@ -84,11 +125,11 @@ namespace TimeManager.ViewModel
         }
 
         private bool CategorySelected() => SelectedCategory != null;
-        private bool TaskSelected() => SelectedCategory?.SelectedTaskList != null;
+        /*private bool TaskSelected() => SelectedCategory?.SelectedTaskList != null;*/
 
         #endregion
         
-        #region timer
+        /*#region timer
 
         private void InitializeTimer()
         {
@@ -107,7 +148,7 @@ namespace TimeManager.ViewModel
                 task.UpdateTimeInfo();
         }
 
-        #endregion
+        #endregion*/
 
         private void LoadCategories()
         {

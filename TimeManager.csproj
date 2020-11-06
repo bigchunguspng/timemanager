@@ -76,6 +76,7 @@
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\RoutinesViewModel.cs" />
     <Compile Include="View\CategoryView.xaml.cs">
       <DependentUpon>CategoryView.xaml</DependentUpon>
     </Compile>

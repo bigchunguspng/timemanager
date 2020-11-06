@@ -53,11 +53,23 @@
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
-        <ListBox Grid.Column="0" VerticalAlignment="Bottom" Margin="0,0,0,35">
-            <Button Command="{Binding ViewEvents}">EventsView</Button>
+        <ListBox 
+            Grid.Column="0" 
+            ItemsSource="{Binding ExtraPages}"
+            SelectedItem="{Binding SelectedPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalAlignment="Bottom"
+            Margin="0,0,0,35">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Title}" FontSize="18" Margin="0, 5,0,5" ></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <!--<Button Command="{Binding ViewEvents}">EventsView</Button>
             <Button Command="{Binding ViewRoutines}">Routines</Button>
             <TextBlock Text="Events" FontSize="18" Margin="0, 5,0,5" ></TextBlock>
-            <TextBlock Text="Routines" FontSize="18" Margin="0, 5,0,5"></TextBlock>
+            <TextBlock Text="Routines" FontSize="18" Margin="0, 5,0,5"></TextBlock>-->
         </ListBox>
         
         <Frame 

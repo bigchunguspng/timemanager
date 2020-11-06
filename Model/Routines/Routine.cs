@@ -17,8 +17,9 @@ namespace TimeManager.Model.Routines
             Times = new List<Period>();
         }
         
-        [JsonProperty] protected string Description { get; set; }
-        [JsonProperty] protected List<Period> Times { get; set; }
+        [JsonProperty] public string Description { get; set; }
+        [JsonProperty] public List<Period> Times { get; set; }
+        [JsonIgnore] public virtual string Info { get; }
 
         public int HowManyTimes(Period period)
         {

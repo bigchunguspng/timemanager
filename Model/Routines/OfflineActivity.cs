@@ -13,6 +13,7 @@ namespace TimeManager.Model.Routines
             Description = @event.Description;
             Times = new List<Period> {@event.Period};
         }
+        public override string Info => "off test";
 
         public void AddDate(DateTime date) => Times.Add(new Period(date.Date));
 

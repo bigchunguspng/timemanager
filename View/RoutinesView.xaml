@@ -4,9 +4,34 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TimeManager.View"
+      xmlns:vm="clr-namespace:TimeManager.ViewModel"
       mc:Ignorable="d"
       Title="Routines">
+    
+    <Page.DataContext>
+        <vm:RoutinesViewModel />
+    </Page.DataContext>
+    
     <Grid>
-        <TextBlock>dfkjldksjfljlsd</TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="{Binding SelectedRoutine.Info}"></TextBlock>
+        
+        <ListBox
+            Grid.Column="1" 
+            ItemsSource="{Binding Routines}" 
+            SelectedItem="{Binding SelectedRoutine}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBox Text="{Binding Description}"></TextBox>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
     </Grid>
 </Page>

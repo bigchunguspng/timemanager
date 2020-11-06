@@ -23,6 +23,7 @@ namespace TimeManager.Model.Routines
         }
 
         [JsonIgnore] public bool Performed => Times[Times.Count - 1].Finished;
+        public override string Info => "on test";
 
         private void Start() => Times.Add(new Period());
         private void Finish() => Times[Times.Count - 1].Finish();

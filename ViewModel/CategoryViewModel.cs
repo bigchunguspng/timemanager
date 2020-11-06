@@ -11,6 +11,7 @@ namespace TimeManager.ViewModel
 
         private RelayCommand _newList;
         private RelayCommand _removeList;
+        
         private DispatcherTimer _timer;
 
 
@@ -36,18 +37,17 @@ namespace TimeManager.ViewModel
 
         #region commands
         
-
         public RelayCommand NewList =>
             _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List()),
                 o => CategorySelected()));
 
         public RelayCommand RemoveList => _removeList ?? (_removeList =
             new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
-                o => TaskSelected()));
+                o => TaskListSelected()));
         
 
         private bool CategorySelected() => SelectedCategory != null;
-        private bool TaskSelected() => SelectedCategory?.SelectedTaskList != null;
+        private bool TaskListSelected() => SelectedCategory?.SelectedTaskList != null;
 
         #endregion
         

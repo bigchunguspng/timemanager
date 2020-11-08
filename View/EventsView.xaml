@@ -7,6 +7,6 @@
       mc:Ignorable="d"
       Title="Events">
     <Grid>
-        <TextBlock Text="ERROR: chapter is missing pls install cs source"></TextBlock>
+        <TextBlock Text="ERROR: section is missing pls install newer version if it exists)0"></TextBlock>
     </Grid>
 </Page>

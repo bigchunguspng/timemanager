@@ -23,7 +23,6 @@ namespace TimeManager.Model.Events
         /*
          day (today / yesterday / any)
          days (dayA - dayB / dayA - now)
-         any period (datetimeX - datetimeY)
         */
     }
 }

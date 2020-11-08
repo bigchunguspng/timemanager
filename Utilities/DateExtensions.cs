@@ -22,6 +22,22 @@ namespace TimeManager.Utilities
                 return time.ToString(@"%m") + $" minutes {a}";    //10 minutes - 59 minutes
             return time.ToString(@"%m\:ss") + $" {a}";            //0:00 - 9:59
         }
+        
+        public static string DaysAgo(DateTime dateTime)
+        {
+            int result = (DateTime.Today - dateTime.Date).Days;
+            switch (result)
+            {
+                case -1:
+                    return "Tomorrow";
+                case 0:
+                    return "Today";
+                case 1:
+                    return "Yesterday";
+                default:
+                    return result > 0 ? $"{result} days ago" : $"In {-result} days";
+            }
+        }
 
         public static string DateAndTime(DateTime dateTime) => $"{DateOnly(dateTime)} {dateTime.TimeOfDay:%h\\:mm}";
         public static string DateOnly(DateTime dateTime) => dateTime.Date.ToString("dd MMM yyyy", CultureInfo.CurrentCulture);

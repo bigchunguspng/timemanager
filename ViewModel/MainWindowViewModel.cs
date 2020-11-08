@@ -14,7 +14,7 @@ namespace TimeManager.ViewModel
     {
         internal static readonly string _path = @"D:\Documents\TimeManager";
         private readonly FileIO _categoriesIO;
-        
+
         private Page _category;
         private Page _selectedPage;        
         private Category _selectedCategory;
@@ -32,7 +32,7 @@ namespace TimeManager.ViewModel
             LoadCategories();
             
             //_category = new View.Category();
-            ExtraPages = new ObservableCollection<Page> {new EventsView(), new RoutinesView()};
+            ExtraPages = new ObservableCollection<Page> {new EventsView(), new ActivitiesView()};
         }
 
         public ObservableCollection<Page> ExtraPages { get; }

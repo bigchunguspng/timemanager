@@ -173,7 +173,7 @@ namespace TimeManager.Model.Tasks
         {
             Schedule.End = deadline;
             HasDeadline = true;
-            //NewDeadline = DateTime.Today;
+            //NewDeadline = DateTime.AddDate;
             UpdateTimeInfo();
             UpdateToolTip();
         }

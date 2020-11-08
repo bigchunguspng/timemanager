@@ -2,9 +2,9 @@
 
 namespace TimeManager.View
 {
-    public partial class RoutinesView : Page
+    public partial class ActivitiesView : Page
     {
-        public RoutinesView()
+        public ActivitiesView()
         {
             InitializeComponent();
         }

@@ -24,6 +24,12 @@ namespace TimeManager.Utilities
             End = end;
         }
 
+        public Period(int lastDays)
+        {
+            Start = DateTime.Today - TimeSpan.FromDays(lastDays);
+            End = DateTime.Today;
+        }
+
         #endregion
 
         public DateTime Start { get; set; }
@@ -37,6 +43,8 @@ namespace TimeManager.Utilities
         public TimeSpan Duration() => End - Start;
         public TimeSpan TimeLeft() => End - DateTime.Now;
         public TimeSpan TimePassed() => DateTime.Now - Start;
+
+        public DateTime ToDateTime() => Start.Date;
 
         public override string ToString()
         {

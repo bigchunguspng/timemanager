@@ -14,30 +14,37 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="{Binding PanelWidth}" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <StackPanel Grid.Column="0">
-            <ListView ItemsSource="{Binding SelectedActivity.Times}">
+            <ListView
+                ItemsSource="{Binding SelectedActivityDates}"
+                SelectedIndex="{Binding IndexOfSelectedDate}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Text="{Binding Date}"></TextBlock>
+                            <TextBlock Text="{Binding}"></TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove date" Command="{Binding RemoveDate}"></MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
             <TreeView>
-                <TreeViewItem Header="{Binding SelectedActivity.Stats[1]}" IsExpanded="True">
-                    <TreeViewItem Header="{Binding SelectedActivity.Stats[2]}" />
-                    <TreeViewItem Header="{Binding SelectedActivity.Stats[3]}" />
-                    <TreeViewItem Header="{Binding SelectedActivity.Stats[4]}" />
+                <TreeViewItem Header="{Binding Analytics[0]}" IsExpanded="True">
+                    <TreeViewItem Header="{Binding Analytics[1]}" />
+                    <TreeViewItem Header="{Binding Analytics[2]}" />
+                    <TreeViewItem Header="{Binding Analytics[3]}" />
                 </TreeViewItem>
-                <TreeViewItem Header="{Binding SelectedActivity.Stats[5]}" IsExpanded="True">
-                    <TreeViewItem Header="{Binding SelectedActivity.Stats[6]}" />
-                    <TreeViewItem Header="{Binding SelectedActivity.Stats[7]}" />
-                    <TreeViewItem Header="{Binding SelectedActivity.Stats[8]}" />
+                <TreeViewItem Header="{Binding Analytics[4]}" IsExpanded="True">
+                    <TreeViewItem Header="{Binding Analytics[5]}" />
+                    <TreeViewItem Header="{Binding Analytics[6]}" />
+                    <TreeViewItem Header="{Binding Analytics[7]}" />
                 </TreeViewItem>
             </TreeView>
             <!--<TextBlock Text="{Binding SelectedRoutine.Info}"></TextBlock>-->

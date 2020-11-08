@@ -11,20 +11,15 @@ namespace TimeManager.ViewModel
         private readonly FileIO _activitiesIO;
         
         private RegularActivity _selectedActivity;
-        //private Page _selectedRoutineType;
         private RelayCommand _newActivity;
         private RelayCommand _removeActivity;
         private RelayCommand _addDate;
         private DateTime _newDate;
         private RelayCommand _saveActivities;
+        private RelayCommand _removeDate;
 
         public ActivitiesViewModel()
         {
-            /*Activities = new ObservableCollection<RegularActivity>
-            {
-                new RegularActivity("ахдщба"), 
-                new RegularActivity("cycle")
-            };*/
             _activitiesIO = new FileIO($@"{MainWindowViewModel._path}\Activities.json");
             Activities = new ObservableCollection<RegularActivity>();
             Directory.CreateDirectory(MainWindowViewModel._path);
@@ -40,28 +35,47 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedActivity = value;
-                //UpdateSelectedRoutineType();
                 OnPropertyChanged(nameof(SelectedActivity));
+                UpdateSelectedActivityInfo();
             }
         }
 
-        /*public Page SelectedRoutineType
-        {
-            get => _selectedRoutineType;
-            set
-            {
-                _selectedRoutineType = value;
-                OnPropertyChanged(nameof(SelectedRoutineType));
-            }
-        }*/
+        #region selected activity info
 
-        /*private void UpdateSelectedRoutineType()
+        private readonly int _defaultpanelwidth = 200;
+        public int PanelWidth => ActivitySelected ? _defaultpanelwidth : 0;
+
+        public ObservableCollection<string> SelectedActivityDates
         {
-            if (SelectedRoutine.GetType() == typeof(OfflineActivity))
-                SelectedRoutineType = new OfflineActivityControl(SelectedRoutine as OfflineActivity);
-            else if (SelectedRoutine.GetType() == typeof(OnlineActivity))
-                SelectedRoutineType = new OnlineActivityControl();
-        }*/
+            get
+            {
+                var result = new ObservableCollection<string>();
+                foreach (var time in SelectedActivity.Times) 
+                    result.Add(DateExtensions.DateOnly(time));
+                return result;
+            }
+        }
+        
+        public ObservableCollection<string> Analytics => new ObservableCollection<string>
+        {
+            "Quantity",
+            $"Last week: {SelectedActivity.HowManyTimes(new Period(7))}",
+            $"Last 28 days: {SelectedActivity.HowManyTimes(new Period(28))}",
+            $"All time: {SelectedActivity.HowManyTimes(new Period(SelectedActivity.Times[0], DateTime.Today))}",
+            "Average frequency (per week)",
+            $"Last week: {SelectedActivity.AverageFrequency(new Period(7))}",
+            $"Last 28 days: {SelectedActivity.AverageFrequency(new Period(28))}",
+            $"All time: {SelectedActivity.AverageFrequency(new Period(SelectedActivity.Times[0], DateTime.Today))}"
+        };
+
+        private void UpdateSelectedActivityInfo()
+        {
+            OnPropertyChanged(nameof(PanelWidth));
+            OnPropertyChanged(nameof(SelectedActivityDates));
+            OnPropertyChanged(nameof(Analytics));
+        }
+
+        #endregion
 
         #region commands
 
@@ -69,7 +83,7 @@ namespace TimeManager.ViewModel
             _newActivity ?? (_newActivity = new RelayCommand(o => Activities.Add(new RegularActivity())));
 
         public RelayCommand RemoveActivity =>
-            _removeActivity ?? (_removeActivity = new RelayCommand(o => Activities.Remove(SelectedActivity), o => ActivitySelected()));
+            _removeActivity ?? (_removeActivity = new RelayCommand(o => Activities.Remove(SelectedActivity), o => ActivitySelected));
         
         
         public DateTime NewDate
@@ -83,9 +97,27 @@ namespace TimeManager.ViewModel
         }
 
         public RelayCommand AddDate =>
-            _addDate ?? (_addDate = new RelayCommand(o => SelectedActivity.AddDate(NewDate)));
+            _addDate ?? (_addDate = new RelayCommand(AddDateExecute));
 
-        private bool ActivitySelected() => SelectedActivity != null;
+        private void AddDateExecute(object o)
+        {
+            SelectedActivity.AddDate(NewDate);
+            UpdateSelectedActivityInfo();
+        }
+
+        public int IndexOfSelectedDate { get; set; }
+
+        public RelayCommand RemoveDate =>
+            _removeDate ?? (_removeDate = new RelayCommand(RemoveDateExecute));
+
+        private void RemoveDateExecute(object o)
+        {
+            SelectedActivity.Times.RemoveAt(IndexOfSelectedDate);
+            UpdateSelectedActivityInfo();
+        }
+
+
+        public bool ActivitySelected => SelectedActivity != null;
 
         public RelayCommand SaveActivities =>
             _saveActivities ?? (_saveActivities = new RelayCommand(o => SaveActivitiesExecute()));

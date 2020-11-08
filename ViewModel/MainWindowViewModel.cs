@@ -97,13 +97,6 @@ namespace TimeManager.ViewModel
             Directory.CreateDirectory(_path);
             _categoriesIO.SaveData(Categories);
             foreach (var category in Categories) category.SaveTaskLists();
-
-            /*DirectoryInfo directoryInfo = new DirectoryInfo(_path + $@"\{nameof(Categories)}");
-            FileInfo[] files = directoryInfo.GetFiles();
-            foreach (var file in files)
-            {
-                //todo: delete files which don't matches any of categories name
-            }*/
         }
 
         private bool CategorySelected() => SelectedCategory != null;

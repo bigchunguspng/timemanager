@@ -5,6 +5,7 @@
         Unstarted,
         Performed,
         Completed,
-        Failed
+        Failed,
+        Paused
     }
 }

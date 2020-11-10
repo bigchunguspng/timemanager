@@ -38,10 +38,10 @@ namespace TimeManager.Model.Tasks
         #endregion
 
         public string Description { get; set; }
-        [JsonProperty] private Period Schedule { get; } //from task creation to deadline (or to the end of performance)
+        [JsonProperty] public Period Schedule { get; } //from task creation to deadline (or to the end of performance)
         [JsonProperty] public Period Performance { get; set; }
         [JsonProperty] private List<Period> Breaks { get; set; }
-        [JsonProperty] private bool HasDeadline
+        [JsonProperty] public bool HasDeadline
         {
             get => _hasDeadline;
             set
@@ -80,6 +80,8 @@ namespace TimeManager.Model.Tasks
                         return "✔";
                     case TaskStatus.Failed:
                         return "✘";
+                    case TaskStatus.Paused:
+                        return "⏸";
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -91,29 +93,33 @@ namespace TimeManager.Model.Tasks
             => _changeTaskStatus ?? (_changeTaskStatus = new RelayCommand(o => ChangeTaskStatus_Execute()));
         private void ChangeTaskStatus_Execute()
         {
-            switch (Status)
-            {
-                case TaskStatus.Unstarted when Keyboard.IsKeyDown(Key.LeftAlt):
-                    Fail();
-                    break;
-                case TaskStatus.Unstarted:
-                    Start();
-                    break;
-                case TaskStatus.Performed when Keyboard.IsKeyDown(Key.LeftAlt):
-                    Fail();
-                    break;
-                case TaskStatus.Performed:
-                    Complete();
-                    break;
-                default:
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            if (Keyboard.IsKeyDown(Key.LeftAlt) && Status != TaskStatus.Completed && Status != TaskStatus.Failed)
+                Fail();
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Status != TaskStatus.Unstarted && Status != TaskStatus.Performed)
+                Start();
+            else if (Keyboard.IsKeyDown(Key.LeftShift) && Status != TaskStatus.Unstarted && Status != TaskStatus.Paused)
+                Pause();
+            else
+                switch (Status)
+                {
+                    case TaskStatus.Unstarted:
                         Start();
-                    else if (Status == TaskStatus.Completed)
-                        Fail();
-                    else
+                        break;
+                    case TaskStatus.Performed:
                         Complete();
-                    break;
-            }
+                        break;
+                    case TaskStatus.Completed:
+                        Fail();
+                        break;
+                    case TaskStatus.Failed:
+                        Complete();
+                        break;
+                    case TaskStatus.Paused:
+                        Complete();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
         }
         private void Start()
         {
@@ -140,6 +146,12 @@ namespace TimeManager.Model.Tasks
             FinishTask();
             
             Status = TaskStatus.Failed;
+        }
+        private void Pause()
+        {
+            FinishTask();
+            
+            Status = TaskStatus.Paused;
         }
         private void FinishTask()
         {
@@ -208,6 +220,8 @@ namespace TimeManager.Model.Tasks
                         return TimeSpanToString(Performance.Duration() - SumOf(Breaks));
                     case TaskStatus.Failed:
                         return TimeSpanToString(Schedule.Duration(), HasDeadline ? "were given" : "");
+                    case TaskStatus.Paused:
+                        return TimeSpanToString(Performance.Duration() - SumOf(Breaks));
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

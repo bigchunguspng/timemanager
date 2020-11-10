@@ -20,9 +20,9 @@ namespace TimeManager.ViewModel
 
         public ActivitiesViewModel()
         {
-            _activitiesIO = new FileIO($@"{MainWindowViewModel._path}\Activities.json");
+            _activitiesIO = new FileIO($@"{MainWindowViewModel.Path}\Activities.json");
             Activities = new ObservableCollection<RegularActivity>();
-            Directory.CreateDirectory(MainWindowViewModel._path);
+            Directory.CreateDirectory(MainWindowViewModel.Path);
             LoadActivities();
             
             NewDate = DateTime.Today;
@@ -124,7 +124,7 @@ namespace TimeManager.ViewModel
 
         private void SaveActivitiesExecute()
         {
-            Directory.CreateDirectory(MainWindowViewModel._path);
+            Directory.CreateDirectory(MainWindowViewModel.Path);
             _activitiesIO.SaveData(Activities);
         }
 

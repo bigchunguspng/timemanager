@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
 using TimeManager.ViewModel;
@@ -8,7 +10,7 @@ namespace TimeManager.Model.Tasks
 {
     public class Category : NotifyPropertyChanged
     {
-        private static readonly string FolderPath = $@"{MainWindowViewModel._path}\{nameof(MainWindowViewModel.Categories)}";
+        private static readonly string FolderPath = $@"{MainWindowViewModel.Path}\{nameof(MainWindowViewModel.Categories)}";
         private string _name;
         private List _selectedTaskList;
 
@@ -46,5 +48,41 @@ namespace TimeManager.Model.Tasks
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();
         public void SaveTaskLists() => CategoryIO.SaveData(TaskLists);
         public void Clear() => File.Delete(Path);
+
+
+        #region deadlines indicator
+
+        private readonly int _maxIndicatorSize = 15;
+        private readonly int _maxLeftMargin = 28;
+        private readonly int _maxTopMargin = 8;
+
+        [JsonIgnore] public Thickness IndicatorMargin =>
+            new Thickness(_maxLeftMargin - IndicatorSize / 2, _maxTopMargin - IndicatorSize / 2, 0, 0);
+
+        [JsonIgnore] public float IndicatorSize => _maxIndicatorSize / (float) MinimumDaysBeforeDeadline;
+        private int MinimumDaysBeforeDeadline
+        {
+            get
+            {
+                int result = Int32.MaxValue;
+                foreach (var list in TaskLists)
+                foreach (var task in list.Tasks)
+                    if (task.HasDeadline && task.Status == TaskStatus.Unstarted)
+                    {
+                        int daysLeft = task.Schedule.TimeLeft().Days;
+                        if (daysLeft < result) result = daysLeft;
+                    }
+
+                return Math.Abs(result) + 1;
+            }
+        }
+
+        public void UpdateDeadlinesIndicator()
+        {
+            OnPropertyChanged(nameof(IndicatorMargin));
+            OnPropertyChanged(nameof(IndicatorSize));
+        }
+
+        #endregion
     }
 }

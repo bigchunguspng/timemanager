@@ -12,7 +12,7 @@ namespace TimeManager.ViewModel
 {
     public class MainWindowViewModel : NotifyPropertyChanged
     {
-        internal static readonly string _path = @"D:\Documents\TimeManager";
+        internal static readonly string Path = @"D:\Documents\TimeManager";
         private readonly FileIO _categoriesIO;
 
         private Page _category;
@@ -26,9 +26,9 @@ namespace TimeManager.ViewModel
 
         public MainWindowViewModel()
         {
-            _categoriesIO = new FileIO($@"{_path}\{nameof(Categories)}.json");
+            _categoriesIO = new FileIO($@"{Path}\{nameof(Categories)}.json");
             Categories = new ObservableCollection<Category>();
-            Directory.CreateDirectory(_path);
+            Directory.CreateDirectory(Path);
             LoadCategories();
             
             //_category = new View.Category();
@@ -94,9 +94,13 @@ namespace TimeManager.ViewModel
 
         private void SaveAllExecute()
         {
-            Directory.CreateDirectory(_path);
+            Directory.CreateDirectory(Path);
             _categoriesIO.SaveData(Categories);
-            foreach (var category in Categories) category.SaveTaskLists();
+            foreach (var category in Categories)
+            {
+                category.SaveTaskLists();
+                category.UpdateDeadlinesIndicator();
+            }
         }
 
         private bool CategorySelected() => SelectedCategory != null;

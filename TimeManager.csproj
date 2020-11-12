@@ -66,6 +66,12 @@
     <Compile Include="Model\Events\Event.cs" />
     <Compile Include="Model\Regular\RegularActivity.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\DateExtensions.cs" />
     <Compile Include="Utilities\FileIO.cs" />
     <Compile Include="Utilities\Hash.cs" />
@@ -106,6 +112,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\CategoryView.xaml" />
@@ -116,8 +126,6 @@
     </Page>
     <Page Include="View\ActivitiesView.xaml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\View\RoutinesControls" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,8 +7,11 @@
         xmlns:vm="clr-namespace:TimeManager.ViewModel"
         mc:Ignorable="d"
         Title="TimeManager"
-        Height="600"
-        Width="800">
+        WindowStartupLocation="Manual"
+        Left="{Binding Left, Mode=TwoWay}"
+        Top="{Binding Top, Mode=TwoWay}"
+        Height="{Binding Height, Mode=TwoWay}"
+        Width="{Binding Width, Mode=TwoWay}">
 
     <Window.DataContext>
         <vm:MainWindowViewModel />

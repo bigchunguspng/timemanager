@@ -18,11 +18,7 @@ namespace TimeManager.ViewModel
         private Page _category;
         private Page _selectedPage;        
         private Category _selectedCategory;
-        
-        private RelayCommand _newCategory;
-        private RelayCommand _removeCategory;
-        private RelayCommand _saveAll;
-        
+
 
         public MainWindowViewModel()
         {
@@ -75,7 +71,40 @@ namespace TimeManager.ViewModel
             }
         }
 
+        #region window size & position
+
+        public double Left
+        {
+            get => Properties.Settings.Default.Left;
+            set => Properties.Settings.Default.Left = value;
+        }
+
+        public double Top
+        {
+            get => Properties.Settings.Default.Top;
+            set => Properties.Settings.Default.Top = value;
+        }
+
+        public double Height
+        {
+            get => Properties.Settings.Default.Height;
+            set => Properties.Settings.Default.Height = value;
+        }
+
+        public double Width
+        {
+            get => Properties.Settings.Default.Width;
+            set => Properties.Settings.Default.Width = value;
+        }
+
+        #endregion
+        
         #region commands
+        
+        private RelayCommand _newCategory;
+        private RelayCommand _removeCategory;
+        private RelayCommand _saveAll;
+        
 
         public RelayCommand NewCategory =>
             _newCategory ?? (_newCategory = new RelayCommand(o => Categories.Add(new Category("New Category"))));
@@ -101,6 +130,7 @@ namespace TimeManager.ViewModel
                 category.SaveTaskLists();
                 category.UpdateDeadlinesIndicator();
             }
+            Properties.Settings.Default.Save();
         }
 
         private bool CategorySelected() => SelectedCategory != null;

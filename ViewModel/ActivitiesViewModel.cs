@@ -9,14 +9,8 @@ namespace TimeManager.ViewModel
     public class ActivitiesViewModel : NotifyPropertyChanged
     {
         private readonly FileIO _activitiesIO;
-        
         private RegularActivity _selectedActivity;
-        private RelayCommand _newActivity;
-        private RelayCommand _removeActivity;
-        private RelayCommand _addDate;
         private DateTime _newDate;
-        private RelayCommand _saveActivities;
-        private RelayCommand _removeDate;
 
         public ActivitiesViewModel()
         {
@@ -79,12 +73,23 @@ namespace TimeManager.ViewModel
 
         #region commands
 
-        public RelayCommand NewActivity => 
-            _newActivity ?? (_newActivity = new RelayCommand(o => Activities.Add(new RegularActivity())));
+        private RelayCommand _newActivity;
+        private RelayCommand _removeActivity;
+        private RelayCommand _addDate;
+        private RelayCommand _removeDate;
+        private RelayCommand _saveActivities;
 
-        public RelayCommand RemoveActivity =>
-            _removeActivity ?? (_removeActivity = new RelayCommand(o => Activities.Remove(SelectedActivity), o => ActivitySelected));
         
+        public int IndexOfSelectedDate { get; set; }
+        private bool ActivitySelected => SelectedActivity != null;
+
+        
+        public RelayCommand NewActivity => _newActivity ?? (_newActivity = new RelayCommand(o =>
+                Activities.Add(new RegularActivity())));
+
+        public RelayCommand RemoveActivity => _removeActivity ?? (_removeActivity = new RelayCommand(o =>
+                Activities.Remove(SelectedActivity), o => ActivitySelected));
+
         
         public DateTime NewDate
         {
@@ -96,37 +101,23 @@ namespace TimeManager.ViewModel
             }
         }
 
-        public RelayCommand AddDate =>
-            _addDate ?? (_addDate = new RelayCommand(AddDateExecute));
-
-        private void AddDateExecute(object o)
+        public RelayCommand AddDate => _addDate ?? (_addDate = new RelayCommand(o =>
         {
             SelectedActivity.AddDate(NewDate);
             UpdateSelectedActivityInfo();
-        }
+        }));
 
-        public int IndexOfSelectedDate { get; set; }
-
-        public RelayCommand RemoveDate =>
-            _removeDate ?? (_removeDate = new RelayCommand(RemoveDateExecute));
-
-        private void RemoveDateExecute(object o)
+        public RelayCommand RemoveDate => _removeDate ?? (_removeDate = new RelayCommand(o =>
         {
             SelectedActivity.Times.RemoveAt(IndexOfSelectedDate);
             UpdateSelectedActivityInfo();
-        }
+        }));
 
-
-        public bool ActivitySelected => SelectedActivity != null;
-
-        public RelayCommand SaveActivities =>
-            _saveActivities ?? (_saveActivities = new RelayCommand(o => SaveActivitiesExecute()));
-
-        private void SaveActivitiesExecute()
+        public RelayCommand SaveActivities => _saveActivities ?? (_saveActivities = new RelayCommand(o =>
         {
             Directory.CreateDirectory(MainWindowViewModel.Path);
             _activitiesIO.SaveData(Activities);
-        }
+        }));
 
         #endregion
 

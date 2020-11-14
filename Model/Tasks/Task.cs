@@ -11,10 +11,6 @@ namespace TimeManager.Model.Tasks
     {
         private bool _hasDeadline;
         private TaskStatus _status;
-        private RelayCommand _changeTaskStatus;
-        private RelayCommand _clearTask;
-        private RelayCommand _setDeadline;
-        private RelayCommand _clearDeadline;
 
         #region constructors
 
@@ -37,7 +33,7 @@ namespace TimeManager.Model.Tasks
 
         #endregion
 
-        public string Description { get; set; }
+        [JsonProperty] public string Description { get; set; }
         [JsonProperty] public Period Schedule { get; } //from task creation to deadline (or to the end of performance)
         [JsonProperty] public Period Performance { get; set; }
         [JsonProperty] private List<Period> Breaks { get; set; }
@@ -51,7 +47,7 @@ namespace TimeManager.Model.Tasks
             }
         }
 
-        public TaskStatus Status
+        [JsonProperty] public TaskStatus Status
         {
             get => _status;
             set
@@ -65,6 +61,9 @@ namespace TimeManager.Model.Tasks
         }
         
         #region status change logic
+        
+        private RelayCommand _changeTaskStatus;
+        private RelayCommand _clearTask;
 
         [JsonIgnore] public string ButtonContent
         {
@@ -89,38 +88,40 @@ namespace TimeManager.Model.Tasks
         }
         private void UpdateButtonContent() => OnPropertyChanged(nameof(ButtonContent));
 
-        [JsonIgnore] public RelayCommand ChangeTaskStatus 
-            => _changeTaskStatus ?? (_changeTaskStatus = new RelayCommand(o => ChangeTaskStatus_Execute()));
-        private void ChangeTaskStatus_Execute()
-        {
-            if (Keyboard.IsKeyDown(Key.LeftAlt) && Status != TaskStatus.Completed && Status != TaskStatus.Failed)
-                Fail();
-            else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Status != TaskStatus.Unstarted && Status != TaskStatus.Performed)
-                Start();
-            else if (Keyboard.IsKeyDown(Key.LeftShift) && Status != TaskStatus.Unstarted && Status != TaskStatus.Paused)
-                Pause();
-            else
-                switch (Status)
-                {
-                    case TaskStatus.Unstarted:
-                        Start();
-                        break;
-                    case TaskStatus.Performed:
-                        Complete();
-                        break;
-                    case TaskStatus.Completed:
-                        Fail();
-                        break;
-                    case TaskStatus.Failed:
-                        Complete();
-                        break;
-                    case TaskStatus.Paused:
-                        Complete();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-        }
+        [JsonIgnore] public RelayCommand ChangeTaskStatus
+            => _changeTaskStatus ?? (_changeTaskStatus = new RelayCommand(o =>
+            {
+                if (Keyboard.IsKeyDown(Key.LeftAlt) && Status != TaskStatus.Completed && Status != TaskStatus.Failed)
+                    Fail();
+                else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Status != TaskStatus.Unstarted &&
+                         Status != TaskStatus.Performed)
+                    Start();
+                else if (Keyboard.IsKeyDown(Key.LeftShift) && Status != TaskStatus.Unstarted &&
+                         Status != TaskStatus.Paused)
+                    Pause();
+                else
+                    switch (Status)
+                    {
+                        case TaskStatus.Unstarted:
+                            Start();
+                            break;
+                        case TaskStatus.Performed:
+                            Complete();
+                            break;
+                        case TaskStatus.Completed:
+                            Fail();
+                            break;
+                        case TaskStatus.Failed:
+                            Complete();
+                            break;
+                        case TaskStatus.Paused:
+                            Complete();
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+            }));
+        
         private void Start()
         {
             if (Status == TaskStatus.Unstarted) 
@@ -160,21 +161,23 @@ namespace TimeManager.Model.Tasks
             if (!HasDeadline) Schedule.Finish();
         }
 
-        [JsonIgnore] public RelayCommand ClearTask => _clearTask ?? (_clearTask = new RelayCommand(o => Clear()));
-        private void Clear()
+        [JsonIgnore] public RelayCommand ClearTask => _clearTask ?? (_clearTask = new RelayCommand(o =>
         {
             //todo: user verification dialog
 
             if (!HasDeadline) Schedule.End = DateTime.MinValue;
             Performance = null;
             Breaks = null;
-            
+
             Status = TaskStatus.Unstarted;
-        }
+        }));
 
         #endregion
 
         #region deadline
+        
+        private RelayCommand _setDeadline;
+        private RelayCommand _clearDeadline;
 
         [JsonIgnore] public DateTime NewDeadline { get; set; }
 
@@ -185,21 +188,19 @@ namespace TimeManager.Model.Tasks
         {
             Schedule.End = deadline;
             HasDeadline = true;
-            //NewDeadline = DateTime.AddDate;
+            
             UpdateTimeInfo();
             UpdateToolTip();
         }
 
         [JsonIgnore] public RelayCommand ClearDeadline =>
-            _clearDeadline ?? (_clearDeadline = new RelayCommand(o => ClearDeadline_Execute(), o => HasDeadline));
-
-        private void ClearDeadline_Execute()
-        {
-            Schedule.End = DateTime.MinValue;
-            HasDeadline = false;
-            UpdateTimeInfo();
-            UpdateToolTip();
-        }
+            _clearDeadline ?? (_clearDeadline = new RelayCommand(o =>
+            {
+                Schedule.End = DateTime.MinValue;
+                HasDeadline = false;
+                UpdateTimeInfo();
+                UpdateToolTip();
+            }, o => HasDeadline));
 
         #endregion
 
@@ -230,7 +231,7 @@ namespace TimeManager.Model.Tasks
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
         [JsonIgnore] public string ToolTipText =>
-            $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance.ToString()}")}{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
+            $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance}")}{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
         private void UpdateToolTip() => OnPropertyChanged(nameof(ToolTipText));
 
         #endregion

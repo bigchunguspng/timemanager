@@ -9,17 +9,10 @@ namespace TimeManager.ViewModel
     {
         private Category _selectedCategory;
 
-        private RelayCommand _newList;
-        private RelayCommand _removeList;
-        
-        private DispatcherTimer _timer;
-
-
         public CategoryViewModel(Category selectedCategory)
         {
             SelectedCategory = selectedCategory;
         }
-        
 
         public Category SelectedCategory
         {
@@ -36,14 +29,17 @@ namespace TimeManager.ViewModel
         }
 
         #region commands
-        
-        public RelayCommand NewList =>
-            _newList ?? (_newList = new RelayCommand(o => SelectedCategory.TaskLists.Add(new List()),
-                o => CategorySelected()));
 
-        public RelayCommand RemoveList => _removeList ?? (_removeList =
-            new RelayCommand(o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
-                o => TaskListSelected()));
+        private RelayCommand _newList;
+        private RelayCommand _removeList;
+
+        public RelayCommand NewList => _newList ?? (_newList = new RelayCommand(
+            o => SelectedCategory.TaskLists.Add(new List()),
+            o => CategorySelected()));
+
+        public RelayCommand RemoveList => _removeList ?? (_removeList = new RelayCommand(
+            o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
+            o => TaskListSelected()));
         
 
         private bool CategorySelected() => SelectedCategory != null;
@@ -52,6 +48,8 @@ namespace TimeManager.ViewModel
         #endregion
         
         #region timer
+        
+        private DispatcherTimer _timer;
 
         private void InitializeTimer()
         {

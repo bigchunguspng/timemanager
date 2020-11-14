@@ -37,7 +37,7 @@ namespace TimeManager.Model.Regular
         [JsonProperty] public ObservableCollection<DateTime> Times { get; set; }
 
         [JsonIgnore] public string LastTimeInfo => DateExtensions.DaysAgo(LastTime);
-        private DateTime LastTime => Times[Times.Count - 1];
+        [JsonIgnore] private DateTime LastTime => Times[Times.Count - 1];
         
         
         public void AddDate(DateTime date)

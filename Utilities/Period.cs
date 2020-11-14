@@ -35,7 +35,7 @@ namespace TimeManager.Utilities
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
-        [JsonIgnore] public bool Finished => End > Start;
+        [JsonIgnore] private bool Finished => End > Start;
         
         public void Finish() => End = DateTime.Now;
 

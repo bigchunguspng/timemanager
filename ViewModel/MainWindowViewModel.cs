@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Controls;
-using System.Windows.Threading;
-using TimeManager.Model.Tasks;
 using TimeManager.Utilities;
 using TimeManager.View;
 using Category = TimeManager.Model.Tasks.Category;
@@ -106,22 +103,17 @@ namespace TimeManager.ViewModel
         private RelayCommand _saveAll;
         
 
-        public RelayCommand NewCategory =>
-            _newCategory ?? (_newCategory = new RelayCommand(o => Categories.Add(new Category("New Category"))));
+        public RelayCommand NewCategory => _newCategory ?? (_newCategory = new RelayCommand(o => 
+                Categories.Add(new Category("New Category"))));
 
-        public RelayCommand RemoveCategory =>
-            _removeCategory ?? (_removeCategory = new RelayCommand(RemoveCategoryExecute,
-                o => CategorySelected()));
+        public RelayCommand RemoveCategory => _removeCategory ?? (_removeCategory = new RelayCommand(o =>
+            {
+                SelectedCategory.Clear();
+                Categories.Remove(SelectedCategory);
+            },
+            o => CategorySelected()));
 
-        private void RemoveCategoryExecute(object o)
-        {
-            SelectedCategory.Clear();
-            Categories.Remove(SelectedCategory);
-        }
-
-        public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => SaveAllExecute()));
-
-        private void SaveAllExecute()
+        public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o =>
         {
             Directory.CreateDirectory(Path);
             _categoriesIO.SaveData(Categories);
@@ -130,9 +122,10 @@ namespace TimeManager.ViewModel
                 category.SaveTaskLists();
                 category.UpdateDeadlinesIndicator();
             }
-            Properties.Settings.Default.Save();
-        }
 
+            Properties.Settings.Default.Save();
+        }));
+        
         private bool CategorySelected() => SelectedCategory != null;
 
         #endregion

@@ -3,15 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:TimeManager.View"
       xmlns:vm="clr-namespace:TimeManager.ViewModel"
       mc:Ignorable="d"
       Title="Regular activities">
-    
+
     <Page.DataContext>
         <vm:ActivitiesViewModel />
     </Page.DataContext>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="{Binding PanelWidth}" />
@@ -25,13 +24,13 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Text="{Binding}"></TextBlock>
+                            <TextBlock Text="{Binding}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Remove date" Command="{Binding RemoveDate}"></MenuItem>
+                        <MenuItem Header="Remove date" Command="{Binding RemoveDate}" />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -53,20 +52,20 @@
                     <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
-                    <DatePicker 
+                    <DatePicker
                         SelectedDate="{Binding NewDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Width="95"
                         Margin="3,1,0,0"
-                        BorderThickness="0"/>
-                    <Button Content="Add" Command="{Binding AddDate}" Width="35" Margin="0,0,5,0"/>
+                        BorderThickness="0" />
+                    <Button Content="Add" Command="{Binding AddDate}" Width="35" Margin="0,0,5,0" />
                 </StackPanel>
             </Grid>
-            <Button Content="Save all activities" Command="{Binding SaveActivities}"></Button>
+            <Button Content="Save all activities" Command="{Binding SaveActivities}" />
         </StackPanel>
-        
+
         <ListBox
-            Grid.Column="1" 
-            ItemsSource="{Binding Activities}" 
+            Grid.Column="1"
+            ItemsSource="{Binding Activities}"
             SelectedItem="{Binding SelectedActivity}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -80,11 +79,11 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="New" Command="{Binding NewActivity}"/>
-                    <MenuItem Header="Remove" Command="{Binding RemoveActivity}"/>
+                    <MenuItem Header="New" Command="{Binding NewActivity}" />
+                    <MenuItem Header="Remove" Command="{Binding RemoveActivity}" />
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
-        
+
     </Grid>
 </Page>

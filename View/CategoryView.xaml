@@ -3,17 +3,15 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:TimeManager.View"
-      xmlns:vm="clr-namespace:TimeManager.ViewModel"
       mc:Ignorable="d"
       Title="Category">
-    
+
     <!--<Page.DataContext>
         <vm:CategoryViewModel/>
     </Page.DataContext>-->
-    
+
     <Grid>
-        <ListView 
+        <ListView
             ItemsSource="{Binding SelectedCategory.TaskLists}"
             SelectedItem="{Binding SelectedCategory.SelectedTaskList, Mode=TwoWay}"
             BorderThickness="0"
@@ -21,13 +19,13 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
-                        <TextBox 
-                            Text="{Binding Name}" 
+                        <TextBox
+                            Text="{Binding Name}"
                             MinWidth="100"
                             BorderThickness="0"
-                            Background="Transparent"/>
-                        <ListView 
-                            ItemsSource="{Binding Tasks}" 
+                            Background="Transparent" />
+                        <ListView
+                            ItemsSource="{Binding Tasks}"
                             SelectedItem="{Binding SelectedTask}"
                             BorderThickness="0"
                             Background="Transparent">
@@ -39,72 +37,73 @@
                                             <ColumnDefinition Width="250" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <Button 
-                                            Content="{Binding ButtonContent, UpdateSourceTrigger=PropertyChanged}" Width="20" 
+                                        <Button
+                                            Content="{Binding ButtonContent, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="20"
                                             Command="{Binding ChangeTaskStatus}" />
-                                        <TextBox Grid.Column="1" 
-                                                 Text="{Binding Description}" 
-                                                 TextWrapping="Wrap"/>
-                                        <TextBlock Grid.Column="2" 
-                                                 Text="{Binding TimeInfo}" 
-                                                 MinWidth="40"
-                                                 Margin="1,1,0,0"
-                                                 ToolTip="{Binding ToolTipText}"/>
+                                        <TextBox Grid.Column="1"
+                                                 Text="{Binding Description}"
+                                                 TextWrapping="Wrap" />
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding TimeInfo}"
+                                                   MinWidth="40"
+                                                   Margin="1,1,0,0"
+                                                   ToolTip="{Binding ToolTipText}" />
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Clear" Command="{Binding ClearTask}" />
                                                 <MenuItem Header="Set deadline">
                                                     <StackPanel Orientation="Horizontal" Width="Auto">
-                                                        <DatePicker 
+                                                        <DatePicker
                                                             SelectedDate="{Binding NewDeadline}"
-                                                            BorderThickness="0"/>
-                                                        <Button 
-                                                            Content="Set" 
-                                                            Command="{Binding SetDeadline}" 
-                                                            Width="45"/>
+                                                            BorderThickness="0" />
+                                                        <Button
+                                                            Content="Set"
+                                                            Command="{Binding SetDeadline}"
+                                                            Width="45" />
                                                     </StackPanel>
                                                 </MenuItem>
-                                                <MenuItem Header="Clear deadline" Command="{Binding ClearDeadline}"/>
+                                                <MenuItem Header="Clear deadline" Command="{Binding ClearDeadline}" />
                                             </ContextMenu>
                                         </Grid.ContextMenu>
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.InputBindings>
-                                <KeyBinding 
+                                <KeyBinding
                                     Key="Delete" Command="{Binding RemoveTask}" />
                             </ListView.InputBindings>
                         </ListView>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox 
-                                Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBox
+                                Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap"
                                 HorizontalAlignment="Left"
                                 Margin="26,1,0,0"
                                 Width="250">
                                 <TextBox.InputBindings>
-                                    <KeyBinding 
+                                    <KeyBinding
                                         Key="Enter" Command="{Binding AddTask}" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <DatePicker 
+                            <DatePicker
                                 SelectedDate="{Binding Deadline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="95"
                                 Margin="3,1,0,0"
-                                BorderThickness="0"/>
+                                BorderThickness="0" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical"/>
+                    <WrapPanel Orientation="Vertical" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ContextMenu>
-                <ContextMenu >
-                    <MenuItem Header="New list" Command="{Binding NewList }"/>
-                    <MenuItem Header="Remove" Command="{Binding RemoveList}"/>
+                <ContextMenu>
+                    <MenuItem Header="New list" Command="{Binding NewList }" />
+                    <MenuItem Header="Remove" Command="{Binding RemoveList}" />
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>

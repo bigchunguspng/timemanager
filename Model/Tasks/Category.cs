@@ -21,7 +21,7 @@ namespace TimeManager.Model.Tasks
             ID = Hash.UniqueHash(FolderPath);
         }
 
-        public string Name
+        [JsonProperty] public string Name
         {
             get => _name;
             set
@@ -31,6 +31,7 @@ namespace TimeManager.Model.Tasks
             }
         }
         [JsonProperty] private string ID { get; set; }
+        
         [JsonIgnore] public ObservableCollection<List> TaskLists { get; set; }
         [JsonIgnore] public List SelectedTaskList
         {
@@ -42,18 +43,17 @@ namespace TimeManager.Model.Tasks
             }
         }
 
-        private string Path => $@"{FolderPath}\{ID}.json";
-        private FileIO CategoryIO => new FileIO(Path);
+        [JsonIgnore] private string Path => $@"{FolderPath}\{ID}.json";
+        [JsonIgnore] private FileIO CategoryIO => new FileIO(Path);
 
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();
         public void SaveTaskLists() => CategoryIO.SaveData(TaskLists);
         public void Clear() => File.Delete(Path);
 
-
         #region deadlines indicator
 
         private readonly int _maxIndicatorSize = 15;
-        private readonly int _maxLeftMargin = 28;
+        private readonly int _maxLeftMargin = 48;
         private readonly int _maxTopMargin = 8;
 
         [JsonIgnore] public Thickness IndicatorMargin =>

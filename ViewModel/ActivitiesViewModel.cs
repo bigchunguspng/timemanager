@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
+using TimeManager.Model;
 using TimeManager.Model.Regular;
 using TimeManager.Utilities;
 
@@ -8,21 +8,16 @@ namespace TimeManager.ViewModel
 {
     public class ActivitiesViewModel : NotifyPropertyChanged
     {
-        private readonly FileIO _activitiesIO;
         private RegularActivity _selectedActivity;
         private DateTime _newDate;
 
         public ActivitiesViewModel()
         {
-            _activitiesIO = new FileIO($@"{MainWindowViewModel.Path}\Activities.json");
-            Activities = new ObservableCollection<RegularActivity>();
-            Directory.CreateDirectory(MainWindowViewModel.Path);
-            LoadActivities();
-            
+            Activities = Storage.Activities;
             NewDate = DateTime.Today;
         }
+        
         public ObservableCollection<RegularActivity> Activities { get; set; }
-
         public RegularActivity SelectedActivity
         {
             get => _selectedActivity;
@@ -77,9 +72,8 @@ namespace TimeManager.ViewModel
         private RelayCommand _removeActivity;
         private RelayCommand _addDate;
         private RelayCommand _removeDate;
-        private RelayCommand _saveActivities;
 
-        
+
         public int IndexOfSelectedDate { get; set; }
         private bool ActivitySelected => SelectedActivity != null;
 
@@ -90,7 +84,6 @@ namespace TimeManager.ViewModel
         public RelayCommand RemoveActivity => _removeActivity ?? (_removeActivity = new RelayCommand(o =>
                 Activities.Remove(SelectedActivity), o => ActivitySelected));
 
-        
         public DateTime NewDate
         {
             get => _newDate;
@@ -113,17 +106,6 @@ namespace TimeManager.ViewModel
             UpdateSelectedActivityInfo();
         }));
 
-        public RelayCommand SaveActivities => _saveActivities ?? (_saveActivities = new RelayCommand(o =>
-        {
-            Directory.CreateDirectory(MainWindowViewModel.Path);
-            _activitiesIO.SaveData(Activities);
-        }));
-
         #endregion
-
-        private void LoadActivities()
-        {
-            Activities = _activitiesIO.LoadData<RegularActivity>();
-        }
     }
 }

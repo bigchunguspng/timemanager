@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Controls;
+using TimeManager.Model;
 using TimeManager.Utilities;
 using TimeManager.View;
 using Category = TimeManager.Model.Tasks.Category;
@@ -9,22 +9,16 @@ namespace TimeManager.ViewModel
 {
     public class MainWindowViewModel : NotifyPropertyChanged
     {
-        internal static readonly string Path = @"D:\Documents\TimeManager";
-        private readonly FileIO _categoriesIO;
-
-        private Page _category;
-        private Page _selectedPage;        
+        private Page _categoryView;
+        private Page _selectedPage;
         private Category _selectedCategory;
 
 
         public MainWindowViewModel()
         {
-            _categoriesIO = new FileIO($@"{Path}\{nameof(Categories)}.json");
-            Categories = new ObservableCollection<Category>();
-            Directory.CreateDirectory(Path);
-            LoadCategories();
-            
-            //_category = new View.Category();
+            Storage.LoadData();
+            Categories = Storage.Categories;
+
             ExtraPages = new ObservableCollection<Page> {new EventsView(), new ActivitiesView()};
         }
 
@@ -34,7 +28,7 @@ namespace TimeManager.ViewModel
             get => _selectedPage;
             set
             {
-                if (value != _category) SelectedCategory = null;
+                if (value != _categoryView) SelectedCategory = null;
                 else _selectedPage = null;
                 OnPropertyChanged(nameof(SelectedPage));
                 _selectedPage = value;
@@ -49,21 +43,8 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
-                /*if (CategorySelected())
-                {
-                    InitializeTimer();
-                    _category = new CategoryView(_selectedCategory);
-                    SelectedPage = _category;
-                }
-                else
-                    _timer?.Stop();*/
-                /*if (CategorySelected())
-                {
-                    _category = new CategoryView(_selectedCategory);
-                    SelectedPage = _category;
-                }*/
-                _category = new CategoryView(_selectedCategory);
-                SelectedPage = _category;
+                _categoryView = new CategoryView(_selectedCategory);
+                SelectedPage = _categoryView;
                 OnPropertyChanged(nameof(SelectedCategory));
             }
         }
@@ -113,27 +94,10 @@ namespace TimeManager.ViewModel
             },
             o => CategorySelected()));
 
-        public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o =>
-        {
-            Directory.CreateDirectory(Path);
-            _categoriesIO.SaveData(Categories);
-            foreach (var category in Categories)
-            {
-                category.SaveTaskLists();
-                category.UpdateDeadlinesIndicator();
-            }
-
-            Properties.Settings.Default.Save();
-        }));
+        public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => Storage.SaveAll()));
         
         private bool CategorySelected() => SelectedCategory != null;
 
         #endregion
-
-        private void LoadCategories()
-        {
-            Categories = _categoriesIO.LoadData<Category>();
-            foreach (var category in Categories) category.LoadTaskLists();
-        }
     }
 }

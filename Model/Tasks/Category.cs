@@ -4,13 +4,12 @@ using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
-using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Tasks
 {
     public class Category : NotifyPropertyChanged
     {
-        private static readonly string FolderPath = $@"{MainWindowViewModel.Path}\{nameof(MainWindowViewModel.Categories)}";
+        private static readonly string FolderPath = $@"{Storage.Path}\Categories";
         private string _name;
         private List _selectedTaskList;
 

@@ -59,6 +59,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Events\Topic.cs" />
+    <Compile Include="Model\Storage.cs" />
     <Compile Include="Model\Tasks\Category.cs" />
     <Compile Include="Model\Tasks\List.cs" />
     <Compile Include="Model\Tasks\Task.cs" />

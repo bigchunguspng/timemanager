@@ -60,7 +60,6 @@
                     <Button Content="Add" Command="{Binding AddDate}" Width="35" Margin="0,0,5,0" />
                 </StackPanel>
             </Grid>
-            <Button Content="Save all activities" Command="{Binding SaveActivities}" />
         </StackPanel>
 
         <ListBox

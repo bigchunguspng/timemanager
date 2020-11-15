@@ -64,6 +64,7 @@
 
         <ListBox
             Grid.Column="1"
+            BorderThickness="0"
             ItemsSource="{Binding Activities}"
             SelectedItem="{Binding SelectedActivity}">
             <ListBox.ItemTemplate>

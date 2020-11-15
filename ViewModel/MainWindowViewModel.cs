@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using TimeManager.Model;
+using TimeManager.Model.Tasks;
+using TimeManager.Properties;
 using TimeManager.Utilities;
 using TimeManager.View;
-using Category = TimeManager.Model.Tasks.Category;
 
 namespace TimeManager.ViewModel
 {
@@ -21,6 +22,9 @@ namespace TimeManager.ViewModel
 
             ExtraPages = new ObservableCollection<Page> {new EventsView(), new ActivitiesView()};
         }
+
+        public static Messenger StatusBarMessenger { get; set; } = new Messenger();
+        public static void ShowInStatusBar(string message) => StatusBarMessenger.Message = message;
 
         public ObservableCollection<Page> ExtraPages { get; }
         public Page SelectedPage
@@ -53,39 +57,39 @@ namespace TimeManager.ViewModel
 
         public double Left
         {
-            get => Properties.Settings.Default.Left;
-            set => Properties.Settings.Default.Left = value;
+            get => Settings.Default.Left;
+            set => Settings.Default.Left = value;
         }
 
         public double Top
         {
-            get => Properties.Settings.Default.Top;
-            set => Properties.Settings.Default.Top = value;
+            get => Settings.Default.Top;
+            set => Settings.Default.Top = value;
         }
 
         public double Height
         {
-            get => Properties.Settings.Default.Height;
-            set => Properties.Settings.Default.Height = value;
+            get => Settings.Default.Height;
+            set => Settings.Default.Height = value;
         }
 
         public double Width
         {
-            get => Properties.Settings.Default.Width;
-            set => Properties.Settings.Default.Width = value;
+            get => Settings.Default.Width;
+            set => Settings.Default.Width = value;
         }
 
         #endregion
-        
+
         #region commands
-        
+
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
         private RelayCommand _saveAll;
-        
 
-        public RelayCommand NewCategory => _newCategory ?? (_newCategory = new RelayCommand(o => 
-                Categories.Add(new Category("New Category"))));
+
+        public RelayCommand NewCategory => _newCategory ?? (_newCategory = new RelayCommand(o =>
+            Categories.Add(new Category("New Category"))));
 
         public RelayCommand RemoveCategory => _removeCategory ?? (_removeCategory = new RelayCommand(o =>
             {

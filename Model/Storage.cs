@@ -1,8 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using TimeManager.Model.Regular;
 using TimeManager.Model.Tasks;
+using TimeManager.Properties;
 using TimeManager.Utilities;
+using TimeManager.ViewModel;
 
 namespace TimeManager.Model
 {
@@ -11,8 +14,8 @@ namespace TimeManager.Model
         public static readonly string Path = @"D:\Documents\TimeManager";
         private static readonly FileIO CategoriesIO = new FileIO($@"{Path}\Categories.json");
         private static readonly FileIO ActivitiesIO = new FileIO($@"{Path}\Activities.json");
-        
-        
+
+
         public static ObservableCollection<Category> Categories { get; set; }
         public static ObservableCollection<RegularActivity> Activities { get; set; }
 
@@ -24,7 +27,7 @@ namespace TimeManager.Model
             Activities = ActivitiesIO.LoadData<RegularActivity>();
             foreach (var category in Categories) category.LoadTaskLists();
         }
-        
+
         public static void SaveAll()
         {
             Directory.CreateDirectory(Path);
@@ -34,9 +37,11 @@ namespace TimeManager.Model
                 category.SaveTaskLists();
                 category.UpdateDeadlinesIndicator();
             }
+
             ActivitiesIO.SaveData(Activities);
-            
-            Properties.Settings.Default.Save();
+
+            Settings.Default.Save();
+            MainWindowViewModel.ShowInStatusBar($"Saved at {DateTime.Now.TimeOfDay:%h\\:mm\\:ss}");
         }
     }
 }

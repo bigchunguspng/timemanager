@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:TimeManager.ViewModel"
         mc:Ignorable="d"
         Title="TimeManager"
+        CacheMode="BitmapCache"
         WindowStartupLocation="Manual"
         Left="{Binding Left, Mode=TwoWay}"
         Top="{Binding Top, Mode=TwoWay}"
@@ -16,7 +17,98 @@
         <vm:MainWindowViewModel />
     </Window.DataContext>
 
-    <Grid>
+    <DockPanel LastChildFill="True">
+
+        <StatusBar DockPanel.Dock="Bottom" Height="28" BorderBrush="#abadb3" BorderThickness="0,1,0,0">
+            <StatusBarItem Padding="0,0,6,0">
+                <Button
+                    Content="Save All" Width="60" Height="27" BorderThickness="0"
+                    Command="{Binding SaveAll}" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusBarMessenger.Message}" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <!--<Border DockPanel.Dock="Bottom" BorderBrush="#abadb3" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Content="Save All" Width="60" Height="25" BorderThickness="0"
+                    Command="{Binding SaveAll}">
+                </Button>
+                <TextBlock Text="Hint "></TextBlock>
+            </StackPanel>
+        </Border>-->
+
+        <Grid DockPanel.Dock="Left" Width="200">
+            <DockPanel>
+                <ListBox DockPanel.Dock="Bottom" BorderThickness="0,0,1,0"
+                         ItemsSource="{Binding ExtraPages}"
+                         SelectedItem="{Binding SelectedPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         VerticalAlignment="Bottom">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Title}" FontSize="18" Margin="0, 5,0,5" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <ListBox
+                    BorderThickness="0,1,1,1"
+                    ItemsSource="{Binding Path=Categories}"
+                    SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <!--<TextBlock 
+                            Text="{Binding Name}" 
+                            FontSize="18" 
+                            Margin="0, 5,0,5" >
+                        </TextBlock>-->
+                                <TextBox
+                                    Text="{Binding Name}"
+                                    FontSize="18"
+                                    Margin="0, 5,0,5"
+                                    BorderThickness="0"
+                                    Background="Transparent" />
+                                <Ellipse
+                                    Grid.Column="1"
+                                    Fill="SlateGray"
+                                    Width="{Binding IndicatorSize}"
+                                    Height="{Binding IndicatorSize}"
+                                    Margin="{Binding IndicatorMargin}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="New category" Command="{Binding NewCategory}" />
+                            <MenuItem Header="Remove" Command="{Binding RemoveCategory}" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </DockPanel>
+        </Grid>
+
+        <Frame
+            NavigationUIVisibility="Hidden"
+            Content="{Binding SelectedPage}" />
+
+        <DockPanel.InputBindings>
+            <KeyBinding
+                Modifiers="Control" Key="S"
+                Command="{Binding SaveAll}" />
+        </DockPanel.InputBindings>
+
+    </DockPanel>
+
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
@@ -32,11 +124,11 @@
                             <ColumnDefinition Width="120" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <!--<TextBlock 
+                        ~1~<TextBlock 
                             Text="{Binding Name}" 
                             FontSize="18" 
                             Margin="0, 5,0,5" >
-                        </TextBlock>-->
+                        </TextBlock>@1@
                         <TextBox
                             Text="{Binding Name}"
                             FontSize="18"
@@ -78,102 +170,6 @@
             Grid.Column="1"
             Content="{Binding SelectedPage}"
             NavigationUIVisibility="Hidden" />
-        <!--<ListView 
-            Grid.Column="1" 
-            ItemsSource="{Binding SelectedCategory.TaskLists}"
-            SelectedItem="{Binding SelectedCategory.SelectedTaskList, Mode=TwoWay}"
-            BorderThickness="0"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="5">
-                        <TextBox 
-                            Text="{Binding Name}" 
-                            MinWidth="100"
-                            BorderThickness="0"
-                            Background="Transparent"/>
-                        <ListView 
-                            ItemsSource="{Binding Tasks}" 
-                            SelectedItem="{Binding SelectedTask}"
-                            BorderThickness="0"
-                            Background="Transparent">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="20" />
-                                            <ColumnDefinition Width="250" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Button 
-                                            Content="{Binding ButtonContent, UpdateSourceTrigger=PropertyChanged}" Width="20" 
-                                            Command="{Binding ChangeTaskStatus}" />
-                                        <TextBox Grid.Column="1" 
-                                                 Text="{Binding Description}" 
-                                                 TextWrapping="Wrap"/>
-                                        <TextBlock Grid.Column="2" 
-                                                 Text="{Binding TimeInfo}" 
-                                                 MinWidth="40"
-                                                 Margin="1,1,0,0"
-                                                 ToolTip="{Binding ToolTipText}"/>
-                                        <Grid.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Clear" Command="{Binding ClearTask}" />
-                                                <MenuItem Header="Set deadline">
-                                                    <StackPanel Orientation="Horizontal" Width="Auto">
-                                                        <DatePicker 
-                                                            SelectedDate="{Binding NewDeadline}"
-                                                            BorderThickness="0"/>
-                                                        <Button 
-                                                            Content="Set" 
-                                                            Command="{Binding SetDeadline}" 
-                                                            Width="45"/>
-                                                    </StackPanel>
-                                                </MenuItem>
-                                                <MenuItem Header="Clear deadline" Command="{Binding ClearDeadline}"/>
-                                            </ContextMenu>
-                                        </Grid.ContextMenu>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.InputBindings>
-                                <KeyBinding 
-                                    Key="Delete" Command="{Binding RemoveTask}" />
-                            </ListView.InputBindings>
-                        </ListView>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox 
-                                Text="{Binding NewTaskDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                TextWrapping="Wrap"
-                                HorizontalAlignment="Left"
-                                Margin="26,1,0,0"
-                                Width="250">
-                                <TextBox.InputBindings>
-                                    <KeyBinding 
-                                        Key="Enter" Command="{Binding AddTask}" />
-                                </TextBox.InputBindings>
-                            </TextBox>
-                            <DatePicker 
-                                SelectedDate="{Binding Deadline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Width="95"
-                                Margin="3,1,0,0"
-                                BorderThickness="0"/>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ContextMenu>
-                <ContextMenu >
-                    <MenuItem Header="New list" Command="{Binding NewList }"/>
-                    <MenuItem Header="Remove" Command="{Binding RemoveList}"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>-->
 
         <Button Grid.Column="0"
                 Width="50" Height="25"
@@ -181,5 +177,5 @@
                 Command="{Binding SaveAll}">
             Save All
         </Button>
-    </Grid>
+    </Grid>-->
 </Window>

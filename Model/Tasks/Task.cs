@@ -231,7 +231,9 @@ namespace TimeManager.Model.Tasks
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
         [JsonIgnore] public string ToolTipText =>
-            $"Created: {DateAndTime(Schedule.Start)}{(Performance == null ? "" : $"\nPerformance: {Performance}")}{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
+            $"Created: {DateAndTime(Schedule.Start)}" +
+            $"{(Performance == null ? $"{(!HasDeadline && Status != TaskStatus.Performed && Status != TaskStatus.Unstarted ? $"\n{Status}: {DateAndTime(Schedule.End)}" : "")}" : $"\nPerformance: {Performance}")}" +
+            $"{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
         private void UpdateToolTip() => OnPropertyChanged(nameof(ToolTipText));
 
         #endregion

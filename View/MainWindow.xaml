@@ -90,6 +90,7 @@
                         <ContextMenu>
                             <MenuItem Header="New category" Command="{Binding NewCategory}" />
                             <MenuItem Header="Remove" Command="{Binding RemoveCategory}" />
+                            <MenuItem Header="Restore removed" Command="{Binding RestoreAll}" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>

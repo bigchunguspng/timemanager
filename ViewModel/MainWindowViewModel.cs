@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using TimeManager.Model;
 using TimeManager.Model.Tasks;
@@ -86,6 +87,7 @@ namespace TimeManager.ViewModel
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
         private RelayCommand _saveAll;
+        private RelayCommand _restoreAll;
 
 
         public RelayCommand NewCategory => _newCategory ?? (_newCategory = new RelayCommand(o =>
@@ -93,14 +95,24 @@ namespace TimeManager.ViewModel
 
         public RelayCommand RemoveCategory => _removeCategory ?? (_removeCategory = new RelayCommand(o =>
             {
-                SelectedCategory.Clear();
+                Storage.RecycleBin.Add(SelectedCategory);
+                int i = Storage.RecycleBin.Count;
+                ShowInStatusBar($"{(i == 1 ? "One category was" : $"{i} categories were")} moved to recycle bin");
                 Categories.Remove(SelectedCategory);
-            },
-            o => CategorySelected()));
+            }, o => CategorySelected));
 
         public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => Storage.SaveAll()));
-        
-        private bool CategorySelected() => SelectedCategory != null;
+
+        public RelayCommand RestoreAll => _restoreAll ?? (_restoreAll = new RelayCommand(o =>
+        {
+            foreach (var category in Storage.RecycleBin)
+                Categories.Add(category);
+            Storage.RecycleBin.Clear();
+            ShowInStatusBar("Removed categories were restored!");
+        }, o => ThereAreCategoriesInRecycleBin));
+
+        private bool CategorySelected => SelectedCategory != null;
+        private bool ThereAreCategoriesInRecycleBin => Storage.RecycleBin.Count > 0;
 
         #endregion
     }

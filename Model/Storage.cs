@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using TimeManager.Model.Regular;
@@ -16,8 +17,10 @@ namespace TimeManager.Model
         private static readonly FileIO ActivitiesIO = new FileIO($@"{Path}\Activities.json");
 
 
-        public static ObservableCollection<Category> Categories { get; set; }
-        public static ObservableCollection<RegularActivity> Activities { get; set; }
+        public static ObservableCollection<Category> Categories { get; private set; }
+        public static ObservableCollection<RegularActivity> Activities { get; private set; }
+        
+        public static List<Category> RecycleBin { get; } = new List<Category>();
 
 
         public static void LoadData()
@@ -41,6 +44,8 @@ namespace TimeManager.Model
             ActivitiesIO.SaveData(Activities);
 
             Settings.Default.Save();
+            foreach (var category in RecycleBin) category.Clear();
+            RecycleBin.Clear();
             MainWindowViewModel.ShowInStatusBar($"Saved at {DateTime.Now.TimeOfDay:%h\\:mm\\:ss}");
         }
     }

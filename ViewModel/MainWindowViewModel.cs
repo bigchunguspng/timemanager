@@ -56,11 +56,12 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
+                Storage.SelectedCategory = SelectedCategory;
                 OnPropertyChanged(nameof(SelectedCategory));
                 if (CategorySelected)
                 {
                     SelectedSection = null;
-                    SelectedPage = new CategoryView(_selectedCategory);
+                    SelectedPage = new CategoryView(/*_selectedCategory*/);
                 }
             }
         }

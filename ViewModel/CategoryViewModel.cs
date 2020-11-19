@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Threading;
+using TimeManager.Model;
 using TimeManager.Model.Tasks;
 using TimeManager.Utilities;
 
@@ -9,9 +10,9 @@ namespace TimeManager.ViewModel
     {
         private Category _selectedCategory;
 
-        public CategoryViewModel(Category selectedCategory)
+        public CategoryViewModel(/*Category selectedCategory*/)
         {
-            SelectedCategory = selectedCategory;
+            SelectedCategory = Storage.SelectedCategory;
         }
 
         public Category SelectedCategory

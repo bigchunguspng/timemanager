@@ -21,6 +21,7 @@ namespace TimeManager.Model
         public static ObservableCollection<RegularActivity> Activities { get; private set; }
         
         public static List<Category> RecycleBin { get; } = new List<Category>();
+        public static Category SelectedCategory { get; set; }
 
 
         public static void LoadData()

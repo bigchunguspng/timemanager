@@ -79,7 +79,7 @@ namespace TimeManager.Model.Tasks
                     case TaskStatus.Failed:
                         return "✘";
                     case TaskStatus.Paused:
-                        return "⏸";
+                        return "◼";
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

@@ -17,8 +17,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0">
+        <StackPanel Grid.Column="0" Margin="5,0,0,0">
             <ListView
+                BorderThickness="1,1,1,0"
                 ItemsSource="{Binding SelectedActivityDates}"
                 SelectedIndex="{Binding IndexOfSelectedDate}">
                 <ListView.ItemTemplate>
@@ -34,7 +35,7 @@
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
-            <TreeView>
+            <TreeView BorderBrush="#abadb3">
                 <TreeViewItem Header="{Binding Analytics[0]}" IsExpanded="True">
                     <TreeViewItem Header="{Binding Analytics[1]}" />
                     <TreeViewItem Header="{Binding Analytics[2]}" />
@@ -49,15 +50,17 @@
             <!--<TextBlock Text="{Binding SelectedRoutine.Info}"></TextBlock>-->
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <DatePicker
                         SelectedDate="{Binding NewDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Width="95"
-                        Margin="3,1,0,0"
+                        Margin="0,6,0,0"
                         BorderThickness="0" />
-                    <Button Content="Add" Command="{Binding AddDate}" Width="35" Margin="0,0,5,0" />
+                    <Button
+                        Width="35" Margin="0,5,5,0"
+                        Content="Add" Command="{Binding AddDate}" />
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -71,8 +74,12 @@
                 <DataTemplate>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding Description}" Width="200" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding LastTimeInfo}" />
+                            <TextBox
+                                Width="200" TextWrapping="Wrap" BorderThickness="0"
+                                Text="{Binding Description}" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                Text="{Binding LastTimeInfo}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

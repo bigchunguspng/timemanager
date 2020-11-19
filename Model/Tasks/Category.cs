@@ -9,7 +9,6 @@ namespace TimeManager.Model.Tasks
 {
     public class Category : NotifyPropertyChanged
     {
-        private static readonly string FolderPath = $@"{Storage.Path}\Categories";
         private string _name;
         private List _selectedTaskList;
 
@@ -31,7 +30,7 @@ namespace TimeManager.Model.Tasks
         }
         [JsonProperty] private string ID { get; set; }
         
-        [JsonIgnore] public ObservableCollection<List> TaskLists { get; set; }
+        [JsonIgnore] public ObservableCollection<List> TaskLists { get; private set; }
         [JsonIgnore] public List SelectedTaskList
         {
             get => _selectedTaskList;
@@ -42,12 +41,18 @@ namespace TimeManager.Model.Tasks
             }
         }
 
+        #region file
+        
+        private static readonly string FolderPath = $@"{Storage.Path}\Categories";
+
         [JsonIgnore] private string Path => $@"{FolderPath}\{ID}.json";
         [JsonIgnore] private FileIO CategoryIO => new FileIO(Path);
 
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();
         public void SaveTaskLists() => CategoryIO.SaveData(TaskLists);
         public void Clear() => File.Delete(Path);
+
+        #endregion
 
         #region deadlines indicator
 

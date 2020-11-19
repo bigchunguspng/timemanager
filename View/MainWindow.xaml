@@ -30,22 +30,11 @@
             </StatusBarItem>
         </StatusBar>
 
-        <!--<Border DockPanel.Dock="Bottom" BorderBrush="#abadb3" BorderThickness="0,1,0,0">
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    Content="Save All" Width="60" Height="25" BorderThickness="0"
-                    Command="{Binding SaveAll}">
-                </Button>
-                <TextBlock Text="Hint "></TextBlock>
-            </StackPanel>
-        </Border>-->
-
         <Grid DockPanel.Dock="Left" Width="200">
             <DockPanel>
                 <ListBox DockPanel.Dock="Bottom" BorderThickness="0,0,1,0"
-                         ItemsSource="{Binding ExtraPages}"
-                         SelectedItem="{Binding SelectedPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Bottom">
+                         ItemsSource="{Binding DefaultSections}"
+                         SelectedItem="{Binding SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

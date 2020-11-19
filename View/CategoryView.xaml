@@ -87,7 +87,7 @@
                                 </TextBox.InputBindings>
                             </TextBox>
                             <DatePicker
-                                SelectedDate="{Binding Deadline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedDate="{Binding NewTaskDeadline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="95"
                                 Margin="3,1,0,0"
                                 BorderThickness="0" />

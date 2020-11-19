@@ -46,7 +46,6 @@ namespace TimeManager.Model.Tasks
                 NewDeadline = HasDeadline ? Schedule.End : DateTime.Today;
             }
         }
-
         [JsonProperty] public TaskStatus Status
         {
             get => _status;
@@ -124,7 +123,7 @@ namespace TimeManager.Model.Tasks
         
         private void Start()
         {
-            if (Status == TaskStatus.Unstarted) 
+            if (Performance == null)
                 Performance = new Period();
             else
             {
@@ -137,24 +136,24 @@ namespace TimeManager.Model.Tasks
         }
         private void Complete()
         {
-            FinishTask();
+            StopPerformance();
 
             Status = TaskStatus.Completed;
         }
         private void Fail()
         {
             if (Status == TaskStatus.Unstarted && !HasDeadline) Schedule.Finish();
-            FinishTask();
+            StopPerformance();
             
             Status = TaskStatus.Failed;
         }
         private void Pause()
         {
-            FinishTask();
+            StopPerformance();
             
             Status = TaskStatus.Paused;
         }
-        private void FinishTask()
+        private void StopPerformance()
         {
             if (Status != TaskStatus.Performed) return;
             Performance.Finish();
@@ -218,7 +217,7 @@ namespace TimeManager.Model.Tasks
                     case TaskStatus.Performed:
                         return TimeSpanToString(Performance.TimePassed() - SumOf(Breaks));
                     case TaskStatus.Completed:
-                        return TimeSpanToString(Performance.Duration() - SumOf(Breaks));
+                        return TimeSpanToString(Performance.Duration() - SumOf(Breaks)); // bug System.Windows.Data Error: 17 : Cannot get 'TimeInfo' value
                     case TaskStatus.Failed:
                         return TimeSpanToString(Schedule.Duration(), HasDeadline ? "were given" : "");
                     case TaskStatus.Paused:

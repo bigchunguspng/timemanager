@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using TimeManager.Model.Events;
 using TimeManager.Model.Tasks;
 using TimeManager.Utilities;
+using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Regular
 {
@@ -43,9 +44,15 @@ namespace TimeManager.Model.Regular
         public void AddDate(DateTime date)
         {
             if (date.Date > DateTime.Today)
-                return; //todo show result in tipbar
+            {
+                MainWindowViewModel.ShowInStatusBar("Can't add the future date");
+                return;
+            }
             if (Times.Contains(date))
-                return; //todo show result in tipbar
+            {
+                MainWindowViewModel.ShowInStatusBar("This date is already included");
+                return;
+            }
             Times.Add(date.Date);
             for (int i = Times.Count - 1; i > 0; i--)
             {
@@ -74,7 +81,7 @@ namespace TimeManager.Model.Regular
             return (float) Math.Round(result, 2);
         }
 
-        /// <summary>Присвоює "First" індекс першого елементу після початку періоду, а "Last" - першого елементу після закінчення періоду</summary>
+        /// <summary>Присвоює "_first" індекс першого елементу після початку періоду, а "_last" - першого елементу після закінчення періоду</summary>
         private void CalculateFirstAndLastTimes(Period period)
         {
             _first = -1;

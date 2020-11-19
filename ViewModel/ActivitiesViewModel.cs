@@ -45,7 +45,7 @@ namespace TimeManager.ViewModel
             }
         }
         
-        public ObservableCollection<string> Analytics => new ObservableCollection<string>
+        public ObservableCollection<string> Analytics => new ObservableCollection<string> //bug System.Windows.Data Error: 17 : Cannot get 'Analytics' value
         {
             "Quantity",
             $"Last week: {SelectedActivity.HowManyTimes(new Period(7))}",

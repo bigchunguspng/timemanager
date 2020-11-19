@@ -9,13 +9,13 @@ namespace TimeManager.Model.Tasks
     {
         private Task _selectedTask;
         private string _newTaskDescription;
-        private DateTime _deadline;
+        private DateTime _newTaskDeadline;
 
         public List()
         {
             Name = "New List";
             Tasks = new ObservableCollection<Task>();
-            Deadline = DateTime.Today;
+            NewTaskDeadline = DateTime.Today;
         }
 
         [JsonProperty] public string Name { get; set; }
@@ -39,13 +39,13 @@ namespace TimeManager.Model.Tasks
                 OnPropertyChanged(nameof(NewTaskDescription));
             }
         }
-        [JsonIgnore] public DateTime Deadline
+        [JsonIgnore] public DateTime NewTaskDeadline
         {
-            get => _deadline;
+            get => _newTaskDeadline;
             set
             {
-                _deadline = value;
-                OnPropertyChanged(nameof(Deadline));
+                _newTaskDeadline = value;
+                OnPropertyChanged(nameof(NewTaskDeadline));
             }
         }
 
@@ -56,10 +56,10 @@ namespace TimeManager.Model.Tasks
 
         [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(o =>
         {
-            if (Deadline > DateTime.Now)
+            if (NewTaskDeadline > DateTime.Now)
             {
-                Tasks.Add(new Task(NewTaskDescription, Deadline));
-                Deadline = DateTime.Today;
+                Tasks.Add(new Task(NewTaskDescription, NewTaskDeadline));
+                NewTaskDeadline = DateTime.Today;
             }
             else
                 Tasks.Add(new Task(NewTaskDescription));

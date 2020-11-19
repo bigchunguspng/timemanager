@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using TimeManager.Model;
 using TimeManager.Model.Tasks;
@@ -11,8 +10,8 @@ namespace TimeManager.ViewModel
 {
     public class MainWindowViewModel : NotifyPropertyChanged
     {
-        private Page _categoryView;
         private Page _selectedPage;
+        private Page _selectedSection;
         private Category _selectedCategory;
 
 
@@ -21,38 +20,57 @@ namespace TimeManager.ViewModel
             Storage.LoadData();
             Categories = Storage.Categories;
 
-            ExtraPages = new ObservableCollection<Page> {new EventsView(), new ActivitiesView()};
+            DefaultSections = new ObservableCollection<Page> {new EventsView(), new ActivitiesView()};
         }
 
-        public static Messenger StatusBarMessenger { get; set; } = new Messenger();
-        public static void ShowInStatusBar(string message) => StatusBarMessenger.Message = message;
-
-        public ObservableCollection<Page> ExtraPages { get; }
         public Page SelectedPage
         {
             get => _selectedPage;
             set
             {
-                if (value != _categoryView) SelectedCategory = null;
-                else _selectedPage = null;
-                OnPropertyChanged(nameof(SelectedPage));
                 _selectedPage = value;
                 OnPropertyChanged(nameof(SelectedPage));
             }
         }
 
-        public ObservableCollection<Category> Categories { get; set; }
+        public ObservableCollection<Page> DefaultSections { get; }        // "Events" & "Regular activities"
+        public Page SelectedSection
+        {
+            get => _selectedSection;
+            set
+            {
+                _selectedSection = value;
+                OnPropertyChanged(nameof(SelectedSection));
+                if (_selectedSection != null)
+                {
+                    SelectedCategory = null;
+                    SelectedPage = _selectedSection;
+                }
+            }
+        }
+
+        public ObservableCollection<Category> Categories { get; set; }    // custom categories
         public Category SelectedCategory
         {
             get => _selectedCategory;
             set
             {
                 _selectedCategory = value;
-                _categoryView = new CategoryView(_selectedCategory);
-                SelectedPage = _categoryView;
                 OnPropertyChanged(nameof(SelectedCategory));
+                if (CategorySelected)
+                {
+                    SelectedSection = null;
+                    SelectedPage = new CategoryView(_selectedCategory);
+                }
             }
         }
+
+        #region status bar
+
+        public static Messenger StatusBarMessenger { get; set; } = new Messenger();
+        public static void ShowInStatusBar(string message) => StatusBarMessenger.Message = message;
+
+        #endregion
 
         #region window size & position
 
@@ -96,8 +114,8 @@ namespace TimeManager.ViewModel
         public RelayCommand RemoveCategory => _removeCategory ?? (_removeCategory = new RelayCommand(o =>
             {
                 Storage.RecycleBin.Add(SelectedCategory);
-                int i = Storage.RecycleBin.Count;
-                ShowInStatusBar($"{(i == 1 ? "One category was" : $"{i} categories were")} moved to recycle bin");
+                int count = Storage.RecycleBin.Count;
+                ShowInStatusBar($"{(count == 1 ? "One category was" : $"{count} categories were")} moved to recycle bin");
                 Categories.Remove(SelectedCategory);
             }, o => CategorySelected));
 

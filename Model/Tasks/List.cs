@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
+using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Tasks
 {
@@ -53,6 +54,7 @@ namespace TimeManager.Model.Tasks
             {
                 _selectedTask = value;
                 OnPropertyChanged(nameof(SelectedTask));
+                MainWindowViewModel.ShowInStatusBar("Delete - remove task");
             }
         }
         [JsonIgnore] public string NewTaskDescription

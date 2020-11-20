@@ -8,13 +8,14 @@
       Title="Category">
 
     <Page.DataContext>
-        <vm:CategoryViewModel/>
+        <vm:CategoryViewModel />
     </Page.DataContext>
 
     <Grid>
         <ListView
             ItemsSource="{Binding SelectedCategory.TaskLists}"
             SelectedItem="{Binding SelectedCategory.SelectedTaskList, Mode=TwoWay}"
+            SelectedIndex="{Binding SelectedCategory.SelectedListIndex}"
             BorderThickness="0"
             ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
@@ -104,10 +105,8 @@
                                 BorderThickness="0" />
                         </StackPanel>
                         <StackPanel.InputBindings>
-                            <MouseBinding 
+                            <MouseBinding
                                 Command="{Binding ChangeTasksVisibility}" MouseAction="MiddleClick" />
-                            <!--<KeyBinding
-                                Command="{Binding ChangeTasksVisibility}" Key="C"/>-->
                         </StackPanel.InputBindings>
                     </StackPanel>
                 </DataTemplate>
@@ -123,6 +122,20 @@
                     <MenuItem Header="Remove" Command="{Binding RemoveList}" />
                 </ContextMenu>
             </ListView.ContextMenu>
+            <ListView.InputBindings>
+                <!--<KeyBinding
+                    Command="{Binding MoveUp}"
+                    Modifiers="Alt" Key="Up" />
+                <KeyBinding
+                    Command="{Binding MoveDown}"
+                    Modifiers="Alt" Key="Down" />-->
+                <KeyBinding
+                    Command="{Binding MoveUp}"
+                    Modifiers="Alt" Key="Q" />
+                <KeyBinding
+                    Command="{Binding MoveDown}"
+                    Modifiers="Alt" Key="A" />
+            </ListView.InputBindings>
         </ListView>
     </Grid>
 </Page>

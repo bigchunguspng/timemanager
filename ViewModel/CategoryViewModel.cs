@@ -31,8 +31,23 @@ namespace TimeManager.ViewModel
 
         #region commands
 
+        private RelayCommand _moveUp;
+        private RelayCommand _moveDown;
         private RelayCommand _newList;
         private RelayCommand _removeList;
+
+
+        public RelayCommand MoveUp => _moveUp ?? (_moveUp = new RelayCommand(o =>
+        {
+            int index = SelectedCategory.SelectedListIndex;
+            SelectedCategory.TaskLists.Move(index, index - 1);
+        }, o => TaskListSelected() && TaskListNotFirst()));
+
+        public RelayCommand MoveDown => _moveDown ?? (_moveDown = new RelayCommand(o =>
+        {
+            int index = SelectedCategory.SelectedListIndex;
+            SelectedCategory.TaskLists.Move(index, index + 1);
+        }, o => TaskListSelected() && TaskListNotLast()));
 
         public RelayCommand NewList => _newList ?? (_newList = new RelayCommand(
             o => SelectedCategory.TaskLists.Add(new List())));
@@ -44,6 +59,8 @@ namespace TimeManager.ViewModel
 
         private bool CategorySelected() => SelectedCategory != null;
         private bool TaskListSelected() => SelectedCategory?.SelectedTaskList != null;
+        private bool TaskListNotFirst() => SelectedCategory.SelectedListIndex > 0;
+        private bool TaskListNotLast() => SelectedCategory.SelectedListIndex < SelectedCategory.TaskLists.Count - 1;
 
         #endregion
         

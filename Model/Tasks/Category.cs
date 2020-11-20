@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
+using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Tasks
 {
@@ -38,8 +39,11 @@ namespace TimeManager.Model.Tasks
             {
                 _selectedTaskList = value;
                 OnPropertyChanged(nameof(SelectedTaskList));
+                if (SelectedTaskList != null)
+                    MainWindowViewModel.ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click - minimize");
             }
         }
+        [JsonIgnore] public int SelectedListIndex { get; set; } 
 
         #region file
         
@@ -68,7 +72,7 @@ namespace TimeManager.Model.Tasks
         {
             get
             {
-                int result = Int32.MaxValue;
+                int result = int.MaxValue;
                 foreach (var list in TaskLists)
                 foreach (var task in list.Tasks)
                     if (task.HasDeadline && task.Status == TaskStatus.Unstarted)

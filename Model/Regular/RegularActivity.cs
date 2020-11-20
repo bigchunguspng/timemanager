@@ -56,8 +56,8 @@ namespace TimeManager.Model.Regular
             Times.Add(date.Date);
             for (int i = Times.Count - 1; i > 0; i--)
             {
-                if (Times[i] >= Times[i - 1])
-                    break;
+                if (Times[i] >= Times[i - 1]) break;
+                
                 //swap them
                 DateTime temp = Times[i - 1];
                 Times[i - 1] = Times[i];
@@ -65,19 +65,22 @@ namespace TimeManager.Model.Regular
             }
             OnPropertyChanged(nameof(LastTimeInfo));
         }
-
-        //private int DaysSinceLastTime() => (DateTime.Today - LastTime.Date).Days;
-
+        
         public int HowManyTimes(Period period)
         {
             CalculateFirstAndLastTimes(period);
             return _last - _first;
         }
+        public int HowManyTimes() => Times.Count;
 
         public float AverageFrequency(Period period, int per = 7 /*days*/)
         {
-            CalculateFirstAndLastTimes(period);
-            float result = (_last - _first) / (period.Duration().Days / (float) per);
+            float result = HowManyTimes(period) / (period.Duration().Days / (float) per);
+            return (float) Math.Round(result, 2);
+        }
+        public float AverageFrequency(int per = 7 /*days*/)
+        {
+            float result = HowManyTimes() / (new Period(Times[0], DateTime.Today).Duration().Days / (float) per);
             return (float) Math.Round(result, 2);
         }
 
@@ -86,6 +89,8 @@ namespace TimeManager.Model.Regular
         {
             _first = -1;
             _last  = -1;
+
+            if (period.Start > Times[Times.Count - 1]) return;
 
             for (var i = 0; i < Times.Count; i++)
                 if (_first < 0)

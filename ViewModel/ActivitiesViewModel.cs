@@ -50,11 +50,11 @@ namespace TimeManager.ViewModel
             "Quantity",
             $"Last week: {SelectedActivity.HowManyTimes(new Period(7))}",
             $"Last 28 days: {SelectedActivity.HowManyTimes(new Period(28))}",
-            $"All time: {SelectedActivity.HowManyTimes(new Period(SelectedActivity.Times[0], DateTime.Today))}",
+            $"All time: {SelectedActivity.HowManyTimes()}",
             "Average frequency (per week)",
             $"Last week: {SelectedActivity.AverageFrequency(new Period(7))}",
             $"Last 28 days: {SelectedActivity.AverageFrequency(new Period(28))}",
-            $"All time: {SelectedActivity.AverageFrequency(new Period(SelectedActivity.Times[0], DateTime.Today))}"
+            $"All time: {SelectedActivity.AverageFrequency()}"
         };
 
         private void UpdateSelectedActivityInfo()

@@ -32,13 +32,16 @@
 
         <Grid DockPanel.Dock="Left" Width="200">
             <DockPanel>
-                <ListBox DockPanel.Dock="Bottom" BorderThickness="0,0,1,0"
-                         ItemsSource="{Binding DefaultSections}"
-                         SelectedItem="{Binding SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox
+                    DockPanel.Dock="Bottom" BorderThickness="0,0,1,0"
+                    ItemsSource="{Binding DefaultSections}"
+                    SelectedItem="{Binding SelectedSection}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding Title}" FontSize="18" Margin="0, 5,0,5" />
+                                <TextBlock
+                                    Text="{Binding Title}" FontSize="18"
+                                    Margin="0, 5,0,5" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -47,7 +50,7 @@
                 <ListBox
                     BorderThickness="0,1,1,1"
                     ItemsSource="{Binding Path=Categories}"
-                    SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}">
+                    SelectedItem="{Binding Path=SelectedCategory}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -55,20 +58,17 @@
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <!--<TextBlock 
-                            Text="{Binding Name}" 
-                            FontSize="18" 
-                            Margin="0, 5,0,5" >
-                        </TextBlock>-->
-                                <TextBox
+                                <!--<TextBlock
                                     Text="{Binding Name}"
                                     FontSize="18"
-                                    Margin="0, 5,0,5"
-                                    BorderThickness="0"
+                                    Margin="0, 5,0,5">
+                                </TextBlock>-->
+                                <TextBox
+                                    Text="{Binding Name}" FontSize="18"
+                                    Margin="0, 5,0,5" BorderThickness="0"
                                     Background="Transparent" />
                                 <Ellipse
-                                    Grid.Column="1"
-                                    Fill="SlateGray"
+                                    Grid.Column="1" Fill="SlateGray"
                                     Width="{Binding IndicatorSize}"
                                     Height="{Binding IndicatorSize}"
                                     Margin="{Binding IndicatorMargin}" />
@@ -77,16 +77,22 @@
                     </ListBox.ItemTemplate>
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="New category" Command="{Binding NewCategory}" />
-                            <MenuItem Header="Remove" Command="{Binding RemoveCategory}" />
-                            <MenuItem Header="Restore removed" Command="{Binding RestoreAll}" />
+                            <MenuItem
+                                Command="{Binding NewCategory}"
+                                Header="New category" />
+                            <MenuItem
+                                Command="{Binding RemoveCategory}"
+                                Header="Remove" />
+                            <MenuItem
+                                Command="{Binding RestoreAll}"
+                                Header="Restore removed" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                     <ListBox.InputBindings>
-                        <KeyBinding 
+                        <KeyBinding
                             Command="{Binding MoveUp}"
                             Modifiers="Alt" Key="Q" />
-                        <KeyBinding 
+                        <KeyBinding
                             Command="{Binding MoveDown}"
                             Modifiers="Alt" Key="A" />
                     </ListBox.InputBindings>
@@ -100,80 +106,9 @@
 
         <DockPanel.InputBindings>
             <KeyBinding
-                Modifiers="Control" Key="S"
-                Command="{Binding SaveAll}" />
+                Command="{Binding SaveAll}"
+                Modifiers="Control" Key="S" />
         </DockPanel.InputBindings>
 
     </DockPanel>
-
-    <!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <ListBox
-            ItemsSource="{Binding Path=Categories}"
-            SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        ~1~<TextBlock 
-                            Text="{Binding Name}" 
-                            FontSize="18" 
-                            Margin="0, 5,0,5" >
-                        </TextBlock>@1@
-                        <TextBox
-                            Text="{Binding Name}"
-                            FontSize="18"
-                            Margin="0, 5,0,5"
-                            BorderThickness="0"
-                            Background="Transparent" />
-                        <Ellipse
-                            Grid.Column="1"
-                            Fill="SlateGray"
-                            Width="{Binding IndicatorSize}"
-                            Height="{Binding IndicatorSize}"
-                            Margin="{Binding IndicatorMargin}" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="New category" Command="{Binding NewCategory}" />
-                    <MenuItem Header="Remove" Command="{Binding RemoveCategory}" />
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
-        <ListBox
-            Grid.Column="0"
-            ItemsSource="{Binding ExtraPages}"
-            SelectedItem="{Binding SelectedPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            VerticalAlignment="Bottom"
-            Margin="0,0,0,35">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="{Binding Title}" FontSize="18" Margin="0, 5,0,5" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Frame
-            Grid.Column="1"
-            Content="{Binding SelectedPage}"
-            NavigationUIVisibility="Hidden" />
-
-        <Button Grid.Column="0"
-                Width="50" Height="25"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5"
-                Command="{Binding SaveAll}">
-            Save All
-        </Button>
-    </Grid>-->
 </Window>

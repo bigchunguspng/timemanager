@@ -29,7 +29,7 @@ namespace TimeManager.Model.Tasks
             get
             {
                 if (TasksVisibility == Visibility.Visible)
-                    return string.Empty;
+                    return "";
                 else
                 {
                     string signs = "▢◉✔✘◼";
@@ -37,7 +37,7 @@ namespace TimeManager.Model.Tasks
                     foreach (var task in Tasks)
                         numberOfTasksWithStatus[(int) task.Status]++;
 
-                    string result = string.Empty;
+                    string result = "";
                     for (var i = 0; i < numberOfTasksWithStatus.Length; i++)
                         if (numberOfTasksWithStatus[i] > 0)
                             result = $"{result} {numberOfTasksWithStatus[i]}{signs[i]}";

@@ -19,9 +19,9 @@
 
         <StackPanel Grid.Column="0" Margin="5,0,0,0">
             <ListView
-                BorderThickness="1,1,1,0"
                 ItemsSource="{Binding SelectedActivityDates}"
-                SelectedIndex="{Binding IndexOfSelectedDate}">
+                SelectedIndex="{Binding IndexOfSelectedDate}"
+                BorderThickness="1,1,1,0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -31,7 +31,9 @@
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Remove date" Command="{Binding RemoveDate}" />
+                        <MenuItem
+                            Command="{Binding RemoveDate}"
+                            Header="Remove date" />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -47,47 +49,51 @@
                     <TreeViewItem Header="{Binding Analytics[7]}" />
                 </TreeViewItem>
             </TreeView>
-            <!--<TextBlock Text="{Binding SelectedRoutine.Info}"></TextBlock>-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <DatePicker
-                        SelectedDate="{Binding NewDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Width="95"
-                        Margin="0,6,0,0"
+                        SelectedDate="{Binding NewDate}"
+                        Width="95" Margin="0,6,0,0"
                         BorderThickness="0" />
                     <Button
-                        Width="35" Margin="0,5,5,0"
-                        Content="Add" Command="{Binding AddDate}" />
+                        Command="{Binding AddDate}"
+                        Content="Add"
+                        Width="35" Margin="0,5,5,0" />
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <ListBox
             Grid.Column="1"
-            BorderThickness="0"
             ItemsSource="{Binding Activities}"
-            SelectedItem="{Binding SelectedActivity}">
+            SelectedItem="{Binding SelectedActivity}"
+            BorderThickness="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
                             <TextBox
-                                Width="200" TextWrapping="Wrap" BorderThickness="0"
-                                Text="{Binding Description}" />
+                                Text="{Binding Description}"
+                                Width="200" BorderThickness="0"
+                                TextWrapping="Wrap" />
                             <TextBlock
-                                Margin="5,0,0,0"
-                                Text="{Binding LastTimeInfo}" />
+                                Text="{Binding LastTimeInfo}"
+                                Margin="5,0,0,0" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="New" Command="{Binding NewActivity}" />
-                    <MenuItem Header="Remove" Command="{Binding RemoveActivity}" />
+                    <MenuItem
+                        Command="{Binding NewActivity}"
+                        Header="New" />
+                    <MenuItem
+                        Command="{Binding RemoveActivity}"
+                        Header="Remove" />
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

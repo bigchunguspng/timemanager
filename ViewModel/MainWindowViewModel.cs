@@ -61,7 +61,8 @@ namespace TimeManager.ViewModel
                 if (CategorySelected)
                 {
                     SelectedSection = null;
-                    SelectedPage = new CategoryView(/*_selectedCategory*/);
+                    SelectedPage = new CategoryView();
+                    ShowInStatusBar("Alt+Q - move up | Alt+A - move down");
                 }
             }
         }
@@ -105,6 +106,8 @@ namespace TimeManager.ViewModel
 
         private RelayCommand _newCategory;
         private RelayCommand _removeCategory;
+        private RelayCommand _moveUp;
+        private RelayCommand _moveDown;
         private RelayCommand _saveAll;
         private RelayCommand _restoreAll;
 
@@ -119,6 +122,18 @@ namespace TimeManager.ViewModel
                 ShowInStatusBar($"{(count == 1 ? "One category was" : $"{count} categories were")} moved to recycle bin");
                 Categories.Remove(SelectedCategory);
             }, o => CategorySelected));
+        
+        public RelayCommand MoveUp => _moveUp ?? (_moveUp = new RelayCommand(o =>
+        {
+            int index = SelectedCategoryIndex;
+            Categories.Move(index, index - 1);
+        }, o => CategorySelected && CategoryNotFirst));
+
+        public RelayCommand MoveDown => _moveDown ?? (_moveDown = new RelayCommand(o =>
+        {
+            int index = SelectedCategoryIndex;
+            Categories.Move(index, index + 1);
+        }, o => CategorySelected && CategoryNotLast));
 
         public RelayCommand SaveAll => _saveAll ?? (_saveAll = new RelayCommand(o => Storage.SaveAll()));
 
@@ -132,6 +147,9 @@ namespace TimeManager.ViewModel
 
         private bool CategorySelected => SelectedCategory != null;
         private bool ThereAreCategoriesInRecycleBin => Storage.RecycleBin.Count > 0;
+        private bool CategoryNotFirst => SelectedCategoryIndex > 0;
+        private bool CategoryNotLast => SelectedCategoryIndex < Categories.Count - 1;
+        private int SelectedCategoryIndex => Categories.IndexOf(SelectedCategory);
 
         #endregion
     }

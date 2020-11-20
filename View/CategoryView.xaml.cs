@@ -4,10 +4,9 @@ namespace TimeManager.View
 {
     public partial class CategoryView : Page
     {
-        public CategoryView(/*Category selectedCategory*/)
+        public CategoryView()
         {
             InitializeComponent();
-            //DataContext = new CategoryViewModel(selectedCategory);
         }
     }
 }

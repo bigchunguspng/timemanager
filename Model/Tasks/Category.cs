@@ -39,11 +39,9 @@ namespace TimeManager.Model.Tasks
             {
                 _selectedTaskList = value;
                 OnPropertyChanged(nameof(SelectedTaskList));
-                if (SelectedTaskList != null)
-                    MainWindowViewModel.ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click - minimize");
+                SelectedTaskList.UpdateStatusBar();
             }
         }
-        [JsonIgnore] public int SelectedListIndex { get; set; } 
 
         #region file
         

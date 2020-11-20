@@ -10,7 +10,7 @@ namespace TimeManager.ViewModel
     {
         private Category _selectedCategory;
 
-        public CategoryViewModel(/*Category selectedCategory*/)
+        public CategoryViewModel()
         {
             SelectedCategory = Storage.SelectedCategory;
         }
@@ -21,7 +21,7 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
-                if (CategorySelected())
+                if (CategorySelected)
                     InitializeTimer();
                 else
                     _timer?.Stop();
@@ -39,28 +39,29 @@ namespace TimeManager.ViewModel
 
         public RelayCommand MoveUp => _moveUp ?? (_moveUp = new RelayCommand(o =>
         {
-            int index = SelectedCategory.SelectedListIndex;
+            int index = SelectedTaskListIndex;
             SelectedCategory.TaskLists.Move(index, index - 1);
-        }, o => TaskListSelected() && TaskListNotFirst()));
+        }, o => TaskListSelected && TaskListNotFirst));
 
         public RelayCommand MoveDown => _moveDown ?? (_moveDown = new RelayCommand(o =>
         {
-            int index = SelectedCategory.SelectedListIndex;
+            int index = SelectedTaskListIndex;
             SelectedCategory.TaskLists.Move(index, index + 1);
-        }, o => TaskListSelected() && TaskListNotLast()));
+        }, o => TaskListSelected && TaskListNotLast));
 
         public RelayCommand NewList => _newList ?? (_newList = new RelayCommand(
             o => SelectedCategory.TaskLists.Add(new List())));
 
         public RelayCommand RemoveList => _removeList ?? (_removeList = new RelayCommand(
             o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),
-            o => TaskListSelected()));
+            o => TaskListSelected));
         
 
-        private bool CategorySelected() => SelectedCategory != null;
-        private bool TaskListSelected() => SelectedCategory?.SelectedTaskList != null;
-        private bool TaskListNotFirst() => SelectedCategory.SelectedListIndex > 0;
-        private bool TaskListNotLast() => SelectedCategory.SelectedListIndex < SelectedCategory.TaskLists.Count - 1;
+        private bool CategorySelected => SelectedCategory != null;
+        private bool TaskListSelected => SelectedCategory?.SelectedTaskList != null;
+        private bool TaskListNotFirst => SelectedTaskListIndex > 0;
+        private bool TaskListNotLast => SelectedTaskListIndex < SelectedCategory.TaskLists.Count - 1;
+        private int SelectedTaskListIndex => SelectedCategory.TaskLists.IndexOf(SelectedCategory.SelectedTaskList);
 
         #endregion
         

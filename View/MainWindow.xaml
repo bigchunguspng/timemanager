@@ -82,6 +82,14 @@
                             <MenuItem Header="Restore removed" Command="{Binding RestoreAll}" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
+                    <ListBox.InputBindings>
+                        <KeyBinding 
+                            Command="{Binding MoveUp}"
+                            Modifiers="Alt" Key="Q" />
+                        <KeyBinding 
+                            Command="{Binding MoveDown}"
+                            Modifiers="Alt" Key="A" />
+                    </ListBox.InputBindings>
                 </ListBox>
             </DockPanel>
         </Grid>

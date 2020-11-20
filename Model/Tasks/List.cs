@@ -76,6 +76,14 @@ namespace TimeManager.Model.Tasks
             }
         }
 
+        public void UpdateStatusBar()
+        {
+            MainWindowViewModel.ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click - " +
+                                                (TasksVisibility == Visibility.Visible
+                                                    ? "minimize"
+                                                    : "maximize"));
+        }
+
         #region commands
         
         private RelayCommand _changeTasksVisibility;
@@ -88,6 +96,7 @@ namespace TimeManager.Model.Tasks
                 TasksVisibility = TasksVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 OnPropertyChanged(nameof(TasksVisibility));
                 OnPropertyChanged(nameof(TasksInfo));
+                UpdateStatusBar();
             }));
 
         [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(o =>

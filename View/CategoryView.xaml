@@ -15,7 +15,6 @@
         <ListView
             ItemsSource="{Binding SelectedCategory.TaskLists}"
             SelectedItem="{Binding SelectedCategory.SelectedTaskList, Mode=TwoWay}"
-            SelectedIndex="{Binding SelectedCategory.SelectedListIndex}"
             BorderThickness="0"
             ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>

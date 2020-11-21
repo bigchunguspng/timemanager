@@ -74,15 +74,40 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox
-                                Text="{Binding Description}"
-                                Width="200" BorderThickness="0"
-                                TextWrapping="Wrap" />
-                            <TextBlock
-                                Text="{Binding LastTimeInfo}"
-                                Margin="5,0,0,0" />
-                        </StackPanel>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Text="{Binding Description}"
+                            Margin="1" TextWrapping="Wrap">
+                            <TextBlock.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                    MouseAction="LeftDoubleClick" />
+                                <MouseBinding
+                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                    MouseAction="MiddleClick" />
+                            </TextBlock.InputBindings>
+                        </TextBlock>
+                        <TextBox
+                            Grid.Column="0"
+                            Visibility="{Binding Renamer.RenameMode}"
+                            Text="{Binding Description}"
+                            TextWrapping="Wrap">
+                            <TextBox.InputBindings>
+                                <KeyBinding
+                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                    Key="Enter" />
+                                <KeyBinding
+                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                    Key="Escape" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="{Binding LastTimeInfo}"
+                            Margin="5,0,0,0" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

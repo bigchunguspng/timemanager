@@ -20,17 +20,39 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox
-                                HorizontalAlignment="Left"
-                                Text="{Binding Name}" TextWrapping="Wrap"
-                                Width="275" Margin="1,0,0,0"
-                                BorderThickness="0" Background="Transparent" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="276" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
                             <TextBlock
+                                Text="{Binding Name}" TextWrapping="Wrap"
+                                Margin="1">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding
+                                        Command="{Binding Renamer.ToggleRenameMode}"
+                                        MouseAction="LeftDoubleClick" />
+                                </TextBlock.InputBindings>
+                            </TextBlock>
+                            <TextBox
+                                Grid.Column="0"
+                                Visibility="{Binding Renamer.RenameMode}"
+                                Text="{Binding Name}" TextWrapping="Wrap">
+                                <TextBox.InputBindings>
+                                    <KeyBinding
+                                        Command="{Binding Renamer.ToggleRenameMode}"
+                                        Key="Enter" />
+                                    <KeyBinding
+                                        Command="{Binding Renamer.ToggleRenameMode}"
+                                        Key="Escape" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <TextBlock
+                                Grid.Column="1"
                                 Text="{Binding TasksInfo}" TextAlignment="Right"
                                 MinWidth="96" Margin="1,0,0,0"
                                 Background="Transparent" />
-                        </StackPanel>
+                        </Grid>
                         <ListView
                             ItemsSource="{Binding Tasks}"
                             SelectedItem="{Binding SelectedTask}"
@@ -106,7 +128,7 @@
                         </StackPanel>
                         <StackPanel.InputBindings>
                             <MouseBinding
-                                Command="{Binding ChangeTasksVisibility}"
+                                Command="{Binding ToggleTasksVisibility}"
                                 MouseAction="MiddleClick" />
                         </StackPanel.InputBindings>
                     </StackPanel>

@@ -10,6 +10,7 @@ namespace TimeManager.Model.Regular
 {
     public class RegularActivity : NotifyPropertyChanged
     {
+        private string _description;
         private int _first;
         private int _last;
 
@@ -18,6 +19,7 @@ namespace TimeManager.Model.Regular
         public RegularActivity()
         {
             Times = new ObservableCollection<DateTime>();
+            Renamer = new RenameControl();
         }
         public RegularActivity(string description) : this()
         {
@@ -33,10 +35,19 @@ namespace TimeManager.Model.Regular
         }
 
         #endregion
-        
-        [JsonProperty] public string Description { get; set; }
+
+        [JsonProperty] public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged();
+            }
+        }
         [JsonProperty] public ObservableCollection<DateTime> Times { get; set; }
 
+        [JsonIgnore] public RenameControl Renamer { get; set; }
         [JsonIgnore] public string LastTimeInfo => DateExtensions.DaysAgo(LastTime);
         [JsonIgnore] private DateTime LastTime => Times[Times.Count - 1];
         
@@ -65,7 +76,9 @@ namespace TimeManager.Model.Regular
             }
             OnPropertyChanged(nameof(LastTimeInfo));
         }
-        
+
+        #region analytics
+
         public int HowManyTimes(Period period)
         {
             CalculateFirstAndLastTimes(period);
@@ -104,5 +117,7 @@ namespace TimeManager.Model.Regular
             if (_first < 0) _first = 0;
             if (_last < 0) _last = Times.Count;
         }
+
+        #endregion
     }
 }

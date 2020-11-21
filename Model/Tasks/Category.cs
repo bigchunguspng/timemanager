@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
-using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Tasks
 {
@@ -17,6 +16,7 @@ namespace TimeManager.Model.Tasks
         {
             Name = name;
             TaskLists = new ObservableCollection<List>();
+            Renamer = new RenameControl();
             ID = Hash.UniqueHash(FolderPath);
         }
 
@@ -31,6 +31,7 @@ namespace TimeManager.Model.Tasks
         }
         [JsonProperty] private string ID { get; set; }
         
+        [JsonIgnore] public RenameControl Renamer { get; }
         [JsonIgnore] public ObservableCollection<List> TaskLists { get; private set; }
         [JsonIgnore] public List SelectedTaskList
         {

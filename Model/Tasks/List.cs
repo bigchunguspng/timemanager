@@ -9,6 +9,7 @@ namespace TimeManager.Model.Tasks
 {
     public class List : NotifyPropertyChanged
     {
+        private string _name;
         private Task _selectedTask;
         private string _newTaskDescription;
         private DateTime _newTaskDeadline;
@@ -18,9 +19,18 @@ namespace TimeManager.Model.Tasks
             Name = "New List";
             Tasks = new ObservableCollection<Task>();
             NewTaskDeadline = DateTime.Today;
+            Renamer = new RenameControl();
         }
 
-        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
         [JsonProperty] public ObservableCollection<Task> Tasks { get; set; }
         
         [JsonProperty] public Visibility TasksVisibility { get; set; }
@@ -47,6 +57,7 @@ namespace TimeManager.Model.Tasks
             }
         }
 
+        [JsonIgnore] public RenameControl Renamer { get; set; }
         [JsonIgnore] public Task SelectedTask
         {
             get => _selectedTask;
@@ -54,7 +65,7 @@ namespace TimeManager.Model.Tasks
             {
                 _selectedTask = value;
                 OnPropertyChanged(nameof(SelectedTask));
-                MainWindowViewModel.ShowInStatusBar("Delete - remove task");
+                MainWindowViewModel.ShowInStatusBar("Delete - delete task");
             }
         }
         [JsonIgnore] public string NewTaskDescription
@@ -76,28 +87,28 @@ namespace TimeManager.Model.Tasks
             }
         }
 
-        public void UpdateStatusBar()
-        {
-            MainWindowViewModel.ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click - " +
-                                                (TasksVisibility == Visibility.Visible
-                                                    ? "minimize"
-                                                    : "maximize"));
-        }
-
         #region commands
         
-        private RelayCommand _changeTasksVisibility;
+        private RelayCommand _toggleTasksVisibility;
         private RelayCommand _addTask;
         private RelayCommand _removeTask;
 
-        [JsonIgnore] public RelayCommand ChangeTasksVisibility =>
-            _changeTasksVisibility ?? (_changeTasksVisibility = new RelayCommand(o =>
+        [JsonIgnore] public RelayCommand ToggleTasksVisibility =>
+            _toggleTasksVisibility ?? (_toggleTasksVisibility = new RelayCommand(o =>
             {
                 TasksVisibility = TasksVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 OnPropertyChanged(nameof(TasksVisibility));
                 OnPropertyChanged(nameof(TasksInfo));
                 UpdateStatusBar();
             }));
+        public void UpdateStatusBar()
+        {
+            MainWindowViewModel.ShowInStatusBar(
+                "Alt+Q - move up | Alt+A - move down | Middle click - " +
+                (TasksVisibility == Visibility.Visible
+                    ? "minimize"
+                    : "maximize"));
+        }
 
         [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(o =>
         {

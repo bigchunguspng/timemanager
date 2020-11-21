@@ -45,6 +45,7 @@ namespace TimeManager.ViewModel
                 {
                     SelectedCategory = null;
                     SelectedPage = _selectedSection;
+                    ShowInStatusBar("");
                 }
             }
         }
@@ -62,7 +63,7 @@ namespace TimeManager.ViewModel
                 {
                     SelectedSection = null;
                     SelectedPage = new CategoryView();
-                    ShowInStatusBar("Alt+Q - move up | Alt+A - move down");
+                    ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click or Double click - rename");
                 }
             }
         }

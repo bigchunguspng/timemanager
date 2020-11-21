@@ -58,15 +58,33 @@
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <!--<TextBlock
-                                    Text="{Binding Name}"
-                                    FontSize="18"
-                                    Margin="0, 5,0,5">
-                                </TextBlock>-->
-                                <TextBox
+                                <TextBlock
                                     Text="{Binding Name}" FontSize="18"
-                                    Margin="0, 5,0,5" BorderThickness="0"
-                                    Background="Transparent" />
+                                    Margin="3, 5,0,5"
+                                    TextTrimming="CharacterEllipsis" >
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding
+                                            Command="{Binding Renamer.ToggleRenameMode}"
+                                            MouseAction="LeftDoubleClick" />
+                                        <MouseBinding
+                                            Command="{Binding Renamer.ToggleRenameMode}"
+                                            MouseAction="MiddleClick" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="0"
+                                    Visibility="{Binding Renamer.RenameMode}"
+                                    Text="{Binding Name}" FontSize="18"
+                                    Margin="0, 4,0,4">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding
+                                            Command="{Binding Renamer.ToggleRenameMode}"
+                                            Key="Enter" />
+                                        <KeyBinding
+                                            Command="{Binding Renamer.ToggleRenameMode}"
+                                            Key="Escape" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
                                 <Ellipse
                                     Grid.Column="1" Fill="SlateGray"
                                     Width="{Binding IndicatorSize}"

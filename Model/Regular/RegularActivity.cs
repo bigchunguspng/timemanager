@@ -19,7 +19,7 @@ namespace TimeManager.Model.Regular
         public RegularActivity()
         {
             Times = new ObservableCollection<DateTime>();
-            Renamer = new RenameControl();
+            Renamer = new Renamer();
         }
         public RegularActivity(string description) : this()
         {
@@ -27,11 +27,11 @@ namespace TimeManager.Model.Regular
         }
         public RegularActivity(Task task) : this(task.Description)
         {
-            Times.Add(task.Performance.ToDateTime());
+            Times.Add(task.Performance.StartDate());
         }
         public RegularActivity(Event @event) : this(@event.Description)
         {
-            Times.Add(@event.Period.ToDateTime());
+            Times.Add(@event.Period.StartDate());
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace TimeManager.Model.Regular
         }
         [JsonProperty] public ObservableCollection<DateTime> Times { get; set; }
 
-        [JsonIgnore] public RenameControl Renamer { get; set; }
+        [JsonIgnore] public Renamer Renamer { get; set; }
         [JsonIgnore] public string LastTimeInfo => DateExtensions.DaysAgo(LastTime);
         [JsonIgnore] private DateTime LastTime => Times[Times.Count - 1];
         

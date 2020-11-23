@@ -19,7 +19,7 @@ namespace TimeManager.Model.Tasks
             Name = "New List";
             Tasks = new ObservableCollection<Task>();
             NewTaskDeadline = DateTime.Today;
-            Renamer = new RenameControl();
+            Renamer = new Renamer();
         }
 
         [JsonProperty] public string Name
@@ -57,7 +57,7 @@ namespace TimeManager.Model.Tasks
             }
         }
 
-        [JsonIgnore] public RenameControl Renamer { get; set; }
+        [JsonIgnore] public Renamer Renamer { get; set; }
         [JsonIgnore] public Task SelectedTask
         {
             get => _selectedTask;

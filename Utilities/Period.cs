@@ -11,7 +11,7 @@ namespace TimeManager.Utilities
         public Period()
         {
             Start = DateTime.Now;
-            //End = DateTime.MinValue;
+            //End = DateTime.MinValue; (default value)
         }
         public Period(DateTime day)
         {
@@ -35,22 +35,23 @@ namespace TimeManager.Utilities
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
-        [JsonIgnore] private bool Finished => End > Start;
+        [JsonIgnore] private bool IsFinished => End > Start;
         
         public void Finish() => End = DateTime.Now;
 
-        //public TimeSpan Duration() => (Finished ? End : DateTime.Now ) - Start;
+        //public TimeSpan Duration() => (IsFinished ? End : DateTime.Now ) - Start;
         public TimeSpan Duration() => End - Start;
         public TimeSpan TimeLeft() => End - DateTime.Now;
         public TimeSpan TimePassed() => DateTime.Now - Start;
 
-        public DateTime ToDateTime() => Start.Date;
+        public DateTime StartDate() => Start.Date;
+        //public DateTime EndDate() => End.Date;
 
         public override string ToString()
         {
             return Start.Date == End.Date
                 ? $"{DateOnly(Start)} {Start.TimeOfDay:%h\\:mm} - {End.TimeOfDay:%h\\:mm}"
-                : $"{DateAndTime(Start)} - {(Finished ? DateAndTime(End) : "now")}";
+                : $"{DateAndTime(Start)} - {(IsFinished ? DateAndTime(End) : "now")}";
         }
     }
 }

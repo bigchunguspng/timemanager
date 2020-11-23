@@ -4,6 +4,7 @@ using static TimeManager.Utilities.DateExtensions;
 
 namespace TimeManager.Utilities
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Period
     {
         #region constructors
@@ -32,10 +33,10 @@ namespace TimeManager.Utilities
 
         #endregion
 
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        [JsonProperty] public DateTime Start { get; set; }
+        [JsonProperty] public DateTime End { get; set; }
 
-        [JsonIgnore] private bool IsFinished => End > Start;
+        private bool IsFinished => End > Start;
         
         public void Finish() => End = DateTime.Now;
 
@@ -45,7 +46,7 @@ namespace TimeManager.Utilities
         public TimeSpan TimePassed() => DateTime.Now - Start;
 
         public DateTime StartDate() => Start.Date;
-        //public DateTime EndDate() => End.Date;
+        public DateTime EndDate() => End.Date;
 
         public override string ToString()
         {

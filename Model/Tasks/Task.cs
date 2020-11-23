@@ -7,6 +7,7 @@ using static TimeManager.Utilities.DateExtensions;
 
 namespace TimeManager.Model.Tasks
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Task : NotifyPropertyChanged
     {
         private bool _hasDeadline;
@@ -64,7 +65,7 @@ namespace TimeManager.Model.Tasks
         private RelayCommand _changeTaskStatus;
         private RelayCommand _clearTask;
 
-        [JsonIgnore] public string ButtonContent
+        public string ButtonContent
         {
             get
             {
@@ -87,7 +88,7 @@ namespace TimeManager.Model.Tasks
         }
         private void UpdateButtonContent() => OnPropertyChanged(nameof(ButtonContent));
 
-        [JsonIgnore] public RelayCommand ChangeTaskStatus
+        public RelayCommand ChangeTaskStatus
             => _changeTaskStatus ?? (_changeTaskStatus = new RelayCommand(o =>
             {
                 if (Keyboard.IsKeyDown(Key.LeftAlt) && Status != TaskStatus.Completed && Status != TaskStatus.Failed)
@@ -160,7 +161,7 @@ namespace TimeManager.Model.Tasks
             if (!HasDeadline) Schedule.Finish();
         }
 
-        [JsonIgnore] public RelayCommand ClearTask => _clearTask ?? (_clearTask = new RelayCommand(o =>
+        public RelayCommand ClearTask => _clearTask ?? (_clearTask = new RelayCommand(o =>
         {
             //todo: user verification dialog
 
@@ -178,9 +179,9 @@ namespace TimeManager.Model.Tasks
         private RelayCommand _setDeadline;
         private RelayCommand _clearDeadline;
 
-        [JsonIgnore] public DateTime NewDeadline { get; set; }
+        public DateTime NewDeadline { get; set; }
 
-        [JsonIgnore] public RelayCommand SetDeadline =>
+        public RelayCommand SetDeadline =>
             _setDeadline ?? (_setDeadline = new RelayCommand(o => SetDeadline_Execute(NewDeadline)));
 
         private void SetDeadline_Execute(DateTime deadline)
@@ -192,7 +193,7 @@ namespace TimeManager.Model.Tasks
             UpdateToolTip();
         }
 
-        [JsonIgnore] public RelayCommand ClearDeadline =>
+        public RelayCommand ClearDeadline =>
             _clearDeadline ?? (_clearDeadline = new RelayCommand(o =>
             {
                 Schedule.End = DateTime.MinValue;
@@ -205,7 +206,7 @@ namespace TimeManager.Model.Tasks
 
         #region time info
 
-        [JsonIgnore] public string TimeInfo
+        public string TimeInfo
         {
             get
             {
@@ -229,7 +230,7 @@ namespace TimeManager.Model.Tasks
         }
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
-        [JsonIgnore] public string ToolTipText =>
+        public string ToolTipText =>
             $"Created: {DateAndTime(Schedule.Start)}" +
             $"{(Performance == null ? $"{(!HasDeadline && Status != TaskStatus.Performed && Status != TaskStatus.Unstarted ? $"\n{Status}: {DateAndTime(Schedule.End)}" : "")}" : $"\nPerformance: {Performance}")}" +
             $"{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";

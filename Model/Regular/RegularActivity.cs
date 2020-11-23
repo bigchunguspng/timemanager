@@ -8,6 +8,7 @@ using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Regular
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class RegularActivity : NotifyPropertyChanged
     {
         private string _description;
@@ -29,9 +30,9 @@ namespace TimeManager.Model.Regular
         {
             Times.Add(task.Performance.StartDate());
         }
-        public RegularActivity(Event @event) : this(@event.Description)
+        public RegularActivity(ShortEvent shortEvent) : this(shortEvent.Description)
         {
-            Times.Add(@event.Period.StartDate());
+            Times.Add(shortEvent.Date);
         }
 
         #endregion
@@ -47,11 +48,10 @@ namespace TimeManager.Model.Regular
         }
         [JsonProperty] public ObservableCollection<DateTime> Times { get; set; }
 
-        [JsonIgnore] public Renamer Renamer { get; set; }
-        [JsonIgnore] public string LastTimeInfo => DateExtensions.DaysAgo(LastTime);
-        [JsonIgnore] private DateTime LastTime => Times[Times.Count - 1];
-        
-        
+        public Renamer Renamer { get; set; }
+        public string LastTimeInfo => DateExtensions.DaysAgo(LastTime);
+        private DateTime LastTime => Times[Times.Count - 1];
+
         public void AddDate(DateTime date)
         {
             if (date.Date > DateTime.Today)

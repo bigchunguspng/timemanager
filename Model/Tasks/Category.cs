@@ -7,6 +7,7 @@ using TimeManager.Utilities;
 
 namespace TimeManager.Model.Tasks
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Category : NotifyPropertyChanged
     {
         private string _name;
@@ -31,9 +32,9 @@ namespace TimeManager.Model.Tasks
         }
         [JsonProperty] private string ID { get; set; }
         
-        [JsonIgnore] public Renamer Renamer { get; }
-        [JsonIgnore] public ObservableCollection<List> TaskLists { get; private set; }
-        [JsonIgnore] public List SelectedTaskList
+        public Renamer Renamer { get; }
+        public ObservableCollection<List> TaskLists { get; private set; }
+        public List SelectedTaskList
         {
             get => _selectedTaskList;
             set
@@ -48,8 +49,8 @@ namespace TimeManager.Model.Tasks
         
         private static readonly string FolderPath = $@"{Storage.Path}\Categories";
 
-        [JsonIgnore] private string Path => $@"{FolderPath}\{ID}.json";
-        [JsonIgnore] private FileIO CategoryIO => new FileIO(Path);
+        private string Path => $@"{FolderPath}\{ID}.json";
+        private FileIO CategoryIO => new FileIO(Path);
 
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();
         public void SaveTaskLists() => CategoryIO.SaveData(TaskLists);
@@ -63,10 +64,10 @@ namespace TimeManager.Model.Tasks
         private readonly int _maxLeftMargin = 48;
         private readonly int _maxTopMargin = 8;
 
-        [JsonIgnore] public Thickness IndicatorMargin =>
+        public Thickness IndicatorMargin =>
             new Thickness(_maxLeftMargin - IndicatorSize / 2, _maxTopMargin - IndicatorSize / 2, 0, 0);
 
-        [JsonIgnore] public float IndicatorSize => _maxIndicatorSize / (float) MinimumDaysBeforeDeadline;
+        public float IndicatorSize => _maxIndicatorSize / (float) MinimumDaysBeforeDeadline;
         private int MinimumDaysBeforeDeadline
         {
             get

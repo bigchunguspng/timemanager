@@ -7,6 +7,7 @@ using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Tasks
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class List : NotifyPropertyChanged
     {
         private string _name;
@@ -34,7 +35,7 @@ namespace TimeManager.Model.Tasks
         [JsonProperty] public ObservableCollection<Task> Tasks { get; set; }
         
         [JsonProperty] public Visibility TasksVisibility { get; set; }
-        [JsonIgnore] public string TasksInfo
+        public string TasksInfo
         {
             get
             {
@@ -57,8 +58,8 @@ namespace TimeManager.Model.Tasks
             }
         }
 
-        [JsonIgnore] public Renamer Renamer { get; set; }
-        [JsonIgnore] public Task SelectedTask
+        public Renamer Renamer { get; set; }
+        public Task SelectedTask
         {
             get => _selectedTask;
             set
@@ -68,7 +69,7 @@ namespace TimeManager.Model.Tasks
                 MainWindowViewModel.ShowInStatusBar("Delete - delete task");
             }
         }
-        [JsonIgnore] public string NewTaskDescription
+        public string NewTaskDescription
         {
             get => _newTaskDescription;
             set
@@ -77,7 +78,7 @@ namespace TimeManager.Model.Tasks
                 OnPropertyChanged(nameof(NewTaskDescription));
             }
         }
-        [JsonIgnore] public DateTime NewTaskDeadline
+        public DateTime NewTaskDeadline
         {
             get => _newTaskDeadline;
             set
@@ -93,7 +94,7 @@ namespace TimeManager.Model.Tasks
         private RelayCommand _addTask;
         private RelayCommand _removeTask;
 
-        [JsonIgnore] public RelayCommand ToggleTasksVisibility =>
+        public RelayCommand ToggleTasksVisibility =>
             _toggleTasksVisibility ?? (_toggleTasksVisibility = new RelayCommand(o =>
             {
                 TasksVisibility = TasksVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
@@ -110,7 +111,7 @@ namespace TimeManager.Model.Tasks
                     : "maximize"));
         }
 
-        [JsonIgnore] public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(o =>
+        public RelayCommand AddTask => _addTask ?? (_addTask = new RelayCommand(o =>
         {
             if (NewTaskDeadline > DateTime.Now)
             {
@@ -123,7 +124,7 @@ namespace TimeManager.Model.Tasks
             NewTaskDescription = string.Empty;
         }));
 
-        [JsonIgnore] public RelayCommand RemoveTask =>
+        public RelayCommand RemoveTask =>
             _removeTask ?? (_removeTask = new RelayCommand(o => Tasks.Remove(SelectedTask)));
 
         #endregion

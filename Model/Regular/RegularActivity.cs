@@ -8,6 +8,7 @@ using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Regular
 {
+    /// <summary> Action that is performed regularly, and it's interesting to know how often. </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class RegularActivity : NotifyPropertyChanged
     {
@@ -26,13 +27,13 @@ namespace TimeManager.Model.Regular
         {
             Description = description;
         }
-        public RegularActivity(Task task) : this(task.Description)
+        public RegularActivity(Task task) : this(task.Description) // todo task contex menu item
         {
             Times.Add(task.Performance.StartDate());
         }
-        public RegularActivity(ShortEvent shortEvent) : this(shortEvent.Description)
+        public RegularActivity(Event @event) : this(@event.Description)
         {
-            Times.Add(shortEvent.Date);
+            Times.Add(@event.Period.Start);
         }
 
         #endregion

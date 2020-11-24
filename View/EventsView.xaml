@@ -2,10 +2,149 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vm="clr-namespace:TimeManager.ViewModel"
+      xmlns:m="clr-namespace:TimeManager.Model.Events"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
       Title="Events">
-    <Grid>
-        <TextBlock Text="ERROR: section is missing pls install newer version if it exists)0" />
-    </Grid>
+    
+    <Page.DataContext>
+        <vm:EventsViewModel />
+    </Page.DataContext>
+    
+    
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <DatePicker
+                    SelectedDate="{Binding Date1}"
+                    Width="95" Margin="0,6,0,0"
+                    BorderThickness="0" />
+                <DatePicker
+                    SelectedDate="{Binding Date2}"
+                    Width="95" Margin="0,6,0,0"
+                    BorderThickness="0" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Button
+                    Command="{Binding AddShortEvent}"
+                    Content="Day event"
+                    Margin="0,5,5,0" />
+                <Button
+                    Command="{Binding AddLongEvent}"
+                    Content="Longer event"
+                    Margin="0,5,5,0" />
+                <Button
+                    Command="{Binding AddUnfinishedEvent}"
+                    Content="Unfinifhed period"
+                    Margin="0,5,5,0" />
+            </StackPanel>
+        </Grid>
+        
+        <TextBox DockPanel.Dock="Bottom" Text="{Binding NewEventDescription}"/>
+
+        <ListBox 
+            ItemsSource="{Binding Topics}"
+            SelectedItem="{Binding SelectedTopic}"
+            BorderThickness="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock 
+                                Text="{Binding Name}"
+                                Margin="3,1,1,1">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding
+                                        Command="{Binding Renamer.ToggleRenameMode}"
+                                        MouseAction="LeftDoubleClick" />
+                                </TextBlock.InputBindings>
+                            </TextBlock>
+                            <TextBox 
+                                Visibility="{Binding Renamer.RenameMode}"
+                                Text="{Binding Name}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding
+                                        Command="{Binding Renamer.ToggleRenameMode}"
+                                        Key="Enter" />
+                                    <KeyBinding
+                                        Command="{Binding Renamer.ToggleRenameMode}"
+                                        Key="Escape" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <Grid.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding ToggleContentVisibility}"
+                                    MouseAction="MiddleClick" />
+                            </Grid.InputBindings>
+                        </Grid>
+                        <!--<ListBox
+                            ItemsSource="{Binding SubTopics}"
+                            SelectedItem="{Binding SelectedSubtopic}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding Name}"></Button>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>-->
+                        <ListBox
+                            Visibility="{Binding ContentVisibility}"
+                            ItemsSource="{Binding Events}"
+                            SelectedItem="{Binding SelectedEvent}"
+                            BorderThickness="0" Background="Transparent">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock 
+                                            Text="{Binding Description}" 
+                                            Margin="3,1,1,1">
+                                            <TextBlock.InputBindings>
+                                                <MouseBinding
+                                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                                    MouseAction="LeftDoubleClick" />
+                                            </TextBlock.InputBindings>
+                                        </TextBlock>
+                                        <TextBox 
+                                            Grid.Column="0" 
+                                            Visibility="{Binding Renamer.RenameMode}"
+                                            Text="{Binding Description}">
+                                            <TextBox.InputBindings>
+                                                <KeyBinding
+                                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                                    Key="Enter" />
+                                                <KeyBinding
+                                                    Command="{Binding Renamer.ToggleRenameMode}"
+                                                    Key="Escape" />
+                                            </TextBox.InputBindings>
+                                        </TextBox>
+                                        <TextBlock 
+                                            Grid.Column="1" 
+                                            Text="{Binding TimeInfo}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem 
+                        Command="{Binding NewTopic}"
+                        Header="New topic"/>
+                    <MenuItem 
+                        Command="{Binding RemoveTopic}"
+                        Header="Remove topic"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+    </DockPanel>
 </Page>

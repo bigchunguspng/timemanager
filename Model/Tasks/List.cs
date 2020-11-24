@@ -7,6 +7,7 @@ using TimeManager.ViewModel;
 
 namespace TimeManager.Model.Tasks
 {
+    /// <summary> List of tasks; to‐do list. </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class List : NotifyPropertyChanged
     {
@@ -34,12 +35,12 @@ namespace TimeManager.Model.Tasks
         }
         [JsonProperty] public ObservableCollection<Task> Tasks { get; set; }
         
-        [JsonProperty] public Visibility TasksVisibility { get; set; }
+        [JsonProperty] public Visibility ContentVisibility { get; set; }
         public string TasksInfo
         {
             get
             {
-                if (TasksVisibility == Visibility.Visible)
+                if (ContentVisibility == Visibility.Visible)
                     return "";
                 else
                 {
@@ -90,15 +91,15 @@ namespace TimeManager.Model.Tasks
 
         #region commands
         
-        private RelayCommand _toggleTasksVisibility;
+        private RelayCommand _toggleContentVisibility;
         private RelayCommand _addTask;
         private RelayCommand _removeTask;
 
-        public RelayCommand ToggleTasksVisibility =>
-            _toggleTasksVisibility ?? (_toggleTasksVisibility = new RelayCommand(o =>
+        public RelayCommand ToggleContentVisibility =>
+            _toggleContentVisibility ?? (_toggleContentVisibility = new RelayCommand(o =>
             {
-                TasksVisibility = TasksVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                OnPropertyChanged(nameof(TasksVisibility));
+                ContentVisibility = ContentVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                OnPropertyChanged(nameof(ContentVisibility));
                 OnPropertyChanged(nameof(TasksInfo));
                 UpdateStatusBar();
             }));
@@ -106,7 +107,7 @@ namespace TimeManager.Model.Tasks
         {
             MainWindowViewModel.ShowInStatusBar(
                 "Alt+Q - move up | Alt+A - move down | Middle click - " +
-                (TasksVisibility == Visibility.Visible
+                (ContentVisibility == Visibility.Visible
                     ? "minimize"
                     : "maximize"));
         }

@@ -7,6 +7,7 @@ using static TimeManager.Utilities.DateExtensions;
 
 namespace TimeManager.Model.Tasks
 {
+    /// <summary> Activity that needs to be completed by a deadline or just at any time. </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class Task : NotifyPropertyChanged
     {

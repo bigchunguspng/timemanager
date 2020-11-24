@@ -58,15 +58,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\Events\IEvent.cs" />
-    <Compile Include="Model\Events\ShortEvent.cs" />
     <Compile Include="Model\Events\Topic.cs" />
     <Compile Include="Model\Storage.cs" />
     <Compile Include="Model\Tasks\Category.cs" />
     <Compile Include="Model\Tasks\List.cs" />
     <Compile Include="Model\Tasks\Task.cs" />
     <Compile Include="Model\Tasks\TaskStatus.cs" />
-    <Compile Include="Model\Events\LongEvent.cs" />
+    <Compile Include="Model\Events\Event.cs" />
     <Compile Include="Model\Regular\RegularActivity.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.cs" />
@@ -84,6 +82,7 @@
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\Renamer.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\EventsViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ActivitiesViewModel.cs" />
     <Compile Include="View\CategoryView.xaml.cs">

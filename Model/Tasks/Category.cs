@@ -7,6 +7,7 @@ using TimeManager.Utilities;
 
 namespace TimeManager.Model.Tasks
 {
+    /// <summary> Contains a group of task lists. </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class Category : NotifyPropertyChanged
     {

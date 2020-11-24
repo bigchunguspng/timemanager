@@ -56,7 +56,7 @@
                         <ListView
                             ItemsSource="{Binding Tasks}"
                             SelectedItem="{Binding SelectedTask}"
-                            Visibility="{Binding TasksVisibility}"
+                            Visibility="{Binding ContentVisibility}"
                             BorderThickness="0" Background="Transparent">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -110,7 +110,7 @@
                         </ListView>
                         <StackPanel
                             Orientation="Horizontal"
-                            Visibility="{Binding TasksVisibility}">
+                            Visibility="{Binding ContentVisibility}">
                             <TextBox
                                 Text="{Binding NewTaskDescription, UpdateSourceTrigger=PropertyChanged}"
                                 Width="250" Margin="26,1,0,0"
@@ -128,7 +128,7 @@
                         </StackPanel>
                         <StackPanel.InputBindings>
                             <MouseBinding
-                                Command="{Binding ToggleTasksVisibility}"
+                                Command="{Binding ToggleContentVisibility}"
                                 MouseAction="MiddleClick" />
                         </StackPanel.InputBindings>
                     </StackPanel>

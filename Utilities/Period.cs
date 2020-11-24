@@ -9,22 +9,24 @@ namespace TimeManager.Utilities
     {
         #region constructors
 
+        /// <summary> Start a new unfinished period just now. </summary>
         public Period()
         {
             Start = DateTime.Now;
             //End = DateTime.MinValue; (default value)
         }
-        public Period(DateTime day)
+        /// <summary> Create a new unfinished period that starts on the specified date. </summary>
+        public Period(DateTime start)
         {
-            Start = day.Date;
-            End = day.Date;
+            Start = start;
+            //End = DateTime.MinValue; (default value)
         }
         public Period(DateTime start, DateTime end)
         {
             Start = start;
             End = end;
         }
-
+        /// <summary> Create a new period that starts specified number of days ago and ends today. </summary>
         public Period(int lastDays)
         {
             Start = DateTime.Today - TimeSpan.FromDays(lastDays);
@@ -53,6 +55,12 @@ namespace TimeManager.Utilities
             return Start.Date == End.Date
                 ? $"{DateOnly(Start)} {Start.TimeOfDay:%h\\:mm} - {End.TimeOfDay:%h\\:mm}"
                 : $"{DateAndTime(Start)} - {(IsFinished ? DateAndTime(End) : "now")}";
+        }
+        public string ToString(bool datesOnly)
+        {
+            return Start.Date == End.Date
+                ? $"{DateOnly(Start)}"
+                : $"{DateOnly(Start)} - {(IsFinished ? DateOnly(End) : "now")}";
         }
     }
 }

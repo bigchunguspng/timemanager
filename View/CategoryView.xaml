@@ -90,7 +90,7 @@
                                                             SelectedDate="{Binding NewDeadline}"
                                                             BorderThickness="0" />
                                                         <Button
-                                                            Command="{Binding SetDeadline}"
+                                                            Command="{Binding AddDeadline}"
                                                             Content="Set" Width="45" />
                                                     </StackPanel>
                                                 </MenuItem>

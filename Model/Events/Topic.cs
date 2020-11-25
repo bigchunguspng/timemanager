@@ -46,6 +46,7 @@ namespace TimeManager.Model.Events
         #region commands
 
         private RelayCommand _toggleContentVisibility;
+        private RelayCommand _removeEvent;
         
         public RelayCommand ToggleContentVisibility =>
             _toggleContentVisibility ?? (_toggleContentVisibility = new RelayCommand(o =>
@@ -53,6 +54,13 @@ namespace TimeManager.Model.Events
                 ContentVisibility = ContentVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 OnPropertyChanged(nameof(ContentVisibility));
             }));
+
+        public RelayCommand RemoveEvent => _removeEvent ?? (_removeEvent = new RelayCommand(o =>
+        {
+            Events.Remove(SelectedEvent);
+        }, o => EventSelected));
+
+        private bool EventSelected => SelectedEvent != null;
 
         #endregion
     }

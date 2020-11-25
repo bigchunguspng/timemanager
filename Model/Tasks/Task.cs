@@ -30,7 +30,7 @@ namespace TimeManager.Model.Tasks
 
         public Task(string description, DateTime deadline) : this(description)
         {
-            SetDeadline_Execute(deadline);
+            SetDeadline(deadline);
         }
 
         #endregion
@@ -177,15 +177,15 @@ namespace TimeManager.Model.Tasks
 
         #region deadline
         
-        private RelayCommand _setDeadline;
+        private RelayCommand _addDeadline;
         private RelayCommand _clearDeadline;
 
         public DateTime NewDeadline { get; set; }
 
-        public RelayCommand SetDeadline =>
-            _setDeadline ?? (_setDeadline = new RelayCommand(o => SetDeadline_Execute(NewDeadline)));
+        public RelayCommand AddDeadline =>
+            _addDeadline ?? (_addDeadline = new RelayCommand(o => SetDeadline(NewDeadline)));
 
-        private void SetDeadline_Execute(DateTime deadline)
+        private void SetDeadline(DateTime deadline)
         {
             Schedule.End = deadline;
             HasDeadline = true;

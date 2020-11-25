@@ -77,6 +77,7 @@
     <Compile Include="Utilities\FileIO.cs" />
     <Compile Include="Utilities\Hash.cs" />
     <Compile Include="Utilities\Messenger.cs" />
+    <Compile Include="Utilities\Mover.cs" />
     <Compile Include="Utilities\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\Period.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />

@@ -54,7 +54,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Grid>
+                        <Grid MinWidth="231">
                             <TextBlock 
                                 Text="{Binding Name}"
                                 Margin="3,1,1,1">
@@ -76,11 +76,11 @@
                                         Key="Escape" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <Grid.InputBindings>
+                            <!--<Grid.InputBindings>
                                 <MouseBinding
                                     Command="{Binding ToggleContentVisibility}"
                                     MouseAction="MiddleClick" />
-                            </Grid.InputBindings>
+                            </Grid.InputBindings>-->
                         </Grid>
                         <!--<ListBox
                             ItemsSource="{Binding SubTopics}"
@@ -131,7 +131,19 @@
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem 
+                                        Command="{Binding RemoveEvent}"
+                                        Header="Remove event"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
                         </ListBox>
+                        <StackPanel.InputBindings>
+                            <MouseBinding
+                                Command="{Binding ToggleContentVisibility}"
+                                MouseAction="MiddleClick" />
+                        </StackPanel.InputBindings>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -145,6 +157,14 @@
                         Header="Remove topic"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
+            <ListBox.InputBindings>
+                <KeyBinding
+                    Command="{Binding MoveUp}"
+                    Modifiers="Alt" Key="Q" />
+                <KeyBinding
+                    Command="{Binding MoveDown}"
+                    Modifiers="Alt" Key="A" />
+            </ListBox.InputBindings>
         </ListBox>
     </DockPanel>
 </Page>

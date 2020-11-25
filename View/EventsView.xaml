@@ -45,7 +45,9 @@
             </StackPanel>
         </Grid>
         
-        <TextBox DockPanel.Dock="Bottom" Text="{Binding NewEventDescription}"/>
+        <TextBox 
+            DockPanel.Dock="Bottom" 
+            Text="{Binding NewEventDescription, UpdateSourceTrigger=PropertyChanged}"/>
 
         <ListBox 
             ItemsSource="{Binding Topics}"
@@ -100,7 +102,8 @@
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="250" />
+                                            <ColumnDefinition Width="175" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock 
@@ -128,6 +131,9 @@
                                         <TextBlock 
                                             Grid.Column="1" 
                                             Text="{Binding TimeInfo}" />
+                                        <TextBlock 
+                                            Grid.Column="2"
+                                            Text="{Binding DurationInfo}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -10,7 +10,6 @@ namespace TimeManager.ViewModel
     public class ActivitiesViewModel : NotifyPropertyChanged
     {
         private RegularActivity _selectedActivity;
-        private DateTime _newDate;
 
         public ActivitiesViewModel()
         {
@@ -71,9 +70,10 @@ namespace TimeManager.ViewModel
         #endregion
 
         #region commands
-
+        
         private RelayCommand _newActivity;
         private RelayCommand _removeActivity;
+        private DateTime _newDate;
         private RelayCommand _addDate;
         private RelayCommand _removeDate;
 

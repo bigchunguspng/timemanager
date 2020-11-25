@@ -6,7 +6,7 @@ using TimeManager.Utilities;
 
 namespace TimeManager.ViewModel
 {
-    public class EventsViewModel
+    public class EventsViewModel : NotifyPropertyChanged
     {
         private Topic _selectedTopic;
         
@@ -19,8 +19,8 @@ namespace TimeManager.ViewModel
             Date2 = DateTime.Today;
         }
         
+        public Mover<Topic> TopicMover { get; set; }
         public ObservableCollection<Topic> Topics { get; set; }
-
         public Topic SelectedTopic
         {
             get => _selectedTopic;
@@ -31,38 +31,53 @@ namespace TimeManager.ViewModel
             }
         }
 
-        public Mover<Topic> TopicMover { get; set; }
 
         #region new event
-
+        
+        private string _newEventDescription;
         private RelayCommand _addShortEvent;
         private RelayCommand _addLongEvent;
         private RelayCommand _addUnfinishedEvent;
 
-        public string NewEventDescription { get; set; }
+        public string NewEventDescription
+        {
+            get => _newEventDescription;
+            set
+            {
+                _newEventDescription = value;
+                OnPropertyChanged();
+            }
+        }
+
         public DateTime Date1 { get; set; }
         public DateTime Date2 { get; set; }
 
         public RelayCommand AddShortEvent => _addShortEvent ?? (_addShortEvent = new RelayCommand(o =>
         {
-            SelectedTopic.Events.Add(new Event(NewEventDescription, Date1));
+            AddEvent(new Event(NewEventDescription, Date1));
         }, o => TopicSelected));
 
         public RelayCommand AddLongEvent => _addLongEvent ?? (_addLongEvent = new RelayCommand(o =>
         {
-            SelectedTopic.Events.Add(new Event(NewEventDescription, new Period(Date1, Date2)));
+            AddEvent(new Event(NewEventDescription, new Period(Date1, Date2)));
         }, o => TopicSelected));
 
         public RelayCommand AddUnfinishedEvent => _addUnfinishedEvent ?? (_addUnfinishedEvent = new RelayCommand(o =>
         {
-            SelectedTopic.Events.Add(new Event(NewEventDescription, new Period(Date1)));
+            AddEvent(new Event(NewEventDescription, new Period(Date1)));
         }, o => TopicSelected));
+
+        private void AddEvent(Event @event)
+        {
+            SelectedTopic.AddEvent(@event);
+            NewEventDescription = string.Empty;
+        }
 
         private bool TopicSelected => SelectedTopic != null;
 
         #endregion
 
-        #region topics
+        #region add / remove topics
 
         private RelayCommand _newTopic;
         private RelayCommand _removeTopic;

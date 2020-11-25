@@ -41,7 +41,20 @@ namespace TimeManager.Model.Events
         {
             SubTopics.Add(topic);
         }*/
-        public void AddEvent(Event @event) => Events.Add(@event); //todo sort
+        public void AddEvent(Event @event)
+        {
+            Events.Add(@event);
+            
+            for (int i = Events.Count - 1; i > 0; i--)
+            {
+                if (Events[i].Period.Start >= Events[i - 1].Period.Start) break;
+                
+                //swap them
+                Event temp = Events[i - 1];
+                Events[i - 1] = Events[i];
+                Events[i] = temp;
+            }
+        }
 
         #region commands
 

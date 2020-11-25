@@ -42,8 +42,8 @@ namespace TimeManager.Utilities
         
         public void Finish() => End = DateTime.Now;
 
-        //public TimeSpan Duration() => (IsFinished ? End : DateTime.Now ) - Start;
-        public TimeSpan Duration() => End - Start;
+        public TimeSpan Duration() => (IsFinished ? End : DateTime.Now ) - Start;
+        //public TimeSpan Duration() => End - Start;
         public TimeSpan TimeLeft() => End - DateTime.Now;
         public TimeSpan TimePassed() => DateTime.Now - Start;
 

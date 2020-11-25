@@ -14,6 +14,7 @@ namespace TimeManager.Utilities
         }
 
         public ObservableCollection<T> Collection { get; set; }
+        /// <summary> Needs to be updated in original SelectedElement setter. </summary>
         public T SelectedElement { get; set; }
 
         public RelayCommand MoveUp => _moveUp ?? (_moveUp = new RelayCommand(o =>

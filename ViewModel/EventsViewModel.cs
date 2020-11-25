@@ -8,16 +8,30 @@ namespace TimeManager.ViewModel
 {
     public class EventsViewModel
     {
+        private Topic _selectedTopic;
+        
         public EventsViewModel()
         {
             Topics = Storage.Topics;
+            TopicMover = new Mover<Topic>(Topics, SelectedTopic);
             
             Date1 = DateTime.Today;
             Date2 = DateTime.Today;
         }
         
         public ObservableCollection<Topic> Topics { get; set; }
-        public Topic SelectedTopic { get; set; }
+
+        public Topic SelectedTopic
+        {
+            get => _selectedTopic;
+            set
+            {
+                _selectedTopic = value;
+                TopicMover.SelectedElement = value;
+            }
+        }
+
+        public Mover<Topic> TopicMover { get; set; }
 
         #region new event
 
@@ -50,22 +64,8 @@ namespace TimeManager.ViewModel
 
         #region topics
 
-        private RelayCommand _moveUp;
-        private RelayCommand _moveDown;
         private RelayCommand _newTopic;
         private RelayCommand _removeTopic;
-        
-        public RelayCommand MoveUp => _moveUp ?? (_moveUp = new RelayCommand(o =>
-        {
-            int index = SelectedTopicIndex;
-            Topics.Move(index, index - 1);
-        }, o => TopicSelected && TopicNotFirst));
-
-        public RelayCommand MoveDown => _moveDown ?? (_moveDown = new RelayCommand(o =>
-        {
-            int index = SelectedTopicIndex;
-            Topics.Move(index, index + 1);
-        }, o => TopicSelected && TopicNotLast));
 
         public RelayCommand NewTopic => _newTopic ?? (_newTopic = new RelayCommand(o =>
         {
@@ -75,11 +75,6 @@ namespace TimeManager.ViewModel
         {
             Topics.Remove(SelectedTopic);
         }, o => TopicSelected));
-        
-        private bool TopicNotFirst => SelectedTopicIndex > 0;
-        private bool TopicNotLast => SelectedTopicIndex < Topics.Count - 1;
-        private int SelectedTopicIndex => Topics.IndexOf(SelectedTopic);
-        
 
         #endregion
     }

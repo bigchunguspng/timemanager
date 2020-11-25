@@ -21,6 +21,7 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedCategory = value;
+                SelectedCategory.TaskListMover.Collection = value.TaskLists;
                 if (CategorySelected)
                     InitializeTimer();
                 else
@@ -31,23 +32,9 @@ namespace TimeManager.ViewModel
 
         #region commands
 
-        private RelayCommand _moveUp;
-        private RelayCommand _moveDown;
         private RelayCommand _newList;
         private RelayCommand _removeList;
 
-
-        public RelayCommand MoveUp => _moveUp ?? (_moveUp = new RelayCommand(o =>
-        {
-            int index = SelectedTaskListIndex;
-            SelectedCategory.TaskLists.Move(index, index - 1);
-        }, o => TaskListSelected && TaskListNotFirst));
-
-        public RelayCommand MoveDown => _moveDown ?? (_moveDown = new RelayCommand(o =>
-        {
-            int index = SelectedTaskListIndex;
-            SelectedCategory.TaskLists.Move(index, index + 1);
-        }, o => TaskListSelected && TaskListNotLast));
 
         public RelayCommand NewList => _newList ?? (_newList = new RelayCommand(
             o => SelectedCategory.TaskLists.Add(new List())));
@@ -59,9 +46,6 @@ namespace TimeManager.ViewModel
 
         private bool CategorySelected => SelectedCategory != null;
         private bool TaskListSelected => SelectedCategory?.SelectedTaskList != null;
-        private bool TaskListNotFirst => SelectedTaskListIndex > 0;
-        private bool TaskListNotLast => SelectedTaskListIndex < SelectedCategory.TaskLists.Count - 1;
-        private int SelectedTaskListIndex => SelectedCategory.TaskLists.IndexOf(SelectedCategory.SelectedTaskList);
 
         #endregion
         

@@ -121,6 +121,14 @@
                         Header="Remove" />
                 </ContextMenu>
             </ListBox.ContextMenu>
+            <ListBox.InputBindings>
+                <KeyBinding
+                    Command="{Binding ActivityMover.MoveUp}"
+                    Modifiers="Alt" Key="Q" />
+                <KeyBinding
+                    Command="{Binding ActivityMover.MoveDown}"
+                    Modifiers="Alt" Key="A" />
+            </ListBox.InputBindings>
         </ListBox>
 
     </Grid>

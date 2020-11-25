@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Model.Events;
 using TimeManager.Model.Tasks;

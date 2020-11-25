@@ -159,10 +159,10 @@
             </ListBox.ContextMenu>
             <ListBox.InputBindings>
                 <KeyBinding
-                    Command="{Binding MoveUp}"
+                    Command="{Binding TopicMover.MoveUp}"
                     Modifiers="Alt" Key="Q" />
                 <KeyBinding
-                    Command="{Binding MoveDown}"
+                    Command="{Binding TopicMover.MoveDown}"
                     Modifiers="Alt" Key="A" />
             </ListBox.InputBindings>
         </ListBox>

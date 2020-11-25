@@ -108,10 +108,10 @@
                     </ListBox.ContextMenu>
                     <ListBox.InputBindings>
                         <KeyBinding
-                            Command="{Binding MoveUp}"
+                            Command="{Binding CategoryMover.MoveUp}"
                             Modifiers="Alt" Key="Q" />
                         <KeyBinding
-                            Command="{Binding MoveDown}"
+                            Command="{Binding CategoryMover.MoveDown}"
                             Modifiers="Alt" Key="A" />
                     </ListBox.InputBindings>
                 </ListBox>

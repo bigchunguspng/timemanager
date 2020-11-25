@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using TimeManager.Model;
 using TimeManager.Model.Regular;
 using TimeManager.Utilities;
@@ -14,9 +15,11 @@ namespace TimeManager.ViewModel
         public ActivitiesViewModel()
         {
             Activities = Storage.Activities;
+            ActivityMover = new Mover<RegularActivity>(Activities, SelectedActivity);
             NewDate = DateTime.Today;
         }
-        
+
+        public Mover<RegularActivity> ActivityMover { get; set; }
         public ObservableCollection<RegularActivity> Activities { get; set; }
         public RegularActivity SelectedActivity
         {
@@ -24,6 +27,7 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedActivity = value;
+                ActivityMover.SelectedElement = value;
                 OnPropertyChanged(nameof(SelectedActivity));
                 UpdateSelectedActivityInfo();
             }

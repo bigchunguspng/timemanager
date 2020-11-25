@@ -19,6 +19,7 @@ namespace TimeManager.Model.Tasks
             Name = name;
             TaskLists = new ObservableCollection<List>();
             Renamer = new Renamer();
+            TaskListMover = new Mover<List>(TaskLists, SelectedTaskList);
             ID = Hash.UniqueHash(FolderPath);
         }
 
@@ -34,6 +35,7 @@ namespace TimeManager.Model.Tasks
         [JsonProperty] private string ID { get; set; }
         
         public Renamer Renamer { get; }
+        public Mover<List> TaskListMover { get; set; }
         public ObservableCollection<List> TaskLists { get; private set; }
         public List SelectedTaskList
         {
@@ -41,6 +43,7 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _selectedTaskList = value;
+                TaskListMover.SelectedElement = value;
                 OnPropertyChanged(nameof(SelectedTaskList));
                 SelectedTaskList.UpdateStatusBar();
             }

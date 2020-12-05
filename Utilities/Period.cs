@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using static TimeManager.Utilities.DateExtensions;
 
 namespace TimeManager.Utilities
 {
@@ -53,14 +52,14 @@ namespace TimeManager.Utilities
         public override string ToString()
         {
             return Start.Date == End.Date
-                ? $"{DateOnly(Start)} {Start.TimeOfDay:%h\\:mm} - {End.TimeOfDay:%h\\:mm}"
-                : $"{DateAndTime(Start)} - {(IsFinished ? DateAndTime(End) : "now")}";
+                ? $"{Start.DateOnly()} {Start.TimeOfDay:%h\\:mm} - {End.TimeOfDay:%h\\:mm}"
+                : $"{Start.DateAndTime()} - {(IsFinished ? End.DateAndTime() : "now")}";
         }
         public string ToString(bool datesOnly)
         {
             return Start.Date == End.Date
-                ? $"{DateOnly(Start)}"
-                : $"{DateOnly(Start)} - {(IsFinished ? DateOnly(End) : "now")}";
+                ? $"{Start.DateOnly()}"
+                : $"{Start.DateOnly()} - {(IsFinished ? End.DateOnly() : "now")}";
         }
     }
 }

@@ -59,6 +59,7 @@
                         <Grid MinWidth="231">
                             <TextBlock 
                                 Text="{Binding Name}"
+                                FontSize="16"
                                 Margin="3,1,1,1">
                                 <TextBlock.InputBindings>
                                     <MouseBinding
@@ -68,7 +69,8 @@
                             </TextBlock>
                             <TextBox 
                                 Visibility="{Binding Renamer.RenameMode}"
-                                Text="{Binding Name}">
+                                Text="{Binding Name}"
+                                FontSize="16">
                                 <TextBox.InputBindings>
                                     <KeyBinding
                                         Command="{Binding Renamer.ToggleRenameMode}"

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Model.Events;
 using TimeManager.Model.Tasks;
@@ -51,7 +50,7 @@ namespace TimeManager.Model.Regular
         [JsonProperty] public ObservableCollection<DateTime> Times { get; set; }
 
         public Renamer Renamer { get; set; }
-        public string LastTimeInfo => DateExtensions.DaysAgo(LastTime);
+        public string LastTimeInfo => LastTime.DaysAgo();
         private DateTime LastTime => Times[Times.Count - 1];
 
         public void AddDate(DateTime date)

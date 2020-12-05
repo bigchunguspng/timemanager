@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using System.Windows.Media;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
 using static TimeManager.Utilities.DateExtensions;
@@ -57,6 +58,7 @@ namespace TimeManager.Model.Tasks
                 UpdateButtonContent();
                 UpdateTimeInfo();
                 UpdateToolTip();
+                UpdateColor();
                 OnPropertyChanged(nameof(Status));
             }
         }
@@ -232,10 +234,26 @@ namespace TimeManager.Model.Tasks
         public void UpdateTimeInfo() => OnPropertyChanged(nameof(TimeInfo));
 
         public string ToolTipText =>
-            $"Created: {DateAndTime(Schedule.Start)}" +
-            $"{(Performance == null ? $"{(!HasDeadline && Status != TaskStatus.Performed && Status != TaskStatus.Unstarted ? $"\n{Status}: {DateAndTime(Schedule.End)}" : "")}" : $"\nPerformance: {Performance}")}" +
-            $"{(HasDeadline ? $"\nDeadline: {DateAndTime(Schedule.End)}" : "")}";
+            $"Created: {Schedule.Start.DateAndTime()}" +
+            $"{(Performance == null ? $"{(!HasDeadline && Status != TaskStatus.Performed && Status != TaskStatus.Unstarted ? $"\n{Status}: {Schedule.End.DateAndTime()}" : "")}" : $"\nPerformance: {Performance}")}" +
+            $"{(HasDeadline ? $"\nDeadline: {Schedule.End.DateAndTime()}" : "")}";
         private void UpdateToolTip() => OnPropertyChanged(nameof(ToolTipText));
+
+        #endregion
+
+        #region color
+
+        public Brush Color
+        {
+            get
+            {
+                if (Status == TaskStatus.Completed || Status == TaskStatus.Failed)
+                    return new SolidColorBrush(Colors.Silver);
+                else
+                    return new SolidColorBrush(Colors.Black);
+            }
+        }
+        private void UpdateColor() => OnPropertyChanged(nameof(Color));
 
         #endregion
     }

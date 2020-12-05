@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using TimeManager.Model;
 using TimeManager.Model.Regular;
 using TimeManager.Utilities;
@@ -43,7 +42,7 @@ namespace TimeManager.ViewModel
             {
                 var result = new ObservableCollection<string>();
                 foreach (var time in SelectedActivity.Times) 
-                    result.Add(DateExtensions.DateOnly(time));
+                    result.Add(time.DateOnly());
                 return result;
             }
         }

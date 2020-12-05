@@ -15,7 +15,7 @@ namespace TimeManager.Model
     {
         private static readonly FileIO CategoriesIO = new FileIO($@"{Path}\Categories.json");
         private static readonly FileIO ActivitiesIO = new FileIO($@"{Path}\Activities.json");
-        private static readonly FileIO TopicsIO = new FileIO($@"{Path}\Topics.json");
+        private static readonly FileIO TopicsIO = new FileIO($@"{Path}\Events.json");
 
         public static string Path => @"D:\Documents\TimeManager";
 
@@ -31,9 +31,9 @@ namespace TimeManager.Model
         {
             Directory.CreateDirectory(Path);
             Categories = CategoriesIO.LoadData<Category>();
+            foreach (var category in Categories) category.LoadTaskLists();
             Activities = ActivitiesIO.LoadData<RegularActivity>();
             Topics = TopicsIO.LoadData<Topic>();
-            foreach (var category in Categories) category.LoadTaskLists();
         }
 
         public static void SaveAll()

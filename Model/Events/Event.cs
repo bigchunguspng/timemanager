@@ -42,10 +42,10 @@ namespace TimeManager.Model.Events
         public Renamer Renamer { get; set; }
 
         public string TimeInfo => OneDay
-            ? DateExtensions.DateOnly(Period.Start)
+            ? Period.Start.DateOnly()
             : Period.ToString(true);
         public string DurationInfo => OneDay
-            ? DateExtensions.DaysAgo(Period.Start)
+            ? Period.Start.DaysAgo()
             : DateExtensions.TimeSpanToString(Period.Duration());
         
         

@@ -10,8 +10,24 @@ namespace TimeManager.Utilities
         public static TimeSpan SumOf(IEnumerable<Period> periods) =>
             periods?.Aggregate(new TimeSpan(), (current, period) => current + period.Duration()) ?? TimeSpan.Zero;
 
+        /*public static string Duration(Period period)
+        {
+            int days = period.Duration().Days;
+            if (period.End.Day == period.Start.Day)
+                return $"{period.End.Month - period.Start.Month} month {TimeSpanToString(period.Duration() - TimeSpan.FromDays(30.4375 * days))}";
+            if (days > 1)
+                return $"{days} days";
+            return "< 1 day";
+        }*/
+        
         public static string TimeSpanToString(TimeSpan time, string a = "")
         {
+            /*if ((DateTime.Today - time).Day == DateTime.Today.Day)
+                return "month" + a;
+            if (time.Days > 365.25)
+                return $"{Math.Round(time.Days / 365.25)}y {TimeSpanToString(TimeSpan.FromDays(time.Days % 365.25))}";
+            if (time.Days > 30)
+                return $"{Math.Round(time.Days / 30.4375)}m {Math.Round(time.Days % 30.4375)} days {a}";*/
             if (time.Days > 1)
                 return $"{time.Days} days {a}";                           //2 days - 386 days ...
             if (time.Days > 0)
@@ -23,7 +39,7 @@ namespace TimeManager.Utilities
             return time.ToString(@"%m\:ss") + $" {a}";            //0:00 - 9:59
         }
         
-        public static string DaysAgo(DateTime dateTime)
+        public static string DaysAgo(this DateTime dateTime)
         {
             int result = (DateTime.Today - dateTime.Date).Days;
             switch (result)
@@ -39,7 +55,7 @@ namespace TimeManager.Utilities
             }
         }
 
-        public static string DateAndTime(DateTime dateTime) => $"{DateOnly(dateTime)} {dateTime.TimeOfDay:%h\\:mm}";
-        public static string DateOnly(DateTime dateTime) => dateTime.Date.ToString("dd MMM yyyy", CultureInfo.CurrentCulture);
+        public static string DateAndTime(this DateTime dateTime) => $"{dateTime.DateOnly()} {dateTime.TimeOfDay:%h\\:mm}";
+        public static string DateOnly(this DateTime dateTime) => dateTime.Date.ToString("dd MMM yyyy", CultureInfo.CurrentCulture);
     }
 }

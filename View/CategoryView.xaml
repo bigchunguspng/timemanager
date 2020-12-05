@@ -69,16 +69,19 @@
                                         <Button
                                             Content="{Binding ButtonContent}"
                                             Command="{Binding ChangeTaskStatus}"
-                                            Width="20" />
+                                            Width="20" 
+                                            Foreground="{Binding Color}" />
                                         <TextBox
                                             Grid.Column="1"
                                             Text="{Binding Description}"
-                                            TextWrapping="Wrap" />
+                                            TextWrapping="Wrap"
+                                            Foreground="{Binding Color}" />
                                         <TextBlock
                                             Grid.Column="2"
                                             Text="{Binding TimeInfo}"
                                             MinWidth="40" Margin="1,1,0,0"
-                                            ToolTip="{Binding ToolTipText}" />
+                                            ToolTip="{Binding ToolTipText}"
+                                            Foreground="{Binding Color}" />
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem

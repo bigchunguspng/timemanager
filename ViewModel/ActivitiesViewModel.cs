@@ -82,7 +82,7 @@ namespace TimeManager.ViewModel
 
         
         public RelayCommand NewActivity => _newActivity ?? (_newActivity = new RelayCommand(o =>
-                Activities.Add(new RegularActivity())));
+                Activities.Add(new RegularActivity(true))));
 
         public RelayCommand RemoveActivity => _removeActivity ?? (_removeActivity = new RelayCommand(o =>
                 Activities.Remove(SelectedActivity), o => ActivitySelected));

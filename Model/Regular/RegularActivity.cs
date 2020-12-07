@@ -23,6 +23,11 @@ namespace TimeManager.Model.Regular
             Times = new ObservableCollection<DateTime>();
             Renamer = new Renamer();
         }
+        public RegularActivity(bool enableRenameMode = false)
+        {
+            Times = new ObservableCollection<DateTime>();
+            Renamer = new Renamer(enableRenameMode);
+        }
         public RegularActivity(string description) : this()
         {
             Description = description;

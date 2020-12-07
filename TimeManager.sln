@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeManager", "TimeManager.csproj", "{0B009753-77AE-4C65-9FC0-B757EF862D65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBackUp", "DataBackUp\DataBackUp.csproj", "{B24E5E80-4020-433D-95D1-99A459E5BAB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{0B009753-77AE-4C65-9FC0-B757EF862D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B009753-77AE-4C65-9FC0-B757EF862D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B009753-77AE-4C65-9FC0-B757EF862D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B24E5E80-4020-433D-95D1-99A459E5BAB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24E5E80-4020-433D-95D1-99A459E5BAB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24E5E80-4020-433D-95D1-99A459E5BAB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24E5E80-4020-433D-95D1-99A459E5BAB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -5,3 +5,4 @@ obj/
 packages/
 /TimeManager.csproj.DotSettings.user
 /TimeManager.sln.DotSettings
+/DataBackUp/

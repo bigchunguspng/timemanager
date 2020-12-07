@@ -8,9 +8,9 @@ namespace TimeManager.Utilities
     {
         private RelayCommand _toggleRenameMode;
 
-        public Renamer()
+        public Renamer(bool enableRenameMode = false)
         {
-            RenameMode = Visibility.Collapsed;
+            RenameMode = enableRenameMode ? Visibility.Visible : Visibility.Collapsed;
         }
         
         /// <summary> Bind it to TextBox Visibility. </summary>

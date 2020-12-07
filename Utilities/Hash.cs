@@ -11,17 +11,17 @@ namespace TimeManager.Utilities
             const string source = "wertuopasdfghkzxcvbnm1234567890";
 
             int length = 0;
-            string hash;
+            string result;
             var random = new Random();
             do
             {
                 length++;
-                hash = "";
-                for (int i = 0; i < length; i++)
-                    hash += source[random.Next(source.Length)];
-            } while (File.Exists($@"{folderPath}\{hash}.json")); //повторити якщо в папці є файл з таким ім'ям
+                result = "";
+                for (var i = 0; i < length; i++)
+                    result += source[random.Next(source.Length)];
+            } while (File.Exists($@"{folderPath}\{result}.json")); //повторити якщо в папці є файл з таким ім'ям
 
-            return hash;
+            return result;
         }
     }
 }

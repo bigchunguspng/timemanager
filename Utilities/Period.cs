@@ -38,16 +38,15 @@ namespace TimeManager.Utilities
         [JsonProperty] public DateTime End { get; set; }
 
         private bool IsFinished => End > Start;
-        
         public void Finish() => End = DateTime.Now;
 
-        public TimeSpan Duration() => (IsFinished ? End : DateTime.Now ) - Start;
-        //public TimeSpan Duration() => End - Start;
-        public TimeSpan TimeLeft() => End - DateTime.Now;
-        public TimeSpan TimePassed() => DateTime.Now - Start;
+        public TimeSpan Duration => (IsFinished ? End : DateTime.Now ) - Start;
+        //public TimeSpan Duration => End - Start;
+        public TimeSpan TimeLeft => End - DateTime.Now;
+        public TimeSpan TimePassed => DateTime.Now - Start;
 
-        public DateTime StartDate() => Start.Date;
-        public DateTime EndDate() => End.Date;
+        public DateTime StartDate => Start.Date;
+        public DateTime EndDate => End.Date;
 
         public override string ToString()
         {

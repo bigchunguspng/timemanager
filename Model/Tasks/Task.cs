@@ -46,6 +46,8 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _hasDeadline = value;
+                UpdateTimeInfo();
+                UpdateToolTip();
                 NewDeadline = HasDeadline ? Schedule.End : DateTime.Today;
             }
         }
@@ -59,7 +61,7 @@ namespace TimeManager.Model.Tasks
                 UpdateTimeInfo();
                 UpdateToolTip();
                 UpdateColor();
-                OnPropertyChanged(nameof(Status));
+                OnPropertyChanged();
             }
         }
         
@@ -191,9 +193,6 @@ namespace TimeManager.Model.Tasks
         {
             Schedule.End = deadline;
             HasDeadline = true;
-            
-            UpdateTimeInfo();
-            UpdateToolTip();
         }
 
         public RelayCommand ClearDeadline =>
@@ -201,8 +200,6 @@ namespace TimeManager.Model.Tasks
             {
                 Schedule.End = DateTime.MinValue;
                 HasDeadline = false;
-                UpdateTimeInfo();
-                UpdateToolTip();
             }, o => HasDeadline));
 
         #endregion
@@ -216,16 +213,16 @@ namespace TimeManager.Model.Tasks
                 switch (Status)
                 {
                     case TaskStatus.Unstarted:
-                        return TimeSpanToString(HasDeadline ? Schedule.TimeLeft() : Schedule.TimePassed(),
+                        return TimeSpanToString(HasDeadline ? Schedule.TimeLeft : Schedule.TimePassed,
                             HasDeadline ? "left" : "ago");
                     case TaskStatus.Performed:
-                        return TimeSpanToString(Performance.TimePassed() - SumOf(Breaks));
+                        return TimeSpanToString(Performance.TimePassed - SumOf(Breaks));
                     case TaskStatus.Completed:
-                        return TimeSpanToString(Performance.Duration() - SumOf(Breaks)); // bug System.Windows.Data Error: 17 : Cannot get 'TimeInfo' value
+                        return TimeSpanToString(Performance.Duration - SumOf(Breaks)); // bug System.Windows.Data Error: 17 : Cannot get 'TimeInfo' value
                     case TaskStatus.Failed:
-                        return TimeSpanToString(Schedule.Duration(), HasDeadline ? "were given" : "");
+                        return TimeSpanToString(Schedule.Duration, HasDeadline ? "were given" : "");
                     case TaskStatus.Paused:
-                        return TimeSpanToString(Performance.Duration() - SumOf(Breaks));
+                        return TimeSpanToString(Performance.Duration - SumOf(Breaks));
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -243,16 +240,11 @@ namespace TimeManager.Model.Tasks
 
         #region color
 
-        public Brush Color
-        {
-            get
-            {
-                if (Status == TaskStatus.Completed || Status == TaskStatus.Failed)
-                    return new SolidColorBrush(Colors.Silver);
-                else
-                    return new SolidColorBrush(Colors.Black);
-            }
-        }
+        public Brush Color =>
+            Status == TaskStatus.Completed || Status == TaskStatus.Failed
+                ? new SolidColorBrush(Colors.Silver)
+                : new SolidColorBrush(Colors.Black);
+
         private void UpdateColor() => OnPropertyChanged(nameof(Color));
 
         #endregion

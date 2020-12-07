@@ -26,7 +26,7 @@ namespace TimeManager.ViewModel
             {
                 _selectedActivity = value;
                 ActivityMover.SelectedElement = value;
-                OnPropertyChanged(nameof(SelectedActivity));
+                OnPropertyChanged();
                 UpdateSelectedActivityInfo();
             }
         }

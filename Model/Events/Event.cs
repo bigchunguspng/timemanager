@@ -46,7 +46,7 @@ namespace TimeManager.Model.Events
             : Period.ToString(true);
         public string DurationInfo => OneDay
             ? Period.Start.DaysAgo()
-            : DateExtensions.TimeSpanToString(Period.Duration());
+            : DateExtensions.TimeSpanToString(Period.Duration);
         
         
         /*public TimeSpan TimeFromStart => Period.TimePassed();

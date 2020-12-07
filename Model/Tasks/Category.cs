@@ -29,7 +29,7 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _name = value;
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged();
             }
         }
         [JsonProperty] private string ID { get; set; }
@@ -44,7 +44,7 @@ namespace TimeManager.Model.Tasks
             {
                 _selectedTaskList = value;
                 TaskListMover.SelectedElement = value;
-                OnPropertyChanged(nameof(SelectedTaskList));
+                OnPropertyChanged();
                 SelectedTaskList.UpdateStatusBar();
             }
         }
@@ -58,7 +58,7 @@ namespace TimeManager.Model.Tasks
 
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();
         public void SaveTaskLists() => CategoryIO.SaveData(TaskLists);
-        public void Clear() => File.Delete(Path);
+        public void ClearFile() => File.Delete(Path);
 
         #endregion
 
@@ -79,9 +79,9 @@ namespace TimeManager.Model.Tasks
                 int result = int.MaxValue;
                 foreach (var list in TaskLists)
                 foreach (var task in list.Tasks)
-                    if (task.HasDeadline && task.Status == TaskStatus.Unstarted)
+                    if (task.HasDeadline && (task.Status == TaskStatus.Unstarted || task.Status == TaskStatus.Paused))
                     {
-                        int daysLeft = task.Schedule.TimeLeft().Days;
+                        int daysLeft = task.Schedule.TimeLeft.Days;
                         if (daysLeft < result) result = daysLeft;
                     }
 

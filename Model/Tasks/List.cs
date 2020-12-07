@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
-using TimeManager.ViewModel;
+using static TimeManager.ViewModel.MainWindowViewModel;
 
 namespace TimeManager.Model.Tasks
 {
@@ -66,8 +66,8 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _selectedTask = value;
-                OnPropertyChanged(nameof(SelectedTask));
-                MainWindowViewModel.ShowInStatusBar("Delete - delete task");
+                OnPropertyChanged();
+                ShowInStatusBar("Delete - delete task");
             }
         }
         public string NewTaskDescription
@@ -76,7 +76,7 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _newTaskDescription = value;
-                OnPropertyChanged(nameof(NewTaskDescription));
+                OnPropertyChanged();
             }
         }
         public DateTime NewTaskDeadline
@@ -85,7 +85,7 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _newTaskDeadline = value;
-                OnPropertyChanged(nameof(NewTaskDeadline));
+                OnPropertyChanged();
             }
         }
 
@@ -105,7 +105,7 @@ namespace TimeManager.Model.Tasks
             }));
         public void UpdateStatusBar()
         {
-            MainWindowViewModel.ShowInStatusBar(
+            ShowInStatusBar(
                 "Alt+Q - move up | Alt+A - move down | Middle click - " +
                 (ContentVisibility == Visibility.Visible
                     ? "minimize"

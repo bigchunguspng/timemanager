@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using TimeManager.Model.Events;
 using TimeManager.Model.Tasks;
 using TimeManager.Utilities;
-using TimeManager.ViewModel;
+using static TimeManager.ViewModel.MainWindowViewModel;
 
 namespace TimeManager.Model.Regular
 {
@@ -34,7 +34,7 @@ namespace TimeManager.Model.Regular
         }
         public RegularActivity(Task task) : this(task.Description) // todo task contex menu item
         {
-            Times.Add(task.Performance.StartDate());
+            Times.Add(task.Performance.StartDate);
         }
         public RegularActivity(Event @event) : this(@event.Description)
         {
@@ -62,12 +62,12 @@ namespace TimeManager.Model.Regular
         {
             if (date.Date > DateTime.Today)
             {
-                MainWindowViewModel.ShowInStatusBar("Can't add the future date");
+                ShowInStatusBar("Can't add the future date");
                 return;
             }
             if (Times.Contains(date))
             {
-                MainWindowViewModel.ShowInStatusBar("This date is already included");
+                ShowInStatusBar("This date is already included");
                 return;
             }
             Times.Add(date.Date);
@@ -94,12 +94,12 @@ namespace TimeManager.Model.Regular
 
         public float AverageFrequency(Period period, int per = 7 /*days*/)
         {
-            float result = HowManyTimes(period) / (period.Duration().Days / (float) per);
+            float result = HowManyTimes(period) / (period.Duration.Days / (float) per);
             return (float) Math.Round(result, 2);
         }
         public float AverageFrequency(int per = 7 /*days*/)
         {
-            float result = HowManyTimes() / (new Period(Times[0], DateTime.Today).Duration().Days / (float) per);
+            float result = HowManyTimes() / (new Period(Times[0], DateTime.Today).Duration.Days / (float) per);
             return (float) Math.Round(result, 2);
         }
 
@@ -109,7 +109,7 @@ namespace TimeManager.Model.Regular
             _first = -1;
             _last  = -1;
 
-            if (period.Start > Times[Times.Count - 1]) return;
+            if (period.Start > LastTime) return;
 
             for (var i = 0; i < Times.Count; i++)
                 if (_first < 0)

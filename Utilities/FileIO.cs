@@ -23,7 +23,7 @@ namespace TimeManager.Utilities
 
         public void SaveData(object list)
         {
-            using (StreamWriter writer = File.CreateText(_path)) 
+            using (StreamWriter writer = File.CreateText(_path))
                 writer.Write(JsonConvert.SerializeObject(list, new JsonSerializerSettings
                 {
                     DefaultValueHandling = DefaultValueHandling.Ignore

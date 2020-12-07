@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using TimeManager.ViewModel;
+using static TimeManager.ViewModel.MainWindowViewModel;
 
 namespace TimeManager.Utilities
 {
@@ -22,12 +22,12 @@ namespace TimeManager.Utilities
             if (RenameMode == Visibility.Collapsed)
             {
                 RenameMode = Visibility.Visible;
-                MainWindowViewModel.ShowInStatusBar("Enter or Esc - exit rename mode");
+                ShowInStatusBar("Enter or Esc - exit rename mode");
             }
             else
             {
                 RenameMode = Visibility.Collapsed;
-                MainWindowViewModel.ShowInStatusBar("");
+                ShowInStatusBar("");
             }
 
             OnPropertyChanged(nameof(RenameMode));

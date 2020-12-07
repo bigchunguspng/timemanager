@@ -50,7 +50,7 @@ namespace TimeManager.Model
             TopicsIO.SaveData(Topics);
 
             Settings.Default.Save();
-            foreach (var category in RecycleBin) category.Clear();
+            foreach (var category in RecycleBin) category.ClearFile();
             RecycleBin.Clear();
             MainWindowViewModel.ShowInStatusBar($"Saved at {DateTime.Now.TimeOfDay:%h\\:mm\\:ss}");
         }

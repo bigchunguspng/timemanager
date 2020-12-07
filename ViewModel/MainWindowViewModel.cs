@@ -30,7 +30,7 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedPage = value;
-                OnPropertyChanged(nameof(SelectedPage));
+                OnPropertyChanged();
             }
         }
 
@@ -41,7 +41,7 @@ namespace TimeManager.ViewModel
             set
             {
                 _selectedSection = value;
-                OnPropertyChanged(nameof(SelectedSection));
+                OnPropertyChanged();
                 if (_selectedSection != null)
                 {
                     SelectedCategory = null;
@@ -61,7 +61,7 @@ namespace TimeManager.ViewModel
                 _selectedCategory = value;
                 CategoryMover.SelectedElement = value;
                 Storage.SelectedCategory = SelectedCategory;
-                OnPropertyChanged(nameof(SelectedCategory));
+                OnPropertyChanged();
                 if (CategorySelected)
                 {
                     SelectedSection = null;

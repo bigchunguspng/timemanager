@@ -8,7 +8,7 @@ namespace TimeManager.Utilities
     public static class DateExtensions
     {
         public static TimeSpan SumOf(IEnumerable<Period> periods) =>
-            periods?.Aggregate(new TimeSpan(), (current, period) => current + period.Duration()) ?? TimeSpan.Zero;
+            periods?.Aggregate(new TimeSpan(), (current, period) => current + period.Duration) ?? TimeSpan.Zero;
 
         /*public static string Duration(Period period)
         {

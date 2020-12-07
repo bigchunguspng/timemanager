@@ -10,7 +10,7 @@
             set
             {
                 _message = value;
-                OnPropertyChanged(nameof(Message));
+                OnPropertyChanged();
             }
         }
     }

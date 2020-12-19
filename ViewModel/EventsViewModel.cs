@@ -28,13 +28,46 @@ namespace TimeManager.ViewModel
             {
                 _selectedTopic = value;
                 TopicMover.SelectedElement = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        #region edit event
+
+        private Event _eventToEdit;
+        private RelayCommand _editEvent;
+
+        private bool EditMode { get; set; }
+        private Event EventToEdit
+        {
+            get => _eventToEdit;
+            set
+            {
+                _eventToEdit = value;
+                EditMode = value != null;
+                if (value != null)
+                {
+                    NewEventDescription = value.Description;
+                    Date1 = value.Period.Start;
+                    Date2 = value.Period.IsFinished ? value.Period.End : DateTime.Today;
+                }
             }
         }
 
+        public RelayCommand EditEvent => _editEvent ?? (_editEvent = new RelayCommand(o =>
+        {
+            EventToEdit = SelectedTopic.SelectedEvent;
+        }, o => EventSelected));
+
+        private bool EventSelected => SelectedTopic?.SelectedEvent != null;
+        
+        #endregion
 
         #region new event
         
         private string _newEventDescription;
+        private DateTime _date1;
+        private DateTime _date2;
         private RelayCommand _addShortEvent;
         private RelayCommand _addLongEvent;
         private RelayCommand _addUnfinishedEvent;
@@ -49,28 +82,56 @@ namespace TimeManager.ViewModel
             }
         }
 
-        public DateTime Date1 { get; set; }
-        public DateTime Date2 { get; set; }
+        public DateTime Date1
+        {
+            get => _date1;
+            set
+            {
+                _date1 = value;
+                OnPropertyChanged();
+            }
+        }
+        public DateTime Date2
+        {
+            get => _date2;
+            set
+            {
+                _date2 = value;
+                OnPropertyChanged();
+            }
+        }
 
         public RelayCommand AddShortEvent => _addShortEvent ?? (_addShortEvent = new RelayCommand(o =>
         {
-            AddEvent(new Event(NewEventDescription, Date1));
+            AddOrEdit(new Event(NewEventDescription, Date1));
         }, o => TopicSelected));
 
         public RelayCommand AddLongEvent => _addLongEvent ?? (_addLongEvent = new RelayCommand(o =>
         {
-            AddEvent(new Event(NewEventDescription, new Period(Date1, Date2)));
+            AddOrEdit(new Event(NewEventDescription, new Period(Date1, Date2)));
         }, o => TopicSelected));
 
         public RelayCommand AddUnfinishedEvent => _addUnfinishedEvent ?? (_addUnfinishedEvent = new RelayCommand(o =>
         {
-            AddEvent(new Event(NewEventDescription, new Period(Date1)));
+            AddOrEdit(new Event(NewEventDescription, new Period(Date1)));
         }, o => TopicSelected));
 
-        private void AddEvent(Event @event)
+        private void AddOrEdit(Event @event)
         {
-            SelectedTopic.AddEvent(@event);
+            if (EditMode)
+            {
+                EventToEdit.Description = @event.Description;
+                EventToEdit.Period = @event.Period;
+                EventToEdit.OneDay = @event.OneDay;
+                EventToEdit.UpdateInfo();
+                EventToEdit = null;
+            }
+            else
+                SelectedTopic.AddEvent(@event);
+
             NewEventDescription = string.Empty;
+            Date1 = DateTime.Today;
+            Date2 = DateTime.Today;
         }
 
         private bool TopicSelected => SelectedTopic != null;

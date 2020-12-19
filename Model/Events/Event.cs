@@ -7,7 +7,7 @@ namespace TimeManager.Model.Events
 {
     /// <summary> Chronological event that continues one or more days and can take place in past, present or future. </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class Event
+    public class Event : NotifyPropertyChanged
     {
         #region constructors
 
@@ -47,6 +47,13 @@ namespace TimeManager.Model.Events
         public string DurationInfo => OneDay
             ? Period.Start.DaysAgo()
             : DateExtensions.TimeSpanToString(Period.Duration);
+
+        public void UpdateInfo()
+        {
+            OnPropertyChanged(nameof(Description));
+            OnPropertyChanged(nameof(TimeInfo));
+            OnPropertyChanged(nameof(DurationInfo));
+        }
         
         
         /*public TimeSpan TimeFromStart => Period.TimePassed();

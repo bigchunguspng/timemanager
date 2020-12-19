@@ -43,6 +43,11 @@
                     Content="Unfinifhed period"
                     Margin="0,5,5,0" />
             </StackPanel>
+            <Button 
+                Grid.Column="0" Width="80" Height="25"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
+                Command="{Binding EditEvent}"
+                Content="Edit" />
         </Grid>
         
         <TextBox 

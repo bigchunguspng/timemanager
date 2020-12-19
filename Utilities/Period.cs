@@ -37,7 +37,7 @@ namespace TimeManager.Utilities
         [JsonProperty] public DateTime Start { get; set; }
         [JsonProperty] public DateTime End { get; set; }
 
-        private bool IsFinished => End > Start;
+        public bool IsFinished => End > Start;
         public void Finish() => End = DateTime.Now;
 
         public TimeSpan Duration => (IsFinished ? End : DateTime.Now ) - Start;

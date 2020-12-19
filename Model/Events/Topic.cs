@@ -10,6 +10,7 @@ namespace TimeManager.Model.Events
     public class Topic : NotifyPropertyChanged
     {
         private string _name;
+        private Event _selectedEvent;
 
         public Topic(string name)
         {
@@ -33,7 +34,17 @@ namespace TimeManager.Model.Events
         [JsonProperty] public Visibility ContentVisibility { get; set; }
 
         //public Topic SelectedSubtopic { get; set; }
-        public Event SelectedEvent { get; set; }
+        public Event SelectedEvent
+        {
+            get => _selectedEvent;
+            set
+            {
+                _selectedEvent = value;
+                OnPropertyChanged();
+                //EventsViewModel.SelectedTopic = this;
+            }
+        }
+
         public Renamer Renamer { get; set; }
 
 

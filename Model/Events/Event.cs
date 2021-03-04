@@ -9,6 +9,8 @@ namespace TimeManager.Model.Events
     [JsonObject(MemberSerialization.OptIn)]
     public class Event : NotifyPropertyChanged
     {
+        private string _description;
+
         #region constructors
 
         public Event()
@@ -35,7 +37,16 @@ namespace TimeManager.Model.Events
         //todo перевірка на (дата 2 > дати1)
         #endregion
 
-        [JsonProperty] public string Description { get; set; }
+        [JsonProperty] public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty] public Period Period { get; set; }
         [JsonProperty] public bool OneDay { get; set; }
 
@@ -46,7 +57,7 @@ namespace TimeManager.Model.Events
             : Period.ToString(true);
         public string DurationInfo => OneDay
             ? Period.Start.DaysAgo()
-            : DateExtensions.TimeSpanToString(Period.Duration);
+            : DateExtensions.TimeSpanToString(Period.IsFinished ? Period.Duration + TimeSpan.FromDays(1) : Period.Duration);
 
         public void UpdateInfo()
         {

@@ -21,7 +21,7 @@
             <ListView
                 ItemsSource="{Binding SelectedActivityDates}"
                 SelectedIndex="{Binding IndexOfSelectedDate}"
-                BorderThickness="1,1,1,0">
+                BorderThickness="1,1,1,0" MaxHeight="400">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>

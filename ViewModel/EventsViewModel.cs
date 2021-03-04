@@ -130,8 +130,9 @@ namespace TimeManager.ViewModel
                 SelectedTopic.AddEvent(@event);
 
             NewEventDescription = string.Empty;
-            Date1 = DateTime.Today;
-            Date2 = DateTime.Today;
+            
+            //Date1 = DateTime.Today;
+            //Date2 = DateTime.Today;
         }
 
         private bool TopicSelected => SelectedTopic != null;

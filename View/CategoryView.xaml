@@ -109,6 +109,12 @@
                                 <KeyBinding
                                     Command="{Binding RemoveTask}"
                                     Key="Delete" />
+                                <KeyBinding
+                                    Command="{Binding TaskMover.MoveUp}"
+                                    Modifiers="Alt" Key="Q" />
+                                <KeyBinding
+                                    Command="{Binding TaskMover.MoveDown}"
+                                    Modifiers="Alt" Key="A" />
                             </ListView.InputBindings>
                         </ListView>
                         <StackPanel

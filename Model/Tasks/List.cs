@@ -22,6 +22,7 @@ namespace TimeManager.Model.Tasks
             Tasks = new ObservableCollection<Task>();
             NewTaskDeadline = DateTime.Today;
             Renamer = new Renamer();
+            TaskMover = new Mover<Task>(Tasks, SelectedTask);
         }
 
         [JsonProperty] public string Name
@@ -59,6 +60,7 @@ namespace TimeManager.Model.Tasks
             }
         }
 
+        public Mover<Task> TaskMover { get; set; }
         public Renamer Renamer { get; set; }
         public Task SelectedTask
         {
@@ -66,8 +68,9 @@ namespace TimeManager.Model.Tasks
             set
             {
                 _selectedTask = value;
+                TaskMover.SelectedElement = value;
                 OnPropertyChanged();
-                ShowInStatusBar("Delete - delete task");
+                ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Delete - delete task");
             }
         }
         public string NewTaskDescription

@@ -18,10 +18,37 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="5,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <DatePicker
+                        SelectedDate="{Binding NewDate}"
+                        Width="95" Margin="0,0,0,6"
+                        BorderThickness="0" />
+                    <Button
+                        Command="{Binding AddDate}"
+                        Content="Add"
+                        Width="35" Margin="0,0,5,5" />
+                </StackPanel>
+            </Grid>
+            <TreeView BorderBrush="#abadb3">
+                <TreeViewItem Header="{Binding Analytics[0]}" IsExpanded="True">
+                    <TreeViewItem Header="{Binding Analytics[1]}" />
+                    <TreeViewItem Header="{Binding Analytics[2]}" />
+                    <TreeViewItem Header="{Binding Analytics[3]}" />
+                </TreeViewItem>
+                <TreeViewItem Header="{Binding Analytics[4]}" IsExpanded="True">
+                    <TreeViewItem Header="{Binding Analytics[5]}" />
+                    <TreeViewItem Header="{Binding Analytics[6]}" />
+                    <TreeViewItem Header="{Binding Analytics[7]}" />
+                </TreeViewItem>
+            </TreeView>
             <ListView
                 ItemsSource="{Binding SelectedActivityDates}"
                 SelectedIndex="{Binding IndexOfSelectedDate}"
-                BorderThickness="1,1,1,0" MaxHeight="400">
+                BorderThickness="1,0,1,1" MaxHeight="400">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -37,33 +64,6 @@
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
-            <TreeView BorderBrush="#abadb3">
-                <TreeViewItem Header="{Binding Analytics[0]}" IsExpanded="True">
-                    <TreeViewItem Header="{Binding Analytics[1]}" />
-                    <TreeViewItem Header="{Binding Analytics[2]}" />
-                    <TreeViewItem Header="{Binding Analytics[3]}" />
-                </TreeViewItem>
-                <TreeViewItem Header="{Binding Analytics[4]}" IsExpanded="True">
-                    <TreeViewItem Header="{Binding Analytics[5]}" />
-                    <TreeViewItem Header="{Binding Analytics[6]}" />
-                    <TreeViewItem Header="{Binding Analytics[7]}" />
-                </TreeViewItem>
-            </TreeView>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <DatePicker
-                        SelectedDate="{Binding NewDate}"
-                        Width="95" Margin="0,6,0,0"
-                        BorderThickness="0" />
-                    <Button
-                        Command="{Binding AddDate}"
-                        Content="Add"
-                        Width="35" Margin="0,5,5,0" />
-                </StackPanel>
-            </Grid>
         </StackPanel>
 
         <ListBox

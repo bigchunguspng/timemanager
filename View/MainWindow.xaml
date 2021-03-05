@@ -5,24 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TimeManager.ViewModel"
         mc:Ignorable="d"
-        Title="TimeManager"
+        Title="Time Manager"
+        WindowStyle="None"
         CacheMode="BitmapCache"
         WindowStartupLocation="Manual"
         Left="{Binding Left, Mode=TwoWay}"
         Top="{Binding Top, Mode=TwoWay}"
         Height="{Binding Height, Mode=TwoWay}"
         Width="{Binding Width, Mode=TwoWay}">
-
+    <WindowChrome.WindowChrome>
+        <WindowChrome 
+            CaptionHeight="30"
+            ResizeBorderThickness="6"
+            GlassFrameThickness="-1" />
+    </WindowChrome.WindowChrome>
+    
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
 
     <DockPanel LastChildFill="True">
 
-        <StatusBar DockPanel.Dock="Bottom" Height="28" BorderBrush="#abadb3" BorderThickness="0,1,0,0">
+        <Grid DockPanel.Dock="Top" Background="#e2e2e2">
+            <Grid.Resources>
+                <Style x:Key="TitleBarButton" TargetType="Button">
+                    <Style.Setters>
+                        <Setter Property="Width" Value="45" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                        <Setter Property="FontSize" Value="10" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" >
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <Trigger Property="Button.IsMouseOver" Value="True">
+                            <Setter Property="Button.Background" Value="#c8c8c8"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="CloseButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+                    <Style.Triggers>
+                        <Trigger Property="Button.IsMouseOver" Value="True">
+                            <Setter Property="Button.Background" Value="#df0216"/>
+                            <Setter Property="Button.Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+            <StackPanel 
+                WindowChrome.IsHitTestVisibleInChrome="True" Height="30"
+                VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Content="&#xE949;" Name="Minimize" Style="{StaticResource TitleBarButton}"/>
+                <Button Content="&#xE739;" Name="Maximize" Style="{StaticResource TitleBarButton}"/> <!--E923-->
+                <Button Content="&#xE8BB;" Name="CloseWindow" Style="{StaticResource CloseButton}" />
+            </StackPanel>
+        </Grid>
+        
+        <StatusBar 
+            DockPanel.Dock="Bottom" Height="27" 
+            BorderThickness="0" Background="#e0e0e0">
             <StatusBarItem Padding="0,0,6,0">
                 <Button
-                    Content="Save All" Width="60" Height="27" BorderThickness="0"
+                    Content="Save All" Width="60" Height="27" BorderThickness="0" Background="#d1d1d1"
                     Command="{Binding SaveAll}" />
             </StatusBarItem>
             <StatusBarItem>
@@ -30,10 +82,11 @@
             </StatusBarItem>
         </StatusBar>
 
-        <Grid DockPanel.Dock="Left" Width="200">
+        <Grid DockPanel.Dock="Left" Width="200" Background="#f5f5f5">
             <DockPanel>
                 <ListBox
-                    DockPanel.Dock="Bottom" BorderThickness="0,0,1,0"
+                    DockPanel.Dock="Bottom" BorderThickness="0,1,1,0" BorderBrush="#e0e0e0"
+                    Background="Transparent"
                     ItemsSource="{Binding DefaultSections}"
                     SelectedItem="{Binding SelectedSection}">
                     <ListBox.ItemTemplate>
@@ -48,7 +101,8 @@
                 </ListBox>
 
                 <ListBox
-                    BorderThickness="0,1,1,1"
+                    BorderThickness="0,0,1,0" BorderBrush="#e0e0e0"
+                    Background="Transparent"
                     ItemsSource="{Binding Path=Categories}"
                     SelectedItem="{Binding Path=SelectedCategory}">
                     <ListBox.ItemTemplate>
@@ -119,7 +173,7 @@
         </Grid>
 
         <Frame
-            NavigationUIVisibility="Hidden"
+            NavigationUIVisibility="Hidden" Background="#f5f5f5"
             Content="{Binding SelectedPage}" />
 
         <DockPanel.InputBindings>

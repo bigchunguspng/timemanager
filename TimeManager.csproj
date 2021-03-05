@@ -131,6 +131,5 @@
     </Page>
     <Page Include="View\ActivitiesView.xaml" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

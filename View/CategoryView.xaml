@@ -12,11 +12,47 @@
     </Page.DataContext>
 
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="ListViewItem" x:Key="BaseListView">
+                <Style.Setters>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter Margin="5,2" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style.Setters>
+            </Style>
+            <Style TargetType="ListViewItem" x:Key="TaskList" BasedOn="{StaticResource BaseListView}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#44e0e0e0" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#88e0e0e0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="ListViewItem" x:Key="Task" BasedOn="{StaticResource BaseListView}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#88BEE6FD" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#FFBEE6FD" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <ListView
             ScrollViewer.VerticalScrollBarVisibility="Disabled"
             ItemsSource="{Binding SelectedCategory.TaskLists}"
             SelectedItem="{Binding SelectedCategory.SelectedTaskList}"
-            BorderThickness="0">
+            ItemContainerStyle="{StaticResource TaskList}"
+            BorderThickness="0" Background="Transparent" Padding="-1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
@@ -57,6 +93,7 @@
                             ItemsSource="{Binding Tasks}"
                             SelectedItem="{Binding SelectedTask}"
                             Visibility="{Binding ContentVisibility}"
+                            ItemContainerStyle="{StaticResource Task}"
                             BorderThickness="0" Background="Transparent">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -69,7 +106,7 @@
                                         <Button
                                             Content="{Binding ButtonContent}"
                                             Command="{Binding ChangeTaskStatus}"
-                                            Width="20" 
+                                            Width="20"
                                             Foreground="{Binding Color}" />
                                         <TextBox
                                             Grid.Column="1"

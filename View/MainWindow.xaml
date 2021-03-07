@@ -14,19 +14,19 @@
         Height="{Binding Height, Mode=TwoWay}"
         Width="{Binding Width, Mode=TwoWay}">
     <WindowChrome.WindowChrome>
-        <WindowChrome 
+        <WindowChrome
             CaptionHeight="30"
             ResizeBorderThickness="6"
             GlassFrameThickness="-1" />
     </WindowChrome.WindowChrome>
-    
+
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
 
     <DockPanel LastChildFill="True">
 
-        <Grid DockPanel.Dock="Top" Background="#e2e2e2">
+        <Grid DockPanel.Dock="Top" Background="#e0e0e0">
             <Grid.Resources>
                 <Style x:Key="TitleBarButton" TargetType="Button">
                     <Style.Setters>
@@ -39,7 +39,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" >
+                                    <Border Background="{TemplateBinding Background}">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Border>
                                 </ControlTemplate>
@@ -48,34 +48,34 @@
                     </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="Button.IsMouseOver" Value="True">
-                            <Setter Property="Button.Background" Value="#c8c8c8"/>
+                            <Setter Property="Button.Background" Value="#c8c8c8" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
                 <Style x:Key="CloseButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
                     <Style.Triggers>
                         <Trigger Property="Button.IsMouseOver" Value="True">
-                            <Setter Property="Button.Background" Value="#df0216"/>
-                            <Setter Property="Button.Foreground" Value="White"/>
+                            <Setter Property="Button.Background" Value="#df0216" />
+                            <Setter Property="Button.Foreground" Value="White" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
             <TextBlock
-                WindowChrome.IsHitTestVisibleInChrome="True" Text="Time Manager"
+                Text="Time Manager"
                 FontStyle="Normal" Margin="10,0" Foreground="#3c3c3c"
                 VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <StackPanel 
+            <StackPanel
                 WindowChrome.IsHitTestVisibleInChrome="True" Height="30"
                 VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="&#xE949;" Name="Minimize" Style="{StaticResource TitleBarButton}"/>
-                <Button Content="&#xE739;" Name="Maximize" Style="{StaticResource TitleBarButton}"/> <!--E923-->
+                <Button Content="&#xE949;" Name="Minimize" Style="{StaticResource TitleBarButton}" />
+                <Button Content="&#xE739;" Name="Maximize" Style="{StaticResource TitleBarButton}" /> <!--E923-->
                 <Button Content="&#xE8BB;" Name="CloseWindow" Style="{StaticResource CloseButton}" />
             </StackPanel>
         </Grid>
-        
-        <StatusBar 
-            DockPanel.Dock="Bottom" Height="30" 
+
+        <StatusBar
+            DockPanel.Dock="Bottom" Height="30"
             BorderThickness="0" Background="#e0e0e0">
             <StatusBarItem Padding="0,0,6,0">
                 <Button
@@ -89,9 +89,27 @@
 
         <Grid DockPanel.Dock="Left" Width="200" Background="#f5f5f5">
             <DockPanel>
+                <DockPanel.Resources>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource BlueSelection}">
+                        <Setter Property="FontStyle" Value="Normal" />
+                        <Setter Property="FontWeight" Value="300" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter
+                                            Margin="5,2"
+                                            HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DockPanel.Resources>
+
                 <ListBox
                     DockPanel.Dock="Bottom" BorderThickness="0,1,1,0" BorderBrush="#e0e0e0"
-                    Background="Transparent"
+                    Background="Transparent" Padding="-1"
                     ItemsSource="{Binding DefaultSections}"
                     SelectedItem="{Binding SelectedSection}">
                     <ListBox.ItemTemplate>
@@ -107,7 +125,7 @@
 
                 <ListBox
                     BorderThickness="0,0,1,0" BorderBrush="#e0e0e0"
-                    Background="Transparent"
+                    Background="Transparent" Padding="-1"
                     ItemsSource="{Binding Path=Categories}"
                     SelectedItem="{Binding Path=SelectedCategory}">
                     <ListBox.ItemTemplate>
@@ -120,7 +138,7 @@
                                 <TextBlock
                                     Text="{Binding Name}" FontSize="18"
                                     Margin="3, 5,0,5"
-                                    TextTrimming="CharacterEllipsis" >
+                                    TextTrimming="CharacterEllipsis">
                                     <TextBlock.InputBindings>
                                         <MouseBinding
                                             Command="{Binding Renamer.ToggleRenameMode}"

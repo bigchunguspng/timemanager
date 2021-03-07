@@ -2,6 +2,7 @@
 using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
+using static TimeManager.ViewModel.MainWindowViewModel;
 
 namespace TimeManager.Model.Events
 {
@@ -42,6 +43,7 @@ namespace TimeManager.Model.Events
                 _selectedEvent = value;
                 OnPropertyChanged();
                 //EventsViewModel.SelectedTopic = this;
+                ShowInStatusBar("Double click - rename");
             }
         }
 

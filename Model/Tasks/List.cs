@@ -109,7 +109,7 @@ namespace TimeManager.Model.Tasks
         public void UpdateStatusBar()
         {
             ShowInStatusBar(
-                "Alt+Q - move up | Alt+A - move down | Middle click - " +
+                "Alt+Q - move up | Alt+A - move down | Double click - rename | Middle click - " +
                 (ContentVisibility == Visibility.Visible
                     ? "minimize"
                     : "maximize"));

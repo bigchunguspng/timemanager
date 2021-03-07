@@ -30,11 +30,12 @@
             <Grid.Resources>
                 <Style x:Key="TitleBarButton" TargetType="Button">
                     <Style.Setters>
-                        <Setter Property="Width" Value="45" />
+                        <Setter Property="Width" Value="46" />
                         <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
                         <Setter Property="FontSize" Value="10" />
+                        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
@@ -60,6 +61,10 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
+            <TextBlock
+                WindowChrome.IsHitTestVisibleInChrome="True" Text="Time Manager"
+                FontStyle="Normal" Margin="10,0" Foreground="#3c3c3c"
+                VerticalAlignment="Center" HorizontalAlignment="Left" />
             <StackPanel 
                 WindowChrome.IsHitTestVisibleInChrome="True" Height="30"
                 VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
@@ -70,11 +75,11 @@
         </Grid>
         
         <StatusBar 
-            DockPanel.Dock="Bottom" Height="27" 
+            DockPanel.Dock="Bottom" Height="30" 
             BorderThickness="0" Background="#e0e0e0">
             <StatusBarItem Padding="0,0,6,0">
                 <Button
-                    Content="Save All" Width="60" Height="27" BorderThickness="0" Background="#d1d1d1"
+                    Content="Save All" Width="62" Height="30" BorderThickness="0" Background="#d1d1d1"
                     Command="{Binding SaveAll}" />
             </StatusBarItem>
             <StatusBarItem>
@@ -140,7 +145,7 @@
                                     </TextBox.InputBindings>
                                 </TextBox>
                                 <Ellipse
-                                    Grid.Column="1" Fill="SlateGray"
+                                    Grid.Column="1" Fill="#404040"
                                     Width="{Binding IndicatorSize}"
                                     Height="{Binding IndicatorSize}"
                                     Margin="{Binding IndicatorMargin}" />

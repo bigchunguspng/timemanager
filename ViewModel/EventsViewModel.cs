@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using TimeManager.Model;
 using TimeManager.Model.Events;
 using TimeManager.Utilities;
+using static TimeManager.ViewModel.MainWindowViewModel;
 
 namespace TimeManager.ViewModel
 {
@@ -29,6 +30,7 @@ namespace TimeManager.ViewModel
                 _selectedTopic = value;
                 TopicMover.SelectedElement = value;
                 OnPropertyChanged();
+                ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Double click - rename | Middle click - minimize / maximize");
             }
         }
         

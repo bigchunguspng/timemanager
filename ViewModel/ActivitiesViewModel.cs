@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using TimeManager.Model;
 using TimeManager.Model.Regular;
 using TimeManager.Utilities;
+using static TimeManager.ViewModel.MainWindowViewModel;
 
 namespace TimeManager.ViewModel
 {
@@ -28,6 +29,8 @@ namespace TimeManager.ViewModel
                 ActivityMover.SelectedElement = value;
                 OnPropertyChanged();
                 UpdateSelectedActivityInfo();
+                ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click or Double click - rename");
+                
             }
         }
 

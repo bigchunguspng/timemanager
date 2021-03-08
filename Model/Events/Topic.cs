@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using Newtonsoft.Json;
 using TimeManager.Utilities;
 using static TimeManager.ViewModel.MainWindowViewModel;
@@ -8,7 +7,7 @@ namespace TimeManager.Model.Events
 {
     /// <summary> Contains a group of events. </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class Topic : NotifyPropertyChanged
+    public class Topic : Collapsible
     {
         private string _name;
         private Event _selectedEvent;
@@ -32,7 +31,6 @@ namespace TimeManager.Model.Events
         }
         //[JsonProperty] public ObservableCollection<Topic> SubTopics { get; set; }
         [JsonProperty] public ObservableCollection<Event> Events { get; set; }
-        [JsonProperty] public Visibility ContentVisibility { get; set; }
 
         //public Topic SelectedSubtopic { get; set; }
         public Event SelectedEvent
@@ -71,16 +69,8 @@ namespace TimeManager.Model.Events
 
         #region commands
 
-        private RelayCommand _toggleContentVisibility;
         private RelayCommand _removeEvent;
         
-        public RelayCommand ToggleContentVisibility =>
-            _toggleContentVisibility ?? (_toggleContentVisibility = new RelayCommand(o =>
-            {
-                ContentVisibility = ContentVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                OnPropertyChanged(nameof(ContentVisibility));
-            }));
-
         public RelayCommand RemoveEvent => _removeEvent ?? (_removeEvent = new RelayCommand(o =>
         {
             Events.Remove(SelectedEvent);

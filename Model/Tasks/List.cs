@@ -9,7 +9,7 @@ namespace TimeManager.Model.Tasks
 {
     /// <summary> List of tasks; to‐do list. </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class List : NotifyPropertyChanged
+    public class List : Collapsible
     {
         private string _name;
         private Task _selectedTask;
@@ -18,11 +18,15 @@ namespace TimeManager.Model.Tasks
 
         public List()
         {
-            Name = "New List";
             Tasks = new ObservableCollection<Task>();
             NewTaskDeadline = DateTime.Today;
             Renamer = new Renamer();
             TaskMover = new Mover<Task>(Tasks, SelectedTask);
+            VisibilityChanged += UpdateViewModel;
+        }
+        public List(string name) : this()
+        {
+            Name = name;
         }
 
         [JsonProperty] public string Name
@@ -36,7 +40,6 @@ namespace TimeManager.Model.Tasks
         }
         [JsonProperty] public ObservableCollection<Task> Tasks { get; set; }
         
-        [JsonProperty] public Visibility ContentVisibility { get; set; }
         public string TasksSummary
         {
             get
@@ -94,18 +97,15 @@ namespace TimeManager.Model.Tasks
 
         #region commands
         
-        private RelayCommand _toggleContentVisibility;
         private RelayCommand _addTask;
         private RelayCommand _removeTask;
 
-        public RelayCommand ToggleContentVisibility =>
-            _toggleContentVisibility ?? (_toggleContentVisibility = new RelayCommand(o =>
-            {
-                ContentVisibility = ContentVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                OnPropertyChanged(nameof(ContentVisibility));
-                OnPropertyChanged(nameof(TasksSummary));
-                UpdateStatusBar();
-            }));
+        private void UpdateViewModel()
+        {
+            OnPropertyChanged(nameof(TasksSummary));
+            UpdateStatusBar();
+        }
+        
         public void UpdateStatusBar()
         {
             ShowInStatusBar(

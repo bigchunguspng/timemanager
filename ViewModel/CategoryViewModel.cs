@@ -37,7 +37,7 @@ namespace TimeManager.ViewModel
 
 
         public RelayCommand NewList => _newList ?? (_newList = new RelayCommand(
-            o => SelectedCategory.TaskLists.Add(new List())));
+            o => SelectedCategory.TaskLists.Add(new List("New List"))));
 
         public RelayCommand RemoveList => _removeList ?? (_removeList = new RelayCommand(
             o => SelectedCategory.TaskLists.Remove(SelectedCategory.SelectedTaskList),

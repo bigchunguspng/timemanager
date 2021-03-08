@@ -73,6 +73,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Collapsible.cs" />
     <Compile Include="Utilities\DateExtensions.cs" />
     <Compile Include="Utilities\FileIO.cs" />
     <Compile Include="Utilities\Hash.cs" />

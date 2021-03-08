@@ -20,7 +20,7 @@ namespace TimeManager.Model.Tasks
             TaskLists = new ObservableCollection<List>();
             Renamer = new Renamer();
             TaskListMover = new Mover<List>(TaskLists, SelectedTaskList);
-            ID = Hash.UniqueHash(FolderPath);
+            FileID = Hash.UniqueHash(FolderPath);
         }
 
         [JsonProperty] public string Name
@@ -32,7 +32,7 @@ namespace TimeManager.Model.Tasks
                 OnPropertyChanged();
             }
         }
-        [JsonProperty] private string ID { get; set; }
+        [JsonProperty] private string FileID { get; set; }
         
         public Renamer Renamer { get; }
         public Mover<List> TaskListMover { get; set; }
@@ -53,7 +53,7 @@ namespace TimeManager.Model.Tasks
         
         private static readonly string FolderPath = $@"{Storage.Path}\Categories";
 
-        private string Path => $@"{FolderPath}\{ID}.json";
+        private string Path => $@"{FolderPath}\{FileID}.json";
         private FileIO CategoryIO => new FileIO(Path);
 
         public void LoadTaskLists() => TaskLists = CategoryIO.LoadData<List>();

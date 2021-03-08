@@ -36,8 +36,8 @@ namespace TimeManager.ViewModel
 
         #region selected activity info
 
-        private readonly int _defaultpanelwidth = 200;
-        public int PanelWidth => ActivitySelected ? _defaultpanelwidth : 0;
+        private readonly int _defaultPanelWidth = 200;
+        public int PanelWidth => ActivitySelected ? _defaultPanelWidth : 0;
 
         public ObservableCollection<string> SelectedActivityDates
         {

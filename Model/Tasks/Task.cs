@@ -37,7 +37,8 @@ namespace TimeManager.Model.Tasks
         #endregion
 
         [JsonProperty] public string Description { get; set; }
-        [JsonProperty] public Period Schedule { get; } //from task creation to deadline (or to the end of performance)
+        /// <summary> Period from task creation to it's deadline (or to the end of it's performance if it has no deadline) </summary>
+        [JsonProperty] public Period Schedule { get; }
         [JsonProperty] public Period Performance { get; set; }
         [JsonProperty] private List<Period> Breaks { get; set; }
         [JsonProperty] public bool HasDeadline
@@ -68,7 +69,7 @@ namespace TimeManager.Model.Tasks
         #region status change logic
         
         private RelayCommand _changeTaskStatus;
-        private RelayCommand _clearTask;
+        private RelayCommand _resetTaskStatus;
 
         public string ButtonContent
         {
@@ -166,10 +167,8 @@ namespace TimeManager.Model.Tasks
             if (!HasDeadline) Schedule.Finish();
         }
 
-        public RelayCommand ClearTask => _clearTask ?? (_clearTask = new RelayCommand(o =>
+        public RelayCommand ResetTaskStatus => _resetTaskStatus ?? (_resetTaskStatus = new RelayCommand(o =>
         {
-            //todo: user verification dialog
-
             if (!HasDeadline) Schedule.End = DateTime.MinValue;
             Performance = null;
             Breaks = null;
@@ -240,12 +239,12 @@ namespace TimeManager.Model.Tasks
 
         #region color
 
-        public Brush Color =>
+        public Brush TextColor =>
             Status == TaskStatus.Completed || Status == TaskStatus.Failed
                 ? new SolidColorBrush(Colors.Silver)
                 : new SolidColorBrush(Colors.Black);
 
-        private void UpdateColor() => OnPropertyChanged(nameof(Color));
+        private void UpdateColor() => OnPropertyChanged(nameof(TextColor));
 
         #endregion
     }

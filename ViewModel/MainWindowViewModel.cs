@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using TimeManager.Model;
 using TimeManager.Model.Tasks;
-using TimeManager.Properties;
 using TimeManager.Utilities;
 using TimeManager.View;
+using static TimeManager.Properties.Settings;
 
 namespace TimeManager.ViewModel
 {
@@ -82,26 +82,26 @@ namespace TimeManager.ViewModel
 
         public double Left
         {
-            get => Settings.Default.Left;
-            set => Settings.Default.Left = value;
+            get => Default.Left;
+            set => Default.Left = value;
         }
 
         public double Top
         {
-            get => Settings.Default.Top;
-            set => Settings.Default.Top = value;
+            get => Default.Top;
+            set => Default.Top = value;
         }
 
         public double Height
         {
-            get => Settings.Default.Height;
-            set => Settings.Default.Height = value;
+            get => Default.Height;
+            set => Default.Height = value;
         }
 
         public double Width
         {
-            get => Settings.Default.Width;
-            set => Settings.Default.Width = value;
+            get => Default.Width;
+            set => Default.Width = value;
         }
 
         #endregion

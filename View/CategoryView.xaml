@@ -85,7 +85,7 @@
                             </TextBox>
                             <TextBlock
                                 Grid.Column="1"
-                                Text="{Binding TasksInfo}" TextAlignment="Right"
+                                Text="{Binding TasksSummary}" TextAlignment="Right"
                                 MinWidth="96" Margin="1,0,0,0"
                                 Background="Transparent" />
                         </Grid>
@@ -107,23 +107,23 @@
                                             Content="{Binding ButtonContent}"
                                             Command="{Binding ChangeTaskStatus}"
                                             Width="20"
-                                            Foreground="{Binding Color}" />
+                                            Foreground="{Binding TextColor}" />
                                         <TextBox
                                             Grid.Column="1"
                                             Text="{Binding Description}"
                                             TextWrapping="Wrap"
-                                            Foreground="{Binding Color}" />
+                                            Foreground="{Binding TextColor}" />
                                         <TextBlock
                                             Grid.Column="2"
                                             Text="{Binding TimeInfo}"
                                             MinWidth="40" Margin="1,1,0,0"
                                             ToolTip="{Binding ToolTipText}"
-                                            Foreground="{Binding Color}" />
+                                            Foreground="{Binding TextColor}" />
                                         <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem
-                                                    Command="{Binding ClearTask}"
-                                                    Header="Clear" />
+                                                    Command="{Binding ResetTaskStatus}"
+                                                    Header="Reset status" />
                                                 <MenuItem Header="Set deadline">
                                                     <StackPanel Orientation="Horizontal">
                                                         <DatePicker

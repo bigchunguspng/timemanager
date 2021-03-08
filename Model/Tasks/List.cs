@@ -37,7 +37,7 @@ namespace TimeManager.Model.Tasks
         [JsonProperty] public ObservableCollection<Task> Tasks { get; set; }
         
         [JsonProperty] public Visibility ContentVisibility { get; set; }
-        public string TasksInfo
+        public string TasksSummary
         {
             get
             {
@@ -60,8 +60,8 @@ namespace TimeManager.Model.Tasks
             }
         }
 
-        public Mover<Task> TaskMover { get; set; }
         public Renamer Renamer { get; set; }
+        public Mover<Task> TaskMover { get; set; }
         public Task SelectedTask
         {
             get => _selectedTask;
@@ -103,7 +103,7 @@ namespace TimeManager.Model.Tasks
             {
                 ContentVisibility = ContentVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 OnPropertyChanged(nameof(ContentVisibility));
-                OnPropertyChanged(nameof(TasksInfo));
+                OnPropertyChanged(nameof(TasksSummary));
                 UpdateStatusBar();
             }));
         public void UpdateStatusBar()

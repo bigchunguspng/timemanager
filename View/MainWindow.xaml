@@ -25,6 +25,17 @@
     </Window.DataContext>
 
     <DockPanel LastChildFill="True">
+        <DockPanel.Style>
+            <Style>
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}"
+                        Value="Maximized">
+                        <Setter Property="Control.Margin" Value="7" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </DockPanel.Style>
 
         <Grid DockPanel.Dock="Top" Background="#e0e0e0">
             <Grid.Resources>

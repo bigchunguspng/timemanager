@@ -160,6 +160,9 @@
                                         <KeyBinding
                                             Command="{Binding Renamer.ToggleRenameMode}"
                                             Key="Escape" />
+                                        <MouseBinding
+                                            Command="{Binding Renamer.ToggleRenameMode}"
+                                            MouseAction="MiddleClick"/>
                                     </TextBox.InputBindings>
                                 </TextBox>
                                 <Ellipse

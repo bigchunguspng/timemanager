@@ -22,7 +22,7 @@ namespace TimeManager.Utilities
             if (RenameMode == Visibility.Collapsed)
             {
                 RenameMode = Visibility.Visible;
-                ShowInStatusBar("Enter or Esc - exit rename mode");
+                ShowInStatusBar("Middle click, Enter or Esc - exit rename mode");
             }
             else
             {

@@ -8,6 +8,10 @@ namespace TimeManager.View
         {
             InitializeComponent();
 
+            //without this window will overlap the taskbar
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2;
+            MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+
             Minimize.Click += (sender, args) => WindowState = WindowState.Minimized;
             Maximize.Click += (sender, args) =>
                 WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;

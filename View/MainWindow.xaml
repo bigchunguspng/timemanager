@@ -63,6 +63,20 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
+                <Style x:Key="MaximizeButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+                    <Style.Triggers>
+                        <DataTrigger 
+                            Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" 
+                            Value="Maximized">
+                            <Setter Property="Content" Value="&#xE923;" />
+                        </DataTrigger>
+                        <DataTrigger 
+                            Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" 
+                            Value="Normal">
+                            <Setter Property="Content" Value="&#xE739;" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
                 <Style x:Key="CloseButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
                     <Style.Triggers>
                         <Trigger Property="Button.IsMouseOver" Value="True">
@@ -79,9 +93,9 @@
             <StackPanel
                 WindowChrome.IsHitTestVisibleInChrome="True" Height="30"
                 VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="&#xE949;" Name="Minimize" Style="{StaticResource TitleBarButton}" />
-                <Button Content="&#xE739;" Name="Maximize" Style="{StaticResource TitleBarButton}" /> <!--E923-->
-                <Button Content="&#xE8BB;" Name="CloseWindow" Style="{StaticResource CloseButton}" />
+                <Button Name="Minimize" Style="{StaticResource TitleBarButton}" Content="&#xE949;" />
+                <Button Name="Maximize" Style="{StaticResource MaximizeButton}" />
+                <Button Name="CloseWindow" Style="{StaticResource CloseButton}" Content="&#xE8BB;" />
             </StackPanel>
         </Grid>
 

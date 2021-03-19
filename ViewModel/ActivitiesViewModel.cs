@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TimeManager.Model;
 using TimeManager.Model.Regular;
@@ -30,7 +31,6 @@ namespace TimeManager.ViewModel
                 OnPropertyChanged();
                 UpdateSelectedActivityInfo();
                 ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Middle click or Double click - rename");
-                
             }
         }
 
@@ -62,11 +62,14 @@ namespace TimeManager.ViewModel
             $"All time: {SelectedActivity.AverageFrequency()}"
         };
 
+        public Dictionary<int, int> Intervals => SelectedActivity.IntervalDistributionChart();
+        
         private void UpdateSelectedActivityInfo()
         {
             OnPropertyChanged(nameof(PanelWidth));
             OnPropertyChanged(nameof(SelectedActivityDates));
             OnPropertyChanged(nameof(Analytics));
+            OnPropertyChanged(nameof(Intervals));
         }
 
         #endregion

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Newtonsoft.Json;
 using TimeManager.Model.Events;
 using TimeManager.Model.Tasks;
@@ -103,6 +105,40 @@ namespace TimeManager.Model.Regular
             return (float) Math.Round(result, 2);
         }
 
+        private int[] Intervals()
+        {
+            int times = HowManyTimes();
+            int[] result = new int[times - 1];
+            for (int i = 0; i < times - 1; i++)
+                result[i] = (Times[i + 1] - Times[i]).Days;
+
+            return result;
+        }
+        
+        private int[] IntervalDistribution()
+        {
+            int[] intervals = Intervals();
+            int[] distribution = new int[intervals.Max()];
+            foreach (int interval in intervals)
+                distribution[interval - 1] += 8; // 8px (temp)
+
+            return distribution;
+        }
+        
+        public Dictionary<int, int> IntervalDistributionChart()
+        {
+            Dictionary<int, int> result = new Dictionary<int, int>();
+            int[] distribution = IntervalDistribution();
+            for (int i = 0; i < distribution.Length; i++)
+            {
+                if (result.Count == 0 && distribution[i] == 0)
+                    continue;
+                result.Add(i + 1, distribution[i]);
+            }
+
+            return result;
+        }
+        
         /// <summary>Присвоює "_first" індекс першого елементу після початку періоду, а "_last" - першого елементу після закінчення періоду</summary>
         private void CalculateFirstAndLastTimes(Period period)
         {

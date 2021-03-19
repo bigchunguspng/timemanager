@@ -45,6 +45,75 @@
                     <TreeViewItem Header="{Binding Analytics[7]}" />
                 </TreeViewItem>
             </TreeView>
+            <!--<ListBox 
+                Height="100"
+                ItemsSource="{Binding IntervalDistribution}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Rectangle
+                                VerticalAlignment="Bottom" Fill="#404040"
+                                Height="5" Width="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>-->
+            <!--<ListBox Height="100">
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Height="5" Width="20"/>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Height="5" Width="10"/>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Height="5" Width="8"/>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Height="5" Width="4"/>
+            </ListBox>-->
+            <ItemsControl 
+                Height="100" HorizontalAlignment="Left"
+                ItemsSource="{Binding Intervals}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel VerticalAlignment="Bottom">
+                            <Rectangle
+                                VerticalAlignment="Bottom" Fill="#404040"
+                                Width="5" Height="{Binding Value}"/>
+                            <TextBlock 
+                                Text="{Binding Key}"
+                                Margin="1"
+                                VerticalAlignment="Bottom" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Height="100"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <!--<ItemsControl 
+                Height="100">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Height="100" Width="120" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Width="5" Height="20"/>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Width="5" Height="2"/>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Width="5" Height="16"/>
+                <Rectangle
+                    VerticalAlignment="Bottom" Fill="#404040"
+                    Width="5" Height="8"/>
+            </ItemsControl>-->
             <ListView
                 ItemsSource="{Binding SelectedActivityDates}"
                 SelectedIndex="{Binding IndexOfSelectedDate}"

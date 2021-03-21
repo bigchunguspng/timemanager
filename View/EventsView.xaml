@@ -51,7 +51,7 @@
         </Grid>
 
         <TextBox
-            DockPanel.Dock="Bottom"
+            DockPanel.Dock="Bottom" Margin="5, 5, 5, 2"
             Text="{Binding NewEventDescription, UpdateSourceTrigger=PropertyChanged}" />
 
         <ScrollViewer PreviewMouseWheel="Scroll_OnPreviewMouseWheel">
@@ -59,7 +59,7 @@
                 ItemsSource="{Binding Topics}"
                 SelectedItem="{Binding SelectedTopic}"
                 ItemContainerStyle="{StaticResource GreySelection}"
-                BorderThickness="0" Padding="-1">
+                BorderThickness="0" Padding="-1" Background="Transparent">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

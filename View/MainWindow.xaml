@@ -37,7 +37,7 @@
             </Style>
         </DockPanel.Style>
 
-        <Grid DockPanel.Dock="Top" Background="#e0e0e0">
+        <Grid DockPanel.Dock="Top" Background="{StaticResource BackgroundDark}">
             <Grid.Resources>
                 <Style x:Key="TitleBarButton" TargetType="Button">
                     <Style.Setters>
@@ -101,7 +101,7 @@
 
         <StatusBar
             DockPanel.Dock="Bottom" Height="30"
-            BorderThickness="0" Background="#e0e0e0">
+            BorderThickness="0" Background="{StaticResource BackgroundDark}">
             <StatusBarItem Padding="0,0,6,0">
                 <Button
                     Content="Save All" Width="62" Height="30" BorderThickness="0" Background="#d1d1d1"
@@ -112,7 +112,7 @@
             </StatusBarItem>
         </StatusBar>
 
-        <Grid DockPanel.Dock="Left" Width="200" Background="#f5f5f5">
+        <Grid DockPanel.Dock="Left" Width="200" Background="{StaticResource BackgroundLight}">
             <DockPanel>
                 <DockPanel.Resources>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource BlueSelection}">
@@ -133,7 +133,7 @@
                 </DockPanel.Resources>
 
                 <ListBox
-                    DockPanel.Dock="Bottom" BorderThickness="0,1,1,0" BorderBrush="#e0e0e0"
+                    DockPanel.Dock="Bottom" BorderThickness="0,1,1,0" BorderBrush="{StaticResource BackgroundDark}"
                     Background="Transparent" Padding="-1"
                     ItemsSource="{Binding DefaultSections}"
                     SelectedItem="{Binding SelectedSection}">
@@ -149,7 +149,7 @@
                 </ListBox>
 
                 <ListBox
-                    BorderThickness="0,0,1,0" BorderBrush="#e0e0e0"
+                    BorderThickness="0,0,1,0" BorderBrush="{StaticResource BackgroundDark}"
                     Background="Transparent" Padding="-1"
                     ItemsSource="{Binding Path=Categories}"
                     SelectedItem="{Binding Path=SelectedCategory}">
@@ -224,7 +224,7 @@
         </Grid>
 
         <Frame
-            NavigationUIVisibility="Hidden" Background="#f5f5f5"
+            NavigationUIVisibility="Hidden" Background="{StaticResource BackgroundLight}"
             Content="{Binding SelectedPage}" />
 
         <DockPanel.InputBindings>

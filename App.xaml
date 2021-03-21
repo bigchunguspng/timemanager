@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:TimeManager"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
+        <SolidColorBrush x:Key="BackgroundDark">#e0e0e0</SolidColorBrush>
+        <SolidColorBrush x:Key="BackgroundLight">#f5f5f5</SolidColorBrush>
         <Style TargetType="ListBoxItem" x:Key="BaseListBox">
             <Style.Setters>
                 <Setter Property="Template">

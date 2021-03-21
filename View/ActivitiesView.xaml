@@ -140,7 +140,7 @@
             ItemsSource="{Binding Activities}"
             SelectedItem="{Binding SelectedActivity}"
             ItemContainerStyle="{StaticResource BlueSelection}"
-            BorderThickness="0" Padding="-1">
+            BorderThickness="0" Padding="-1" Background="Transparent">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

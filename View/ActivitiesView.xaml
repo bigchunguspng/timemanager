@@ -19,10 +19,7 @@
 
         <StackPanel Grid.Column="0" Margin="5,0,0,0">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                     <DatePicker
                         SelectedDate="{Binding NewDate}"
                         Width="95" Margin="0,0,0,6"
@@ -30,10 +27,11 @@
                     <Button
                         Command="{Binding AddDate}"
                         Content="Add"
-                        Width="35" Margin="0,0,5,5" />
+                        Width="35" Height="25" Margin="0,0,5,5" />
                 </StackPanel>
             </Grid>
-            <TreeView BorderBrush="#abadb3">
+            
+            <TreeView BorderThickness="0" Background="Transparent">
                 <TreeViewItem Header="{Binding Analytics[0]}" IsExpanded="True">
                     <TreeViewItem Header="{Binding Analytics[1]}" />
                     <TreeViewItem Header="{Binding Analytics[2]}" />
@@ -45,33 +43,7 @@
                     <TreeViewItem Header="{Binding Analytics[7]}" />
                 </TreeViewItem>
             </TreeView>
-            <!--<ListBox 
-                Height="100"
-                ItemsSource="{Binding IntervalDistribution}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Rectangle
-                                VerticalAlignment="Bottom" Fill="#404040"
-                                Height="5" Width="{Binding}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>-->
-            <!--<ListBox Height="100">
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Height="5" Width="20"/>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Height="5" Width="10"/>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Height="5" Width="8"/>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Height="5" Width="4"/>
-            </ListBox>-->
+            
             <ItemsControl 
                 Height="100" HorizontalAlignment="Left"
                 ItemsSource="{Binding Intervals}">
@@ -83,7 +55,7 @@
                                 Width="5" Height="{Binding Value}"/>
                             <TextBlock 
                                 Text="{Binding Key}"
-                                Margin="1"
+                                Margin="1,1,1,15"
                                 VerticalAlignment="Bottom" />
                         </StackPanel>
                     </DataTemplate>
@@ -93,31 +65,30 @@
                         <StackPanel Orientation="Horizontal" Height="100"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer 
+                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                            <ItemsPresenter />
+                            <ScrollViewer.Resources>
+                                <Style TargetType="{x:Type ScrollBar}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Orientation" Value="Horizontal">
+                                            <Setter Property="Height" Value="13" />
+                                            <Setter Property="MinHeight" Value="13" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ScrollViewer.Resources>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
             </ItemsControl>
-            <!--<ItemsControl 
-                Height="100">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Height="100" Width="120" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Width="5" Height="20"/>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Width="5" Height="2"/>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Width="5" Height="16"/>
-                <Rectangle
-                    VerticalAlignment="Bottom" Fill="#404040"
-                    Width="5" Height="8"/>
-            </ItemsControl>-->
+
             <ListView
                 ItemsSource="{Binding SelectedActivityDates}"
                 SelectedIndex="{Binding IndexOfSelectedDate}"
-                BorderThickness="1,0,1,1" MaxHeight="400">
+                BorderThickness="0" MaxHeight="400" Background="Transparent">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>

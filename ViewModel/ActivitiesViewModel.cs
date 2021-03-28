@@ -43,6 +43,9 @@ namespace TimeManager.ViewModel
         {
             get
             {
+                if (SelectedActivity == null)
+                    return new ObservableCollection<string>();
+                
                 var result = new ObservableCollection<string>();
                 foreach (var time in SelectedActivity.Times) 
                     result.Add(time.DateOnly());
@@ -50,19 +53,19 @@ namespace TimeManager.ViewModel
             }
         }
         
-        public ObservableCollection<string> Analytics => new ObservableCollection<string> //bug System.Windows.Data Error: 17 : Cannot get 'Analytics' value
+        public ObservableCollection<string> Analytics => new ObservableCollection<string>
         {
             "Quantity",
-            $"Last week: {SelectedActivity.HowManyTimes(new Period(7))}",
-            $"Last 28 days: {SelectedActivity.HowManyTimes(new Period(28))}",
-            $"All time: {SelectedActivity.HowManyTimes()}",
+            $"Last week: {SelectedActivity?.HowManyTimes(new Period(7))}",
+            $"Last 28 days: {SelectedActivity?.HowManyTimes(new Period(28))}",
+            $"All time: {SelectedActivity?.HowManyTimes()}",
             "Average frequency (per week)",
-            $"Last week: {SelectedActivity.AverageFrequency(new Period(7))}",
-            $"Last 28 days: {SelectedActivity.AverageFrequency(new Period(28))}",
-            $"All time: {SelectedActivity.AverageFrequency()}"
+            $"Last week: {SelectedActivity?.AverageFrequency(new Period(7))}",
+            $"Last 28 days: {SelectedActivity?.AverageFrequency(new Period(28))}",
+            $"All time: {SelectedActivity?.AverageFrequency()}"
         };
 
-        public Dictionary<int, int> Intervals => SelectedActivity.IntervalDistributionChart();
+        public Dictionary<int, int> Intervals => SelectedActivity?.IntervalDistributionChart();
         
         private void UpdateSelectedActivityInfo()
         {

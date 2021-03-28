@@ -216,11 +216,17 @@ namespace TimeManager.Model.Tasks
                             HasDeadline ? "left" : "ago");
                     case TaskStatus.Performed:
                         return TimeSpanToString(Performance.TimePassed - SumOf(Breaks));
-                    case TaskStatus.Completed:
-                        return TimeSpanToString(Performance.Duration - SumOf(Breaks)); // bug System.Windows.Data Error: 17 : Cannot get 'TimeInfo' value
                     case TaskStatus.Failed:
                         return TimeSpanToString(Schedule.Duration, HasDeadline ? "were given" : "");
                     case TaskStatus.Paused:
+                        return TimeSpanToString(Performance.Duration - SumOf(Breaks));
+                    case TaskStatus.Completed:
+                        if (Performance == null)
+                        {
+                            if (!HasDeadline)
+                                return Schedule.End.DateOnly();
+                            return "";
+                        }
                         return TimeSpanToString(Performance.Duration - SumOf(Breaks));
                     default:
                         throw new ArgumentOutOfRangeException();

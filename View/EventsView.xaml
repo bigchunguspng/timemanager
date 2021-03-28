@@ -90,21 +90,8 @@
                                             MouseAction="MiddleClick"/>
                                     </TextBox.InputBindings>
                                 </TextBox>
-                                <!--<Grid.InputBindings>
-                                <MouseBinding
-                                    Command="{Binding ToggleContentVisibility}"
-                                    MouseAction="MiddleClick" />
-                            </Grid.InputBindings>-->
                             </Grid>
-                            <!--<ListBox
-                            ItemsSource="{Binding SubTopics}"
-                            SelectedItem="{Binding SelectedSubtopic}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Content="{Binding Name}"></Button>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>-->
+                            
                             <ListBox
                                 Visibility="{Binding ContentVisibility}"
                                 ItemsSource="{Binding Events}"

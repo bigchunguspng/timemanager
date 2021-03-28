@@ -65,10 +65,5 @@ namespace TimeManager.Model.Events
             OnPropertyChanged(nameof(TimeInfo));
             OnPropertyChanged(nameof(DurationInfo));
         }
-        
-        
-        /*public TimeSpan TimeFromStart => Period.TimePassed();
-        public TimeSpan TimeFromEnd => - Period.TimeLeft();
-        public TimeSpan Duration => Period.Duration();*/
     }
 }

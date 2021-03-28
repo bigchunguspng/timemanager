@@ -15,7 +15,6 @@ namespace TimeManager.Model.Events
         public Topic(string name)
         {
             Name = name;
-            //SubTopics = new ObservableCollection<Topic>();
             Events = new ObservableCollection<Event>();
             Renamer = new Renamer();
         }
@@ -29,10 +28,9 @@ namespace TimeManager.Model.Events
                 OnPropertyChanged();
             }
         }
-        //[JsonProperty] public ObservableCollection<Topic> SubTopics { get; set; }
+        
         [JsonProperty] public ObservableCollection<Event> Events { get; set; }
 
-        //public Topic SelectedSubtopic { get; set; }
         public Event SelectedEvent
         {
             get => _selectedEvent;
@@ -46,12 +44,7 @@ namespace TimeManager.Model.Events
         }
 
         public Renamer Renamer { get; set; }
-
-
-        /*public void AddSubTopic(Topic topic)
-        {
-            SubTopics.Add(topic);
-        }*/
+        
         public void AddEvent(Event @event)
         {
             Events.Add(@event);

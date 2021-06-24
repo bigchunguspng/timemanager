@@ -7,42 +7,51 @@ namespace TimeManager.Utilities
     public class Renamer : NotifyPropertyChanged
     {
         private RelayCommand _toggleRenameMode;
+        private Visibility _renameMode;
 
         public Renamer(bool enableRenameMode = false)
         {
             RenameMode = enableRenameMode ? Visibility.Visible : Visibility.Collapsed;
         }
-        
+
         /// <summary> Bind it to TextBox Visibility. </summary>
-        public Visibility RenameMode { get; set; }
-        
+        public Visibility RenameMode
+        {
+            get => _renameMode;
+            set
+            {
+                _renameMode = value;
+                ActiveRenamer = value == Visibility.Visible ? this : null;
+                OnPropertyChanged();
+            }
+        }
+
         public static Renamer ActiveRenamer { get; private set; }
 
         /// <summary> Bind it to actions that enable or disable rename mode. </summary>
         public RelayCommand ToggleRenameMode => _toggleRenameMode ?? (_toggleRenameMode = new RelayCommand(o =>
         {
-            if (RenameMode == Visibility.Collapsed) //enter rename mode
+            if (RenameMode == Visibility.Collapsed)
             {
                 ExitOtherRenameModes();
-                RenameMode = Visibility.Visible;
-                ActiveRenamer = this;
-                ShowInStatusBar("Middle click, Enter or Esc - exit rename mode");
-                
-                OnPropertyChanged(nameof(RenameMode));
+                EnterRenameMode();
             }
             else
                 ExitRenameMode();
         }));
 
+        private void EnterRenameMode()
+        {
+            RenameMode = Visibility.Visible;
+            ShowInStatusBar("Middle click, Enter or Esc - exit rename mode");
+        }
+
         private void ExitRenameMode()
         {
             RenameMode = Visibility.Collapsed;
-            ActiveRenamer = null;
             ShowInStatusBar("");
-            
-            OnPropertyChanged(nameof(RenameMode));
         }
-        
+
         public static void ExitOtherRenameModes() => ActiveRenamer?.ExitRenameMode();
     }
 }

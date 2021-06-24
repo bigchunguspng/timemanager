@@ -20,23 +20,23 @@ namespace TimeManager.Utilities
             return "< 1 day";
         }*/
         
-        public static string TimeSpanToString(TimeSpan time, string a = "")
+        public static string TimeSpanToString(TimeSpan time, string what = "")
         {
             /*if ((DateTime.Today - time).Day == DateTime.Today.Day)
-                return "month" + a;
+                return "month" + what;
             if (time.Days > 365.25)
                 return $"{Math.Round(time.Days / 365.25)}y {TimeSpanToString(TimeSpan.FromDays(time.Days % 365.25))}";
             if (time.Days > 30)
-                return $"{Math.Round(time.Days / 30.4375)}m {Math.Round(time.Days % 30.4375)} days {a}";*/
+                return $"{Math.Round(time.Days / 30.4375)}m {Math.Round(time.Days % 30.4375)} days {what}";*/
             if (time.Days > 1)
-                return $"{time.Days} days {a}";                           //2 days - 386 days ...
+                return $"{time.Days} days {what}";                           //2 days - 386 days ...
             if (time.Days > 0)
-                return $"day & {TimeSpanToString(time - TimeSpan.FromDays(1))} {a}";    //day & 0:00 - day & 23:59 hours
+                return $"day & {TimeSpanToString(time - TimeSpan.FromDays(1))} {what}";    //day & 0:00 - day & 23:59 hours
             if (time.Hours > 0)
-                return time.ToString(@"%h\:mm") + $" hours {a}";  //1:00 h - 23:59
+                return time.ToString(@"%h\:mm") + $" hours {what}";  //1:00 h - 23:59
             if (time.Minutes > 9)
-                return time.ToString(@"%m") + $" minutes {a}";    //10 minutes - 59 minutes
-            return time.ToString(@"%m\:ss") + $" {a}";            //0:00 - 9:59
+                return time.ToString(@"%m") + $" minutes {what}";    //10 minutes - 59 minutes
+            return time.ToString(@"%m\:ss") + $" {what}";            //0:00 - 9:59
         }
         
         public static string DaysAgo(this DateTime dateTime)

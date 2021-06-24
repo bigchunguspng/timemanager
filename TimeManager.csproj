@@ -76,7 +76,7 @@
     <Compile Include="Utilities\Collapsible.cs" />
     <Compile Include="Utilities\DateExtensions.cs" />
     <Compile Include="Utilities\FileIO.cs" />
-    <Compile Include="Utilities\Hash.cs" />
+    <Compile Include="Utilities\HashGenerator.cs" />
     <Compile Include="Utilities\Messenger.cs" />
     <Compile Include="Utilities\Mover.cs" />
     <Compile Include="Utilities\NotifyPropertyChanged.cs" />

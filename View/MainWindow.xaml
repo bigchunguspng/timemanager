@@ -116,6 +116,7 @@
             <DockPanel>
                 <DockPanel.Resources>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource BlueSelection}">
+                        <Setter Property="FontSize" Value="17" />
                         <Setter Property="FontStyle" Value="Normal" />
                         <Setter Property="FontWeight" Value="300" />
                         <Setter Property="Template">
@@ -141,7 +142,7 @@
                         <DataTemplate>
                             <Grid>
                                 <TextBlock
-                                    Text="{Binding Title}" FontSize="18"
+                                    Text="{Binding Title}"
                                     Margin="0, 5,0,5" />
                             </Grid>
                         </DataTemplate>
@@ -157,11 +158,11 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
-                                    Text="{Binding Name}" FontSize="18"
+                                    Text="{Binding Name}"
                                     Margin="3, 5,0,5"
                                     TextTrimming="CharacterEllipsis">
                                     <TextBlock.InputBindings>
@@ -176,7 +177,7 @@
                                 <TextBox
                                     Grid.Column="0"
                                     Visibility="{Binding Renamer.RenameMode}"
-                                    Text="{Binding Name}" FontSize="18"
+                                    Text="{Binding Name}"
                                     Margin="0, 4,0,4">
                                     <TextBox.InputBindings>
                                         <KeyBinding
@@ -231,6 +232,9 @@
             <KeyBinding
                 Command="{Binding SaveAll}"
                 Modifiers="Control" Key="S" />
+            <MouseBinding
+                Command="{Binding ExitRenameModes}"
+                MouseAction="LeftClick" />
         </DockPanel.InputBindings>
 
     </DockPanel>

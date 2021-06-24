@@ -20,7 +20,8 @@ namespace TimeManager.Model.Tasks
             TaskLists = new ObservableCollection<List>();
             Renamer = new Renamer();
             TaskListMover = new Mover<List>(TaskLists, SelectedTaskList);
-            FileID = Hash.UniqueHash(FolderPath);
+            Directory.CreateDirectory(FolderPath);
+            FileID = HashGenerator.UniqueHash(FolderPath);
         }
 
         [JsonProperty] public string Name
@@ -65,7 +66,7 @@ namespace TimeManager.Model.Tasks
         #region deadlines indicator
 
         private readonly int _maxIndicatorSize = 15;
-        private readonly int _maxLeftMargin = 48;
+        private readonly int _maxLeftMargin = 20;
         private readonly int _maxTopMargin = 8;
 
         public Thickness IndicatorMargin =>

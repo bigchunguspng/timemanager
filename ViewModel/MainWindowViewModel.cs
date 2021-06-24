@@ -112,6 +112,7 @@ namespace TimeManager.ViewModel
         private RelayCommand _removeCategory;
         private RelayCommand _saveAll;
         private RelayCommand _restoreAll;
+        private RelayCommand _exitRenameModes;
 
 
         public RelayCommand NewCategory => _newCategory ?? (_newCategory = new RelayCommand(o =>
@@ -134,6 +135,12 @@ namespace TimeManager.ViewModel
             Storage.RecycleBin.Clear();
             ShowInStatusBar("Removed categories were restored!");
         }, o => ThereAreCategoriesInRecycleBin));
+        
+        public RelayCommand ExitRenameModes => _exitRenameModes ?? (_exitRenameModes = new RelayCommand(o =>
+        {
+            Renamer.ExitOtherRenameModes();
+        }, o => Renamer.ActiveRenamer != null));
+
 
         private bool CategorySelected => SelectedCategory != null;
         private bool ThereAreCategoriesInRecycleBin => Storage.RecycleBin.Count > 0;

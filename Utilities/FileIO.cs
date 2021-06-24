@@ -15,7 +15,9 @@ namespace TimeManager.Utilities
             if (!File.Exists(_path))
             {
                 File.CreateText(_path).Dispose();
-                return new ObservableCollection<T>();
+                ObservableCollection<T> result = new ObservableCollection<T>();
+                SaveData(result);
+                return result;
             }
             using (StreamReader reader = File.OpenText(_path))
                 return JsonConvert.DeserializeObject<ObservableCollection<T>>(reader.ReadToEnd());

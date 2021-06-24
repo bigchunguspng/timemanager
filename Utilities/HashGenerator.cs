@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TimeManager.Utilities
 {
-    public static class Hash
+    public static class HashGenerator
     {
         /// <summary> Повертає рядок з малих латинських літер та цифр, що не збігається з ім'ям жодного файлу в теці </summary>
         public static string UniqueHash(string folderPath)

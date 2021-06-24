@@ -16,21 +16,33 @@ namespace TimeManager.Utilities
         /// <summary> Bind it to TextBox Visibility. </summary>
         public Visibility RenameMode { get; set; }
         
+        public static Renamer ActiveRenamer { get; private set; }
+
         /// <summary> Bind it to actions that enable or disable rename mode. </summary>
         public RelayCommand ToggleRenameMode => _toggleRenameMode ?? (_toggleRenameMode = new RelayCommand(o =>
         {
-            if (RenameMode == Visibility.Collapsed)
+            if (RenameMode == Visibility.Collapsed) //enter rename mode
             {
+                ExitOtherRenameModes();
                 RenameMode = Visibility.Visible;
+                ActiveRenamer = this;
                 ShowInStatusBar("Middle click, Enter or Esc - exit rename mode");
+                
+                OnPropertyChanged(nameof(RenameMode));
             }
             else
-            {
-                RenameMode = Visibility.Collapsed;
-                ShowInStatusBar("");
-            }
-
-            OnPropertyChanged(nameof(RenameMode));
+                ExitRenameMode();
         }));
+
+        private void ExitRenameMode()
+        {
+            RenameMode = Visibility.Collapsed;
+            ActiveRenamer = null;
+            ShowInStatusBar("");
+            
+            OnPropertyChanged(nameof(RenameMode));
+        }
+        
+        public static void ExitOtherRenameModes() => ActiveRenamer?.ExitRenameMode();
     }
 }

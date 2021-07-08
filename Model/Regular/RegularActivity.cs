@@ -105,30 +105,10 @@ namespace TimeManager.Model.Regular
             return (float) Math.Round(result, 2);
         }
 
-        private int[] Intervals()
+        public Dictionary<int, double> IntervalDistributionChart()
         {
-            int times = HowManyTimes();
-            int[] result = new int[times - 1];
-            for (int i = 0; i < times - 1; i++)
-                result[i] = (Times[i + 1] - Times[i]).Days;
-
-            return result;
-        }
-        
-        private int[] IntervalDistribution()
-        {
-            int[] intervals = Intervals();
-            int[] distribution = new int[intervals.Max()];
-            foreach (int interval in intervals)
-                distribution[interval - 1] += 8; // 8px (temp)
-
-            return distribution;
-        }
-        
-        public Dictionary<int, int> IntervalDistributionChart()
-        {
-            Dictionary<int, int> result = new Dictionary<int, int>();
-            int[] distribution = IntervalDistribution();
+            Dictionary<int, double> result = new Dictionary<int, double>();
+            double[] distribution = NormalizedIntervalDistribution();
             for (int i = 0; i < distribution.Length; i++)
             {
                 if (result.Count == 0 && distribution[i] == 0)
@@ -138,7 +118,40 @@ namespace TimeManager.Model.Regular
 
             return result;
         }
-        
+
+        private double[] NormalizedIntervalDistribution()
+        {
+            int singleSegmentHeight = 8, chartHeight = 64;
+            
+            int[] intervals = IntervalsInDays();
+            double[] distribution = new double[intervals.Max()];
+            foreach (int interval in intervals)
+                distribution[interval - 1] += singleSegmentHeight;
+
+            double max = distribution.Max();
+
+            if (max > chartHeight) //normalize if needed
+            {
+                double compressionRatio = chartHeight / max;
+                for (int i = 0; i < distribution.Length; i++)
+                {
+                    distribution[i] *= compressionRatio;
+                }
+            }
+
+            return distribution;
+        }
+
+        private int[] IntervalsInDays()
+        {
+            int times = HowManyTimes();
+            int[] result = new int[times - 1];
+            for (int i = 0; i < times - 1; i++)
+                result[i] = (Times[i + 1] - Times[i]).Days;
+
+            return result;
+        }
+
         /// <summary>Присвоює "_first" індекс першого елементу після початку періоду, а "_last" - першого елементу після закінчення періоду</summary>
         private void CalculateFirstAndLastTimes(Period period)
         {

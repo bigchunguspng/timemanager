@@ -65,7 +65,7 @@ namespace TimeManager.ViewModel
             $"All time: {SelectedActivity?.AverageFrequency()}"
         };
 
-        public Dictionary<int, int> Intervals => SelectedActivity?.IntervalDistributionChart();
+        public Dictionary<int, double> Intervals => SelectedActivity?.IntervalDistributionChart();
         
         private void UpdateSelectedActivityInfo()
         {

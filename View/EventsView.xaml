@@ -55,12 +55,12 @@
             Text="{Binding NewEventDescription, UpdateSourceTrigger=PropertyChanged}" />
 
         <ScrollViewer PreviewMouseWheel="Scroll_OnPreviewMouseWheel">
-            <ListBox
+            <ListView
                 ItemsSource="{Binding Topics}"
                 SelectedItem="{Binding SelectedTopic}"
                 ItemContainerStyle="{StaticResource GreySelection}"
                 BorderThickness="0" Padding="-1" Background="Transparent">
-                <ListBox.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <Grid MinWidth="231">
@@ -92,13 +92,13 @@
                                 </TextBox>
                             </Grid>
                             
-                            <ListBox
+                            <ListView
                                 Visibility="{Binding ContentVisibility}"
                                 ItemsSource="{Binding Events}"
                                 SelectedItem="{Binding SelectedEvent}"
                                 ItemContainerStyle="{StaticResource BlueSelection}"
                                 BorderThickness="0" Background="Transparent">
-                                <ListBox.ItemTemplate>
+                                <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -139,15 +139,15 @@
                                                 Text="{Binding DurationInfo}" />
                                         </Grid>
                                     </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                <ListBox.ContextMenu>
+                                </ListView.ItemTemplate>
+                                <ListView.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem
                                             Command="{Binding RemoveEvent}"
                                             Header="Remove event" />
                                     </ContextMenu>
-                                </ListBox.ContextMenu>
-                            </ListBox>
+                                </ListView.ContextMenu>
+                            </ListView>
                             <StackPanel.InputBindings>
                                 <MouseBinding
                                     Command="{Binding ToggleContentVisibility}"
@@ -155,8 +155,8 @@
                             </StackPanel.InputBindings>
                         </StackPanel>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ContextMenu>
+                </ListView.ItemTemplate>
+                <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem
                             Command="{Binding NewTopic}"
@@ -165,16 +165,16 @@
                             Command="{Binding RemoveTopic}"
                             Header="Remove topic" />
                     </ContextMenu>
-                </ListBox.ContextMenu>
-                <ListBox.InputBindings>
+                </ListView.ContextMenu>
+                <ListView.InputBindings>
                     <KeyBinding
                         Command="{Binding TopicMover.MoveUp}"
                         Modifiers="Alt" Key="Q" />
                     <KeyBinding
                         Command="{Binding TopicMover.MoveDown}"
                         Modifiers="Alt" Key="A" />
-                </ListBox.InputBindings>
-            </ListBox>
+                </ListView.InputBindings>
+            </ListView>
         </ScrollViewer>
     </DockPanel>
 </Page>

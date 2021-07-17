@@ -38,7 +38,8 @@ namespace TimeManager.Model.Events
             {
                 _selectedEvent = value;
                 OnPropertyChanged();
-                //EventsViewModel.SelectedTopic = this;
+                if (value != null)
+                    EventWasSelected?.Invoke(this);
                 ShowInStatusBar("Double click - rename");
             }
         }
@@ -72,5 +73,8 @@ namespace TimeManager.Model.Events
         private bool EventSelected => SelectedEvent != null;
 
         #endregion
+        
+        public delegate void E(Topic sender);
+        public event E EventWasSelected;
     }
 }

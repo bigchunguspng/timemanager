@@ -15,7 +15,10 @@ namespace TimeManager.ViewModel
         {
             Topics = Storage.Topics;
             TopicMover = new Mover<Topic>(Topics, SelectedTopic);
-            
+
+            foreach (Topic topic in Topics)
+                topic.EventWasSelected += SelectTopic;
+
             Date1 = DateTime.Today;
             Date2 = DateTime.Today;
         }
@@ -33,7 +36,9 @@ namespace TimeManager.ViewModel
                 ShowInStatusBar("Alt+Q - move up | Alt+A - move down | Double click - rename | Middle click - minimize / maximize");
             }
         }
-        
+
+        private void SelectTopic(Topic topic) => SelectedTopic = topic;
+
         #region edit event
 
         private Event _eventToEdit;

@@ -108,6 +108,7 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
                                                 Text="{Binding Description}"
+                                                TextTrimming="CharacterEllipsis"
                                                 Margin="3,1,1,1">
                                                 <TextBlock.InputBindings>
                                                     <MouseBinding

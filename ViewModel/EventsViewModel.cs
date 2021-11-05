@@ -159,7 +159,7 @@ namespace TimeManager.ViewModel
                 OnPropertyChanged();
                 foreach (var topic in Topics)
                 foreach (var @event in topic.Events)
-                    @event.UpdateVisual(300, Year);
+                    @event.UpdateInfo();
             }
         }
 

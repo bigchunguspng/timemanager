@@ -157,20 +157,38 @@
                                             <StackPanel 
                                                 Grid.Column="3" Width="300"
                                                 Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <Rectangle Fill="#cae0e6" Width="{Binding L1}"/>
-                                                <Rectangle Fill="#cce6ca" Width="{Binding L2}"/>
-                                                <Rectangle Fill="#e6e1ca" Width="{Binding L2}"/>
-                                                <Rectangle Fill="#e6ceca" Width="{Binding L4}"/>
-                                                <Rectangle Fill="#cae0e6" Width="{Binding L5}"/>
+                                                <Rectangle Fill="#cae0e6" Width="{Binding Visual.L1}"/>
+                                                <Rectangle Fill="#cce6ca" Width="{Binding Visual.L2}"/>
+                                                <Rectangle Fill="#e6e1ca" Width="{Binding Visual.L2}"/>
+                                                <Rectangle Fill="#e6ceca" Width="{Binding Visual.L4}"/>
+                                                <Rectangle Fill="#cae0e6" Width="{Binding Visual.L5}"/>
                                             </StackPanel>
+                                            <ItemsControl 
+                                                Grid.Column="3" Width="310"
+                                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                ItemsSource="{Binding Visuals}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel
+                                                            Width="310" Background="Transparent"
+                                                            Orientation="Horizontal" HorizontalAlignment="Left">
+                                                            <Rectangle
+                                                                Fill="#40404040" VerticalAlignment="Center"
+                                                                Margin="{Binding Start}"
+                                                                Width="{Binding Length}"
+                                                                Height="{Binding Height}"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                             <StackPanel
                                                 Grid.Column="3" Width="310" Background="Transparent"
-                                                Orientation="Horizontal" HorizontalAlignment="Left" >
+                                                Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" >
                                                 <Rectangle
                                                     Fill="#404040" VerticalAlignment="Center"
-                                                    Margin="{Binding Start}"
-                                                    Width="{Binding Length}"
-                                                    Height="{Binding Height}"/>
+                                                    Margin="{Binding Visual.Start}"
+                                                    Width="{Binding Visual.Length}"
+                                                    Height="{Binding Visual.Height}"/>
                                             </StackPanel>
                                             
                                         </Grid>

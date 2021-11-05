@@ -33,7 +33,7 @@
                 <Button
                     Command="{Binding AddShortEvent}"
                     Content="Day event"
-                    Margin="0,5,5,0" />
+                    Margin="0,3,5,0" />
                 <Button
                     Command="{Binding AddLongEvent}"
                     Content="Longer event"
@@ -43,11 +43,26 @@
                     Content="Unfinifhed period"
                     Margin="0,5,5,0" />
             </StackPanel>
-            <Button
-                Grid.Column="0" Width="80" Height="25"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
-                Command="{Binding EditEvent}"
-                Content="Edit" />
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+                <Button
+                    Width="80" Height="25"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
+                    Command="{Binding EditEvent}"
+                    Content="Edit" />
+                <StackPanel 
+                    Width="120" Height="25"
+                    Margin="5, 0"
+                    Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Width="25" Content="&lt;" Command="{Binding YearBack}"/>
+                    <Border BorderThickness="0,1" BorderBrush="#707070" Background="White">
+                        <TextBlock 
+                            Width="50" Background="Transparent"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                            Text="{Binding Year}"/>
+                    </Border>
+                    <Button Width="25" Content="&gt;" Command="{Binding YearForward}"/>
+                </StackPanel>
+            </StackPanel>
         </Grid>
 
         <TextBox
@@ -104,6 +119,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="250" />
                                                 <ColumnDefinition Width="175" />
+                                                <ColumnDefinition Width="100" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
@@ -138,6 +154,25 @@
                                             <TextBlock
                                                 Grid.Column="2"
                                                 Text="{Binding DurationInfo}" />
+                                            <StackPanel 
+                                                Grid.Column="3" Width="300"
+                                                Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <Rectangle Fill="#cae0e6" Width="{Binding L1}"/>
+                                                <Rectangle Fill="#cce6ca" Width="{Binding L2}"/>
+                                                <Rectangle Fill="#e6e1ca" Width="{Binding L2}"/>
+                                                <Rectangle Fill="#e6ceca" Width="{Binding L4}"/>
+                                                <Rectangle Fill="#cae0e6" Width="{Binding L5}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Column="3" Width="310" Background="Transparent"
+                                                Orientation="Horizontal" HorizontalAlignment="Left" >
+                                                <Rectangle
+                                                    Fill="#404040" VerticalAlignment="Center"
+                                                    Margin="{Binding Start}"
+                                                    Width="{Binding Length}"
+                                                    Height="{Binding Height}"/>
+                                            </StackPanel>
+                                            
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -176,6 +211,14 @@
                         Modifiers="Alt" Key="A" />
                 </ListView.InputBindings>
             </ListView>
+            <ScrollViewer.InputBindings>
+                <KeyBinding
+                    Command="{Binding YearForward}"
+                    Modifiers="Alt" Key="W" />
+                <KeyBinding
+                    Command="{Binding YearBack}"
+                    Modifiers="Alt" Key="S" />
+            </ScrollViewer.InputBindings>
         </ScrollViewer>
     </DockPanel>
 </Page>

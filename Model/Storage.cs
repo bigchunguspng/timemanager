@@ -26,6 +26,8 @@ namespace TimeManager.Model
         public static List<Category> RecycleBin { get; } = new List<Category>();
         public static Category SelectedCategory { get; set; }
 
+        public static int Year;
+
 
         public static void LoadData()
         {

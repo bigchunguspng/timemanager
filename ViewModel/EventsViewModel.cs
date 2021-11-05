@@ -21,6 +21,8 @@ namespace TimeManager.ViewModel
 
             Date1 = DateTime.Today;
             Date2 = DateTime.Today;
+
+            Year = DateTime.Today.Year;
         }
         
         public Mover<Topic> TopicMover { get; set; }
@@ -143,6 +145,35 @@ namespace TimeManager.ViewModel
         }
 
         private bool TopicSelected => SelectedTopic != null;
+
+        #endregion
+
+        #region year
+        
+        public int Year
+        {
+            get => Storage.Year;
+            set
+            {
+                Storage.Year = value;
+                OnPropertyChanged();
+                foreach (var topic in Topics)
+                foreach (var @event in topic.Events)
+                    @event.UpdateVisual(300, Year);
+            }
+        }
+
+        private RelayCommand _yearBack;
+        private RelayCommand _yearForward;
+        
+        public RelayCommand YearBack => _yearBack ?? (_yearBack = new RelayCommand(o =>
+        {
+            Year--;
+        }));
+        public RelayCommand YearForward => _yearForward ?? (_yearForward = new RelayCommand(o =>
+        {
+            Year++;
+        }, o => Year < DateTime.Today.Year));
 
         #endregion
 
